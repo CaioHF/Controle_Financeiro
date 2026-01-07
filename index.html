@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Minhas Finanças</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#2c3e50">
+
+    <style>
+        /* --- RESET E GERAL --- */
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', sans-serif; }
+        body { display: flex; background-color: #f0f2f5; min-height: 100vh; overflow-x: hidden; }
+
+        /* --- MENU LATERAL --- */
+        #menu-lateral {
+            width: 260px;
+            background-color: #2c3e50;
+            display: flex;
+            flex-direction: column;
+            list-style: none;
+            padding-top: 80px;
+            transition: width 0.4s ease;
+            white-space: nowrap; overflow: hidden; flex-shrink: 0;
+            position: fixed; height: 100%; z-index: 99;
+        }
+        
+        #menu-lateral li {
+            padding: 20px 30px; border-bottom: 1px solid #34495e; color: #ecf0f1; cursor: pointer;
+            display: flex; align-items: center; gap: 25px; transition: background 0.3s; font-size: 16px;
+        }
+        #menu-lateral li:hover, #menu-lateral li.ativo { background-color: #34495e; border-left: 5px solid #2ecc71; }
+
+        /* Estilo especial para o botão de instalar */
+        #install-btn {
+            background-color: #8e44ad; /* Roxo para destacar */
+            margin-top: auto; /* Empurra para o final do menu */
+            display: none; /* Começa escondido, o JS mostra se der pra instalar */
+        }
+        #install-btn:hover { background-color: #9b59b6 !important; border-left: 5px solid #fff !important; }
+
+        /* --- BOTÃO TOGGLE --- */
+        #btn-menu {
+            position: fixed; top: 20px; left: 20px; z-index: 100;
+            background: none; border: none; font-size: 28px; cursor: pointer; width: 40px; height: 40px;
+        }
+        .menu-fechado { width: 0px !important; padding: 0 !important; }
+        .btn-escuro { color: #2c3e50 !important; } 
+        .btn-claro { color: #ecf0f1 !important; }
+
+        /* --- ÁREA PRINCIPAL --- */
+        main { flex-grow: 1; padding: 20px; margin-top: 60px; }
+        @media (min-width: 768px) { #menu-lateral { position: relative; } main { margin-top: 0; padding: 50px; } }
+
+        main h1 { color: #333; margin-bottom: 35px; font-size: 28px; }
+        .tela { display: none; animation: fadeIn 0.5s; } .tela-ativa { display: block; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+        .resumo-cards { display: flex; gap: 25px; flex-wrap: wrap; }
+        .card { background: white; padding: 30px; border-radius: 12px; flex: 1; min-width: 250px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); text-align: center; }
+        .card h3 { color: #777; font-size: 16px; margin-bottom: 15px; text-transform: uppercase; }
+        .card p { font-size: 32px; font-weight: bold; }
+        .ganho p { color: #27ae60; } .despesa p { color: #c0392b; } .saldo p { color: #2980b9; }
+
+        .form-container { background: white; padding: 30px; border-radius: 15px; max-width: 650px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); margin-bottom: 40px; }
+        .input-group { margin-bottom: 20px; }
+        .input-group label { display: block; margin-bottom: 8px; color: #555; font-weight: 500; }
+        .input-group input { width: 100%; padding: 12px; border: 1px solid #ccc; border-radius: 8px; outline: none; }
+        
+        button.btn-sucesso { background-color: #27ae60; color: white; border: none; padding: 12px 25px; border-radius: 8px; cursor: pointer; width: 100%; font-size: 16px; font-weight: bold; }
+        button.btn-editar { background-color: #f39c12; }
+
+        .lista-contas { list-style: none; max-width: 650px; }
+        .item-conta { background: white; padding: 20px; border-radius: 10px; margin-bottom: 15px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
+        .border-green { border-left: 6px solid #27ae60; } .border-red { border-left: 6px solid #c0392b; } .border-orange { border-left: 6px solid #e67e22; } .border-blue { border-left: 6px solid #2980b9; }
+        .conta-info strong { display: block; font-size: 18px; margin-bottom: 5px; } .conta-info small { color: #888; font-size: 14px; }
+        .btn-action { border: none; padding: 10px 14px; border-radius: 8px; cursor: pointer; margin-left: 8px; color: white; }
+        .btn-delete { background-color: #e74c3c; } .btn-edit { background-color: #f39c12; }
+    </style>
+</head>
+<body>
+
+    <button id="btn-menu" class="btn-escuro"><i class="fa-solid fa-bars" id="icone-btn"></i></button>
+
+    <ul id="menu-lateral" class="menu-fechado">
+        <li onclick="navegar('dashboard')" class="ativo" id="link-dashboard"><i class="fa-solid fa-chart-line"></i> Dashboard</li>
+        <li onclick="navegar('receitas')" id="link-receitas"><i class="fa-solid fa-sack-dollar"></i> Meus Ganhos</li>
+        <li onclick="navegar('contas')" id="link-contas"><i class="fa-solid fa-file-invoice-dollar"></i> Contas Fixas</li>
+        <li onclick="navegar('gastos')" id="link-gastos"><i class="fa-solid fa-money-bill-wave"></i> Gastos Diários</li>
+        <li onclick="navegar('emprestados')" id="link-emprestados"><i class="fa-solid fa-hand-holding-dollar"></i> Emprestado</li>
+        
+        <li id="install-btn" onclick="instalarApp()">
+            <i class="fa-solid fa-download"></i> Instalar App
+        </li>
+    </ul> 
+
+    <main>
+        <section id="tela-dashboard" class="tela tela-ativa">
+            <h1>Visão Geral</h1>
+            <div class="resumo-cards">
+                <div class="card ganho"><h3>Receita Total</h3><p id="dash-receita">R$ 0,00</p></div>
+                <div class="card despesa"><h3>Total de Gastos</h3><p id="dash-gastos">R$ 0,00</p></div>
+                <div class="card saldo"><h3>Sobrou no Mês</h3><p id="dash-saldo">R$ 0,00</p></div>
+            </div>
+        </section>
+
+        <section id="tela-receitas" class="tela">
+            <h1>Minhas Receitas</h1>
+            <div class="form-container" style="border-left: 6px solid #27ae60;">
+                <h3>Salário Fixo</h3>
+                <div class="input-group"><input type="number" id="input-salario" placeholder="Digite salário" onchange="definirSalario()"></div>
+                <p>Atual: <strong id="txt-salario-atual" style="color:#27ae60;">R$ 0,00</strong></p>
+            </div>
+            <h3>Adicionar Extra</h3>
+            <div class="form-container">
+                <div class="input-group"><label>Descrição</label><input type="text" id="extra-desc"></div>
+                <div class="input-group"><label>Valor</label><input type="number" id="extra-valor"></div>
+                <div class="input-group"><label>Data</label><input type="date" id="extra-data"></div>
+                <button class="btn-sucesso" onclick="adicionarGanhoExtra()">Salvar</button>
+            </div>
+            <ul id="lista-visual-extras" class="lista-contas"></ul>
+        </section>
+
+        <section id="tela-contas" class="tela">
+            <h1>Contas Fixas</h1>
+            <div class="form-container">
+                <div class="input-group"><label>Nome</label><input type="text" id="nome-conta"></div>
+                <div class="input-group"><label>Valor</label><input type="number" id="valor-conta"></div>
+                <button class="btn-sucesso" onclick="adicionarConta()">Salvar</button>
+            </div>
+            <ul id="lista-visual-contas" class="lista-contas"></ul>
+        </section>
+
+        <section id="tela-gastos" class="tela">
+            <h1>Gastos Diários</h1>
+            <div class="form-container">
+                <div class="input-group"><label>Descrição</label><input type="text" id="gasto-nome"></div>
+                <div class="input-group"><label>Valor</label><input type="number" id="gasto-valor"></div>
+                <div class="input-group"><label>Data</label><input type="date" id="gasto-data"></div>
+                <button class="btn-sucesso" onclick="adicionarGastoDiario()">Salvar</button>
+            </div>
+            <ul id="lista-visual-gastos" class="lista-contas"></ul>
+        </section>
+
+        <section id="tela-emprestados" class="tela">
+            <h1>Valores Emprestados</h1>
+            <div class="form-container">
+                <div class="input-group"><label>Quem?</label><input type="text" id="emp-nome"></div>
+                <div class="input-group"><label>Valor</label><input type="number" id="emp-valor"></div>
+                <div class="input-group"><label>Data</label><input type="date" id="emp-data"></div>
+                <button id="btn-salvar-emprestimo" class="btn-sucesso" onclick="salvarEmprestimo()">Salvar</button>
+                <button id="btn-cancelar-edicao" onclick="cancelarEdicao()" style="display:none; margin-top:10px; width:100%; padding:5px; cursor:pointer;">Cancelar</button>
+            </div>
+            <ul id="lista-visual-emprestimos" class="lista-contas"></ul>
+        </section>
+    </main>
+
+    <script>
+        // --- LÓGICA DE INSTALAÇÃO DO APP ---
+        let deferredPrompt; // Variável para guardar o evento de instalação
+        const installBtn = document.getElementById('install-btn');
+
+        // O navegador dispara esse evento se o site for instalável (PWA)
+        window.addEventListener('beforeinstallprompt', (e) => {
+            e.preventDefault(); // Impede que o navegador mostre a barra padrão feia
+            deferredPrompt = e; // Guarda o evento para usarmos no botão
+            
+            // Mostra nosso botão personalizado
+            installBtn.style.display = 'flex';
+        });
+
+        async function instalarApp() {
+            if (deferredPrompt) {
+                deferredPrompt.prompt(); // Mostra a pergunta "Deseja instalar?"
+                
+                // Espera a resposta do usuário
+                const { outcome } = await deferredPrompt.userChoice;
+                
+                if (outcome === 'accepted') {
+                    console.log('Usuário aceitou instalar');
+                    deferredPrompt = null; // Limpa a variável
+                    installBtn.style.display = 'none'; // Esconde o botão pois já instalou
+                }
+            }
+        }
+
+        // --- NAVEGAÇÃO ---
+        function navegar(tela) {
+            document.querySelectorAll('.tela').forEach(t => t.classList.remove('tela-ativa'));
+            document.querySelectorAll('#menu-lateral li').forEach(l => l.classList.remove('ativo'));
+            document.getElementById(`tela-${tela}`).classList.add('tela-ativa');
+            document.getElementById(`link-${tela}`).classList.add('ativo');
+            
+            // Fecha menu no celular ao clicar
+            if(window.innerWidth < 768) {
+                const menu = document.getElementById('menu-lateral');
+                const botao = document.getElementById('btn-menu');
+                const icone = document.getElementById('icone-btn');
+                menu.classList.add('menu-fechado');
+                botao.classList.add('btn-escuro'); botao.classList.remove('btn-claro');
+                icone.classList.remove('fa-xmark'); icone.classList.add('fa-bars');
+            }
+        }
+
+        // --- MENU TOGGLE ---
+        const menu = document.getElementById('menu-lateral');
+        const botao = document.getElementById('btn-menu');
+        const icone = document.getElementById('icone-btn');
+
+        botao.addEventListener('click', function() {
+            menu.classList.toggle('menu-fechado');
+            if (menu.classList.contains('menu-fechado')) {
+                botao.classList.remove('btn-claro'); botao.classList.add('btn-escuro');
+                icone.classList.remove('fa-xmark'); icone.classList.add('fa-bars');
+            } else {
+                botao.classList.remove('btn-escuro'); botao.classList.add('btn-claro');
+                icone.classList.remove('fa-bars'); icone.classList.add('fa-xmark');
+            }
+        });
+
+        // --- DADOS (Mantido) ---
+        let salarioAtual = parseFloat(localStorage.getItem('meuSalario')) || 0;
+        let listaGanhosExtras = JSON.parse(localStorage.getItem('meusGanhosExtras')) || [];
+        let listaContas = JSON.parse(localStorage.getItem('minhasContas')) || [];
+        let listaGastosDiarios = JSON.parse(localStorage.getItem('meusGastosDiarios')) || [];
+        let listaEmprestimos = JSON.parse(localStorage.getItem('meusEmprestimos')) || [];
+        let idEmprestimoEdicao = null; 
+
+        atualizarInterfaceGeral(); renderizarListasIndividuais();
+
+        function definirSalario() {
+            const valor = document.getElementById('input-salario').value;
+            if(valor) { salarioAtual = parseFloat(valor); localStorage.setItem('meuSalario', salarioAtual); atualizarInterfaceGeral(); }
+        }
+        function adicionarGanhoExtra() {
+            const desc = document.getElementById('extra-desc').value; const valor = parseFloat(document.getElementById('extra-valor').value); const data = document.getElementById('extra-data').value;
+            if (!desc || !valor || !data) { alert("Preencha tudo!"); return; }
+            listaGanhosExtras.unshift({ id: Date.now(), desc, valor, data });
+            localStorage.setItem('meusGanhosExtras', JSON.stringify(listaGanhosExtras));
+            document.getElementById('extra-desc').value = ""; document.getElementById('extra-valor').value = ""; document.getElementById('extra-data').value = "";
+            atualizarInterfaceGeral(); renderizarListasIndividuais();
+        }
+        function removerGanhoExtra(id) { listaGanhosExtras = listaGanhosExtras.filter(g => g.id !== id); localStorage.setItem('meusGanhosExtras', JSON.stringify(listaGanhosExtras)); atualizarInterfaceGeral(); renderizarListasIndividuais(); }
+        function adicionarConta() {
+            const nome = document.getElementById('nome-conta').value; const valor = parseFloat(document.getElementById('valor-conta').value);
+            if (!nome || !valor) return;
+            listaContas.push({ id: Date.now(), nome, valor }); localStorage.setItem('minhasContas', JSON.stringify(listaContas));
+            document.getElementById('nome-conta').value = ""; document.getElementById('valor-conta').value = ""; atualizarInterfaceGeral(); renderizarListasIndividuais();
+        }
+        function removerConta(id) { listaContas = listaContas.filter(c => c.id !== id); localStorage.setItem('minhasContas', JSON.stringify(listaContas)); atualizarInterfaceGeral(); renderizarListasIndividuais(); }
+        function adicionarGastoDiario() {
+            const nome = document.getElementById('gasto-nome').value; const valor = parseFloat(document.getElementById('gasto-valor').value); const data = document.getElementById('gasto-data').value;
+            if (!nome || !valor || !data) return;
+            listaGastosDiarios.unshift({ id: Date.now(), nome, valor, data }); localStorage.setItem('meusGastosDiarios', JSON.stringify(listaGastosDiarios));
+            document.getElementById('gasto-nome').value = ""; document.getElementById('gasto-valor').value = ""; document.getElementById('gasto-data').value = ""; atualizarInterfaceGeral(); renderizarListasIndividuais();
+        }
+        function removerGastoDiario(id) { listaGastosDiarios = listaGastosDiarios.filter(g => g.id !== id); localStorage.setItem('meusGastosDiarios', JSON.stringify(listaGastosDiarios)); atualizarInterfaceGeral(); renderizarListasIndividuais(); }
+        function salvarEmprestimo() {
+            const nome = document.getElementById('emp-nome').value; const valor = parseFloat(document.getElementById('emp-valor').value); const data = document.getElementById('emp-data').value;
+            if(!nome || !valor || !data) return;
+            if (idEmprestimoEdicao) { const index = listaEmprestimos.findIndex(item => item.id === idEmprestimoEdicao); if(index !== -1) listaEmprestimos[index] = { id: idEmprestimoEdicao, nome, valor, data }; cancelarEdicao(); } 
+            else { listaEmprestimos.push({ id: Date.now(), nome, valor, data }); }
+            localStorage.setItem('meusEmprestimos', JSON.stringify(listaEmprestimos));
+            document.getElementById('emp-nome').value = ""; document.getElementById('emp-valor').value = ""; document.getElementById('emp-data').value = ""; renderizarListasIndividuais();
+        }
+        function prepararEdicao(id) {
+            const item = listaEmprestimos.find(e => e.id === id); document.getElementById('emp-nome').value = item.nome; document.getElementById('emp-valor').value = item.valor; document.getElementById('emp-data').value = item.data; idEmprestimoEdicao = id;
+            document.getElementById('btn-salvar-emprestimo').innerText = "Atualizar"; document.getElementById('btn-salvar-emprestimo').classList.add('btn-editar'); document.getElementById('btn-cancelar-edicao').style.display = 'block';
+        }
+        function cancelarEdicao() {
+            idEmprestimoEdicao = null; document.getElementById('emp-nome').value = ""; document.getElementById('emp-valor').value = ""; document.getElementById('emp-data').value = "";
+            document.getElementById('btn-salvar-emprestimo').innerText = "Salvar"; document.getElementById('btn-salvar-emprestimo').classList.remove('btn-editar'); document.getElementById('btn-cancelar-edicao').style.display = 'none';
+        }
+        function removerEmprestimo(id) { if(confirm("Excluir?")) { listaEmprestimos = listaEmprestimos.filter(e => e.id !== id); localStorage.setItem('meusEmprestimos', JSON.stringify(listaEmprestimos)); renderizarListasIndividuais(); } }
+        function atualizarInterfaceGeral() {
+            const fmt = { style: 'currency', currency: 'BRL' };
+            const totalExtras = listaGanhosExtras.reduce((acc, g) => acc + g.valor, 0); const totalReceita = salarioAtual + totalExtras;
+            const totalFixas = listaContas.reduce((acc, c) => acc + c.valor, 0); const totalDiarios = listaGastosDiarios.reduce((acc, g) => acc + g.valor, 0); const totalSaida = totalFixas + totalDiarios;
+            const sobra = totalReceita - totalSaida;
+            document.getElementById('dash-receita').innerText = totalReceita.toLocaleString('pt-BR', fmt); document.getElementById('dash-gastos').innerText = totalSaida.toLocaleString('pt-BR', fmt); document.getElementById('dash-saldo').innerText = sobra.toLocaleString('pt-BR', fmt);
+            document.getElementById('input-salario').value = salarioAtual > 0 ? salarioAtual : ""; document.getElementById('txt-salario-atual').innerText = salarioAtual.toLocaleString('pt-BR', fmt);
+        }
+        function renderizarListasIndividuais() {
+            const fmt = { style: 'currency', currency: 'BRL' };
+            const listaExtras = document.getElementById('lista-visual-extras'); listaExtras.innerHTML = "";
+            listaGanhosExtras.forEach(g => { const dataF = new Date(g.data).toLocaleDateString('pt-BR', {timeZone:'UTC'}); listaExtras.innerHTML += `<li class="item-conta border-green"><div class="conta-info"><strong>${g.desc}</strong><small>${dataF}</small></div><div style="display:flex; align-items:center;"><strong style="margin-right:10px; color:#27ae60;">${g.valor.toLocaleString('pt-BR', fmt)}</strong><button class="btn-action btn-delete" onclick="removerGanhoExtra(${g.id})"><i class="fa-solid fa-trash"></i></button></div></li>`; });
+            const render = (lista, elId, classeBorda, corTexto, funcDel) => {
+                const el = document.getElementById(elId); el.innerHTML = "";
+                lista.forEach(item => { const dataShow = item.data ? new Date(item.data).toLocaleDateString('pt-BR',{timeZone:'UTC'}) : ''; const desc = item.nome || item.desc; el.innerHTML += `<li class="item-conta ${classeBorda}"><div class="conta-info"><strong>${desc}</strong><small>${dataShow}</small></div><div style="display:flex; align-items:center;"><strong style="margin-right:10px; color:${corTexto};">${item.valor.toLocaleString('pt-BR', fmt)}</strong>${item.data && elId === 'lista-visual-emprestimos' ? `<button class="btn-action btn-edit" onclick="prepararEdicao(${item.id})"><i class="fa-solid fa-pen"></i></button>` : ''}<button class="btn-action btn-delete" onclick="${funcDel}(${item.id})"><i class="fa-solid fa-trash"></i></button></div></li>`; });
+            };
+            render(listaContas, 'lista-visual-contas', 'border-red', '#c0392b', 'removerConta'); render(listaGastosDiarios, 'lista-visual-gastos', 'border-orange', '#e67e22', 'removerGastoDiario'); render(listaEmprestimos, 'lista-visual-emprestimos', 'border-blue', '#2980b9', 'removerEmprestimo');
+        }
+
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('sw.js').then(reg => console.log('Service Worker Registrado')).catch(err => console.log('Erro SW:', err));
+        }
+    </script>
+</body>
+</html>
