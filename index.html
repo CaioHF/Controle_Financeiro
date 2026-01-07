@@ -18,11 +18,8 @@
         #menu-lateral {
             width: 260px;
             background-color: #2c3e50;
-            display: flex;
-            flex-direction: column;
-            list-style: none;
-            padding-top: 80px;
-            transition: width 0.4s ease;
+            display: flex; flex-direction: column; list-style: none;
+            padding-top: 80px; transition: width 0.4s ease;
             white-space: nowrap; overflow: hidden; flex-shrink: 0;
             position: fixed; height: 100%; z-index: 99;
         }
@@ -33,15 +30,11 @@
         }
         #menu-lateral li:hover, #menu-lateral li.ativo { background-color: #34495e; border-left: 5px solid #2ecc71; }
 
-        /* Estilo especial para o botão de instalar */
-        #install-btn {
-            background-color: #8e44ad; /* Roxo para destacar */
-            margin-top: auto; /* Empurra para o final do menu */
-            display: none; /* Começa escondido, o JS mostra se der pra instalar */
-        }
-        #install-btn:hover { background-color: #9b59b6 !important; border-left: 5px solid #fff !important; }
+        /* Botão de Instalar/Ajuda no Menu */
+        #help-btn { margin-top: auto; background-color: #8e44ad; }
+        #help-btn:hover { background-color: #9b59b6 !important; }
 
-        /* --- BOTÃO TOGGLE --- */
+        /* --- BOTÃO MENU TOGGLE --- */
         #btn-menu {
             position: fixed; top: 20px; left: 20px; z-index: 100;
             background: none; border: none; font-size: 28px; cursor: pointer; width: 40px; height: 40px;
@@ -58,26 +51,68 @@
         .tela { display: none; animation: fadeIn 0.5s; } .tela-ativa { display: block; }
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
+        /* --- CARDS DASHBOARD --- */
         .resumo-cards { display: flex; gap: 25px; flex-wrap: wrap; }
         .card { background: white; padding: 30px; border-radius: 12px; flex: 1; min-width: 250px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); text-align: center; }
         .card h3 { color: #777; font-size: 16px; margin-bottom: 15px; text-transform: uppercase; }
         .card p { font-size: 32px; font-weight: bold; }
-        .ganho p { color: #27ae60; } .despesa p { color: #c0392b; } .saldo p { color: #2980b9; }
+        .ganho p { color: #27ae60; } .despesa p { color: #c0392b; } 
+        .saldo-positivo p { color: #2980b9; } 
+        .saldo-negativo p { color: #e74c3c; } 
 
+        /* --- FORMULÁRIOS --- */
         .form-container { background: white; padding: 30px; border-radius: 15px; max-width: 650px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); margin-bottom: 40px; }
         .input-group { margin-bottom: 20px; }
         .input-group label { display: block; margin-bottom: 8px; color: #555; font-weight: 500; }
         .input-group input { width: 100%; padding: 12px; border: 1px solid #ccc; border-radius: 8px; outline: none; }
         
         button.btn-sucesso { background-color: #27ae60; color: white; border: none; padding: 12px 25px; border-radius: 8px; cursor: pointer; width: 100%; font-size: 16px; font-weight: bold; }
-        button.btn-editar { background-color: #f39c12; }
+        button.btn-editar { background-color: #f39c12; } /* Cor Laranja para Edição */
+        button.btn-editar:hover { background-color: #d35400; }
 
-        .lista-contas { list-style: none; max-width: 650px; }
-        .item-conta { background: white; padding: 20px; border-radius: 10px; margin-bottom: 15px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
+        /* --- LISTAS E DROPDOWN --- */
+        .lista-contas { list-style: none; max-width: 650px; padding-bottom: 100px; } 
+        .item-conta { background: white; padding: 20px; border-radius: 10px; margin-bottom: 15px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 2px 5px rgba(0,0,0,0.05); position: relative; }
+        
+        .conta-info strong { display: block; font-size: 18px; margin-bottom: 5px; } 
+        .conta-info small { color: #888; font-size: 14px; }
+        
         .border-green { border-left: 6px solid #27ae60; } .border-red { border-left: 6px solid #c0392b; } .border-orange { border-left: 6px solid #e67e22; } .border-blue { border-left: 6px solid #2980b9; }
-        .conta-info strong { display: block; font-size: 18px; margin-bottom: 5px; } .conta-info small { color: #888; font-size: 14px; }
-        .btn-action { border: none; padding: 10px 14px; border-radius: 8px; cursor: pointer; margin-left: 8px; color: white; }
-        .btn-delete { background-color: #e74c3c; } .btn-edit { background-color: #f39c12; }
+
+        .riscado { text-decoration: line-through; opacity: 0.6; background-color: #f9f9f9; }
+        .riscado .border-red { border-left-color: #ccc; } 
+
+        /* MENU TRÊS PONTINHOS */
+        .btn-more { background: none; border: none; font-size: 20px; color: #555; cursor: pointer; padding: 10px; }
+        .dropdown-menu {
+            display: none; position: absolute; right: 10px; top: 50px;
+            background-color: white; min-width: 160px;
+            box-shadow: 0 8px 16px rgba(0,0,0,0.2); z-index: 10; border-radius: 8px; overflow: hidden;
+        }
+        .dropdown-menu.show { display: block; }
+        .dropdown-menu button { width: 100%; padding: 12px 16px; text-align: left; background: none; border: none; cursor: pointer; font-size: 14px; color: #333; }
+        .dropdown-menu button:hover { background-color: #f1f1f1; }
+        .dropdown-menu button i { margin-right: 10px; width: 20px; text-align: center; }
+
+        .opt-check { color: #27ae60 !important; }
+        .opt-edit { color: #f39c12 !important; }
+        .opt-del { color: #e74c3c !important; }
+
+        /* --- MODAL DE AJUDA / INSTALAÇÃO --- */
+        .modal {
+            display: none; position: fixed; z-index: 200; left: 0; top: 0; width: 100%; height: 100%;
+            background-color: rgba(0,0,0,0.6); align-items: center; justify-content: center;
+        }
+        .modal-content {
+            background-color: white; padding: 30px; border-radius: 15px; width: 90%; max-width: 400px;
+            position: relative; text-align: center; max-height: 90vh; overflow-y: auto;
+        }
+        .close-modal { position: absolute; top: 10px; right: 15px; font-size: 24px; cursor: pointer; color: #aaa; }
+        
+        .install-box { background-color: #f0f2f5; padding: 15px; border-radius: 10px; margin: 15px 0; text-align: left; }
+        .install-box h4 { margin-bottom: 10px; font-size: 16px; }
+        .ios-icon { vertical-align: middle; font-size: 18px; margin: 0 5px; color: #3498db; }
+
     </style>
 </head>
 <body>
@@ -91,8 +126,8 @@
         <li onclick="navegar('gastos')" id="link-gastos"><i class="fa-solid fa-money-bill-wave"></i> Gastos Diários</li>
         <li onclick="navegar('emprestados')" id="link-emprestados"><i class="fa-solid fa-hand-holding-dollar"></i> Emprestado</li>
         
-        <li id="install-btn" onclick="instalarApp()">
-            <i class="fa-solid fa-download"></i> Instalar App
+        <li id="help-btn" onclick="abrirModalAjuda()">
+            <i class="fa-solid fa-circle-info"></i> Instalar App
         </li>
     </ul> 
 
@@ -100,9 +135,12 @@
         <section id="tela-dashboard" class="tela tela-ativa">
             <h1>Visão Geral</h1>
             <div class="resumo-cards">
-                <div class="card ganho"><h3>Receita Total</h3><p id="dash-receita">R$ 0,00</p></div>
-                <div class="card despesa"><h3>Total de Gastos</h3><p id="dash-gastos">R$ 0,00</p></div>
-                <div class="card saldo"><h3>Sobrou no Mês</h3><p id="dash-saldo">R$ 0,00</p></div>
+                <div class="card ganho"><h3>Receita Total</h3><p id="dash-receita">R$ 0,00</p><small style="color:#aaa; font-size:11px;">(Salário + Extras + Empréstimos Recebidos)</small></div>
+                <div class="card despesa"><h3>A Pagar / Gastos</h3><p id="dash-gastos">R$ 0,00</p><small style="color:#aaa; font-size:11px;">(Apenas contas pendentes)</small></div>
+                <div class="card saldo-positivo" id="card-saldo">
+                    <h3 id="titulo-saldo">Sobrou no Mês</h3>
+                    <p id="dash-saldo">R$ 0,00</p>
+                </div>
             </div>
         </section>
 
@@ -125,10 +163,13 @@
 
         <section id="tela-contas" class="tela">
             <h1>Contas Fixas</h1>
+            <p style="color:#666; margin-bottom:10px;">Contas marcadas como pagas param de somar nos gastos.</p>
             <div class="form-container">
                 <div class="input-group"><label>Nome</label><input type="text" id="nome-conta"></div>
                 <div class="input-group"><label>Valor</label><input type="number" id="valor-conta"></div>
-                <button class="btn-sucesso" onclick="adicionarConta()">Salvar</button>
+                
+                <button id="btn-salvar-conta" class="btn-sucesso" onclick="adicionarConta()">Salvar Conta</button>
+                <button id="btn-cancelar-conta" onclick="cancelarEdicaoConta()" style="display:none; margin-top:10px; width:100%; padding:5px; cursor:pointer;">Cancelar Edição</button>
             </div>
             <ul id="lista-visual-contas" class="lista-contas"></ul>
         </section>
@@ -146,6 +187,7 @@
 
         <section id="tela-emprestados" class="tela">
             <h1>Valores Emprestados</h1>
+            <p style="color:#666; margin-bottom:10px;">Ao marcar como "Recebido", o valor entra como Receita.</p>
             <div class="form-container">
                 <div class="input-group"><label>Quem?</label><input type="text" id="emp-nome"></div>
                 <div class="input-group"><label>Valor</label><input type="number" id="emp-valor"></div>
@@ -157,34 +199,46 @@
         </section>
     </main>
 
-    <script>
-        // --- LÓGICA DE INSTALAÇÃO DO APP ---
-        let deferredPrompt; // Variável para guardar o evento de instalação
-        const installBtn = document.getElementById('install-btn');
-
-        // O navegador dispara esse evento se o site for instalável (PWA)
-        window.addEventListener('beforeinstallprompt', (e) => {
-            e.preventDefault(); // Impede que o navegador mostre a barra padrão feia
-            deferredPrompt = e; // Guarda o evento para usarmos no botão
+    <div id="modal-ajuda" class="modal">
+        <div class="modal-content">
+            <span class="close-modal" onclick="fecharModalAjuda()">&times;</span>
+            <h2 style="margin-bottom:15px; color:#2c3e50;">Baixar Aplicativo</h2>
             
-            // Mostra nosso botão personalizado
-            installBtn.style.display = 'flex';
-        });
+            <div class="install-box" style="border-left: 4px solid #27ae60;">
+                <h4 style="color: #27ae60;"><i class="fa-brands fa-android"></i> Android / Computador</h4>
+                
+                <button class="btn-sucesso" onclick="instalarAppAndroid()" id="btn-instalar-android" style="display:none; margin-bottom: 10px;">
+                    <i class="fa-solid fa-download"></i> Instalar Agora
+                </button>
+                
+                <p id="msg-android-manual" style="font-size:14px; color:#555;">
+                    Se o botão acima não apareceu: toque nos <strong>3 pontinhos</strong> do navegador e escolha <strong>"Instalar aplicativo"</strong> ou "Adicionar à tela inicial".
+                </p>
+            </div>
 
-        async function instalarApp() {
-            if (deferredPrompt) {
-                deferredPrompt.prompt(); // Mostra a pergunta "Deseja instalar?"
-                
-                // Espera a resposta do usuário
-                const { outcome } = await deferredPrompt.userChoice;
-                
-                if (outcome === 'accepted') {
-                    console.log('Usuário aceitou instalar');
-                    deferredPrompt = null; // Limpa a variável
-                    installBtn.style.display = 'none'; // Esconde o botão pois já instalou
-                }
-            }
-        }
+            <div class="install-box" style="border-left: 4px solid #3498db;">
+                <h4 style="color: #3498db;"><i class="fa-brands fa-apple"></i> iPhone (iOS)</h4>
+                <p style="font-size:14px; color:#444;">1. Abra no <strong>Safari</strong>.</p>
+                <p style="font-size:14px; color:#444;">2. Toque em <strong>Compartilhar</strong> <i class="fa-solid fa-arrow-up-from-bracket ios-icon"></i>.</p>
+                <p style="font-size:14px; color:#444;">3. Escolha <strong>"Adicionar à Tela de Início"</strong> <i class="fa-regular fa-square-plus ios-icon"></i>.</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // --- DADOS ---
+        let salarioAtual = parseFloat(localStorage.getItem('meuSalario')) || 0;
+        let listaGanhosExtras = JSON.parse(localStorage.getItem('meusGanhosExtras')) || [];
+        let listaContas = JSON.parse(localStorage.getItem('minhasContas')) || [];
+        let listaGastosDiarios = JSON.parse(localStorage.getItem('meusGastosDiarios')) || [];
+        let listaEmprestimos = JSON.parse(localStorage.getItem('meusEmprestimos')) || [];
+        
+        // Controles de Edição
+        let idEmprestimoEdicao = null; 
+        let idContaEdicao = null; // NOVO: Para editar contas fixas
+
+        atualizarInterfaceGeral(); 
+        renderizarListasIndividuais();
 
         // --- NAVEGAÇÃO ---
         function navegar(tela) {
@@ -192,23 +246,11 @@
             document.querySelectorAll('#menu-lateral li').forEach(l => l.classList.remove('ativo'));
             document.getElementById(`tela-${tela}`).classList.add('tela-ativa');
             document.getElementById(`link-${tela}`).classList.add('ativo');
-            
-            // Fecha menu no celular ao clicar
-            if(window.innerWidth < 768) {
-                const menu = document.getElementById('menu-lateral');
-                const botao = document.getElementById('btn-menu');
-                const icone = document.getElementById('icone-btn');
-                menu.classList.add('menu-fechado');
-                botao.classList.add('btn-escuro'); botao.classList.remove('btn-claro');
-                icone.classList.remove('fa-xmark'); icone.classList.add('fa-bars');
-            }
+            if(window.innerWidth < 768) fecharMenu();
         }
-
-        // --- MENU TOGGLE ---
         const menu = document.getElementById('menu-lateral');
         const botao = document.getElementById('btn-menu');
         const icone = document.getElementById('icone-btn');
-
         botao.addEventListener('click', function() {
             menu.classList.toggle('menu-fechado');
             if (menu.classList.contains('menu-fechado')) {
@@ -219,17 +261,12 @@
                 icone.classList.remove('fa-bars'); icone.classList.add('fa-xmark');
             }
         });
+        function fecharMenu() {
+            menu.classList.add('menu-fechado'); botao.classList.add('btn-escuro'); botao.classList.remove('btn-claro');
+            icone.classList.remove('fa-xmark'); icone.classList.add('fa-bars');
+        }
 
-        // --- DADOS (Mantido) ---
-        let salarioAtual = parseFloat(localStorage.getItem('meuSalario')) || 0;
-        let listaGanhosExtras = JSON.parse(localStorage.getItem('meusGanhosExtras')) || [];
-        let listaContas = JSON.parse(localStorage.getItem('minhasContas')) || [];
-        let listaGastosDiarios = JSON.parse(localStorage.getItem('meusGastosDiarios')) || [];
-        let listaEmprestimos = JSON.parse(localStorage.getItem('meusEmprestimos')) || [];
-        let idEmprestimoEdicao = null; 
-
-        atualizarInterfaceGeral(); renderizarListasIndividuais();
-
+        // --- FUNÇÕES FINANCEIRAS ---
         function definirSalario() {
             const valor = document.getElementById('input-salario').value;
             if(valor) { salarioAtual = parseFloat(valor); localStorage.setItem('meuSalario', salarioAtual); atualizarInterfaceGeral(); }
@@ -242,60 +279,230 @@
             document.getElementById('extra-desc').value = ""; document.getElementById('extra-valor').value = ""; document.getElementById('extra-data').value = "";
             atualizarInterfaceGeral(); renderizarListasIndividuais();
         }
-        function removerGanhoExtra(id) { listaGanhosExtras = listaGanhosExtras.filter(g => g.id !== id); localStorage.setItem('meusGanhosExtras', JSON.stringify(listaGanhosExtras)); atualizarInterfaceGeral(); renderizarListasIndividuais(); }
-        function adicionarConta() {
-            const nome = document.getElementById('nome-conta').value; const valor = parseFloat(document.getElementById('valor-conta').value);
-            if (!nome || !valor) return;
-            listaContas.push({ id: Date.now(), nome, valor }); localStorage.setItem('minhasContas', JSON.stringify(listaContas));
-            document.getElementById('nome-conta').value = ""; document.getElementById('valor-conta').value = ""; atualizarInterfaceGeral(); renderizarListasIndividuais();
-        }
-        function removerConta(id) { listaContas = listaContas.filter(c => c.id !== id); localStorage.setItem('minhasContas', JSON.stringify(listaContas)); atualizarInterfaceGeral(); renderizarListasIndividuais(); }
         function adicionarGastoDiario() {
             const nome = document.getElementById('gasto-nome').value; const valor = parseFloat(document.getElementById('gasto-valor').value); const data = document.getElementById('gasto-data').value;
             if (!nome || !valor || !data) return;
             listaGastosDiarios.unshift({ id: Date.now(), nome, valor, data }); localStorage.setItem('meusGastosDiarios', JSON.stringify(listaGastosDiarios));
             document.getElementById('gasto-nome').value = ""; document.getElementById('gasto-valor').value = ""; document.getElementById('gasto-data').value = ""; atualizarInterfaceGeral(); renderizarListasIndividuais();
         }
-        function removerGastoDiario(id) { listaGastosDiarios = listaGastosDiarios.filter(g => g.id !== id); localStorage.setItem('meusGastosDiarios', JSON.stringify(listaGastosDiarios)); atualizarInterfaceGeral(); renderizarListasIndividuais(); }
+
+        // --- LÓGICA DE CONTAS FIXAS (AGORA COM EDIÇÃO) ---
+        function adicionarConta() {
+            const nome = document.getElementById('nome-conta').value; 
+            const valor = parseFloat(document.getElementById('valor-conta').value);
+            if (!nome || !valor) return;
+            
+            if (idContaEdicao) {
+                // MODO EDIÇÃO
+                const index = listaContas.findIndex(c => c.id === idContaEdicao);
+                const statusPago = listaContas[index].pago || false; // Mantém se estava pago
+                if(index !== -1) listaContas[index] = { id: idContaEdicao, nome, valor, pago: statusPago };
+                cancelarEdicaoConta();
+            } else {
+                // MODO CRIAÇÃO
+                listaContas.push({ id: Date.now(), nome, valor, pago: false }); 
+            }
+
+            localStorage.setItem('minhasContas', JSON.stringify(listaContas));
+            document.getElementById('nome-conta').value = ""; document.getElementById('valor-conta').value = ""; 
+            atualizarInterfaceGeral(); renderizarListasIndividuais();
+        }
+
+        function prepararEdicaoConta(id) {
+            const item = listaContas.find(c => c.id === id);
+            document.getElementById('nome-conta').value = item.nome;
+            document.getElementById('valor-conta').value = item.valor;
+            idContaEdicao = id;
+            
+            // Muda o botão para laranja
+            const btn = document.getElementById('btn-salvar-conta');
+            btn.innerText = "Atualizar Conta";
+            btn.classList.add('btn-editar');
+            document.getElementById('btn-cancelar-conta').style.display = 'block';
+        }
+
+        function cancelarEdicaoConta() {
+            idContaEdicao = null;
+            document.getElementById('nome-conta').value = "";
+            document.getElementById('valor-conta').value = "";
+            
+            const btn = document.getElementById('btn-salvar-conta');
+            btn.innerText = "Salvar Conta";
+            btn.classList.remove('btn-editar');
+            document.getElementById('btn-cancelar-conta').style.display = 'none';
+        }
+
+        // --- LÓGICA DE EMPRÉSTIMOS (MANTEVE IGUAL) ---
         function salvarEmprestimo() {
             const nome = document.getElementById('emp-nome').value; const valor = parseFloat(document.getElementById('emp-valor').value); const data = document.getElementById('emp-data').value;
             if(!nome || !valor || !data) return;
-            if (idEmprestimoEdicao) { const index = listaEmprestimos.findIndex(item => item.id === idEmprestimoEdicao); if(index !== -1) listaEmprestimos[index] = { id: idEmprestimoEdicao, nome, valor, data }; cancelarEdicao(); } 
-            else { listaEmprestimos.push({ id: Date.now(), nome, valor, data }); }
+            if (idEmprestimoEdicao) { 
+                const index = listaEmprestimos.findIndex(item => item.id === idEmprestimoEdicao); 
+                const statusRecebido = listaEmprestimos[index].recebido || false;
+                if(index !== -1) listaEmprestimos[index] = { id: idEmprestimoEdicao, nome, valor, data, recebido: statusRecebido }; 
+                cancelarEdicao(); 
+            } 
+            else { listaEmprestimos.push({ id: Date.now(), nome, valor, data, recebido: false }); }
             localStorage.setItem('meusEmprestimos', JSON.stringify(listaEmprestimos));
-            document.getElementById('emp-nome').value = ""; document.getElementById('emp-valor').value = ""; document.getElementById('emp-data').value = ""; renderizarListasIndividuais();
+            document.getElementById('emp-nome').value = ""; document.getElementById('emp-valor').value = ""; document.getElementById('emp-data').value = ""; renderizarListasIndividuais(); atualizarInterfaceGeral();
         }
         function prepararEdicao(id) {
-            const item = listaEmprestimos.find(e => e.id === id); document.getElementById('emp-nome').value = item.nome; document.getElementById('emp-valor').value = item.valor; document.getElementById('emp-data').value = item.data; idEmprestimoEdicao = id;
+            const item = listaEmprestimos.find(e => e.id === id); 
+            document.getElementById('emp-nome').value = item.nome; document.getElementById('emp-valor').value = item.valor; document.getElementById('emp-data').value = item.data; idEmprestimoEdicao = id;
             document.getElementById('btn-salvar-emprestimo').innerText = "Atualizar"; document.getElementById('btn-salvar-emprestimo').classList.add('btn-editar'); document.getElementById('btn-cancelar-edicao').style.display = 'block';
         }
         function cancelarEdicao() {
             idEmprestimoEdicao = null; document.getElementById('emp-nome').value = ""; document.getElementById('emp-valor').value = ""; document.getElementById('emp-data').value = "";
             document.getElementById('btn-salvar-emprestimo').innerText = "Salvar"; document.getElementById('btn-salvar-emprestimo').classList.remove('btn-editar'); document.getElementById('btn-cancelar-edicao').style.display = 'none';
         }
-        function removerEmprestimo(id) { if(confirm("Excluir?")) { listaEmprestimos = listaEmprestimos.filter(e => e.id !== id); localStorage.setItem('meusEmprestimos', JSON.stringify(listaEmprestimos)); renderizarListasIndividuais(); } }
-        function atualizarInterfaceGeral() {
-            const fmt = { style: 'currency', currency: 'BRL' };
-            const totalExtras = listaGanhosExtras.reduce((acc, g) => acc + g.valor, 0); const totalReceita = salarioAtual + totalExtras;
-            const totalFixas = listaContas.reduce((acc, c) => acc + c.valor, 0); const totalDiarios = listaGastosDiarios.reduce((acc, g) => acc + g.valor, 0); const totalSaida = totalFixas + totalDiarios;
-            const sobra = totalReceita - totalSaida;
-            document.getElementById('dash-receita').innerText = totalReceita.toLocaleString('pt-BR', fmt); document.getElementById('dash-gastos').innerText = totalSaida.toLocaleString('pt-BR', fmt); document.getElementById('dash-saldo').innerText = sobra.toLocaleString('pt-BR', fmt);
-            document.getElementById('input-salario').value = salarioAtual > 0 ? salarioAtual : ""; document.getElementById('txt-salario-atual').innerText = salarioAtual.toLocaleString('pt-BR', fmt);
+
+        // --- AÇÕES GERAIS ---
+        function removerItem(tipo, id) {
+            if(confirm("Deseja excluir?")) {
+                if(tipo === 'extra') listaGanhosExtras = listaGanhosExtras.filter(i => i.id !== id);
+                if(tipo === 'conta') {
+                    listaContas = listaContas.filter(i => i.id !== id);
+                    if(id === idContaEdicao) cancelarEdicaoConta();
+                }
+                if(tipo === 'gasto') listaGastosDiarios = listaGastosDiarios.filter(i => i.id !== id);
+                if(tipo === 'emp') {
+                    listaEmprestimos = listaEmprestimos.filter(i => i.id !== id);
+                    if(id === idEmprestimoEdicao) cancelarEdicao();
+                }
+                salvarTudo(); atualizarInterfaceGeral(); renderizarListasIndividuais();
+            }
         }
-        function renderizarListasIndividuais() {
-            const fmt = { style: 'currency', currency: 'BRL' };
-            const listaExtras = document.getElementById('lista-visual-extras'); listaExtras.innerHTML = "";
-            listaGanhosExtras.forEach(g => { const dataF = new Date(g.data).toLocaleDateString('pt-BR', {timeZone:'UTC'}); listaExtras.innerHTML += `<li class="item-conta border-green"><div class="conta-info"><strong>${g.desc}</strong><small>${dataF}</small></div><div style="display:flex; align-items:center;"><strong style="margin-right:10px; color:#27ae60;">${g.valor.toLocaleString('pt-BR', fmt)}</strong><button class="btn-action btn-delete" onclick="removerGanhoExtra(${g.id})"><i class="fa-solid fa-trash"></i></button></div></li>`; });
-            const render = (lista, elId, classeBorda, corTexto, funcDel) => {
-                const el = document.getElementById(elId); el.innerHTML = "";
-                lista.forEach(item => { const dataShow = item.data ? new Date(item.data).toLocaleDateString('pt-BR',{timeZone:'UTC'}) : ''; const desc = item.nome || item.desc; el.innerHTML += `<li class="item-conta ${classeBorda}"><div class="conta-info"><strong>${desc}</strong><small>${dataShow}</small></div><div style="display:flex; align-items:center;"><strong style="margin-right:10px; color:${corTexto};">${item.valor.toLocaleString('pt-BR', fmt)}</strong>${item.data && elId === 'lista-visual-emprestimos' ? `<button class="btn-action btn-edit" onclick="prepararEdicao(${item.id})"><i class="fa-solid fa-pen"></i></button>` : ''}<button class="btn-action btn-delete" onclick="${funcDel}(${item.id})"><i class="fa-solid fa-trash"></i></button></div></li>`; });
-            };
-            render(listaContas, 'lista-visual-contas', 'border-red', '#c0392b', 'removerConta'); render(listaGastosDiarios, 'lista-visual-gastos', 'border-orange', '#e67e22', 'removerGastoDiario'); render(listaEmprestimos, 'lista-visual-emprestimos', 'border-blue', '#2980b9', 'removerEmprestimo');
+        function toggleStatus(tipo, id) {
+            if(tipo === 'conta') { const item = listaContas.find(i => i.id === id); if(item) item.pago = !item.pago; }
+            if(tipo === 'emp') { const item = listaEmprestimos.find(i => i.id === id); if(item) item.recebido = !item.recebido; }
+            salvarTudo(); atualizarInterfaceGeral(); renderizarListasIndividuais();
+        }
+        function salvarTudo() {
+            localStorage.setItem('meusGanhosExtras', JSON.stringify(listaGanhosExtras)); localStorage.setItem('minhasContas', JSON.stringify(listaContas));
+            localStorage.setItem('meusGastosDiarios', JSON.stringify(listaGastosDiarios)); localStorage.setItem('meusEmprestimos', JSON.stringify(listaEmprestimos));
         }
 
-        if ('serviceWorker' in navigator) {
-            navigator.serviceWorker.register('sw.js').then(reg => console.log('Service Worker Registrado')).catch(err => console.log('Erro SW:', err));
+        function atualizarInterfaceGeral() {
+            const fmt = { style: 'currency', currency: 'BRL' };
+            const totalExtras = listaGanhosExtras.reduce((acc, g) => acc + g.valor, 0); 
+            const totalEmprestimosRecebidos = listaEmprestimos.filter(e => e.recebido).reduce((acc, e) => acc + e.valor, 0);
+            const totalReceita = salarioAtual + totalExtras + totalEmprestimosRecebidos;
+
+            const totalContasPendentes = listaContas.filter(c => !c.pago).reduce((acc, c) => acc + c.valor, 0);
+            const totalDiarios = listaGastosDiarios.reduce((acc, g) => acc + g.valor, 0); 
+            const totalSaida = totalContasPendentes + totalDiarios;
+
+            const sobra = totalReceita - totalSaida;
+
+            document.getElementById('dash-receita').innerText = totalReceita.toLocaleString('pt-BR', fmt);
+            document.getElementById('dash-gastos').innerText = totalSaida.toLocaleString('pt-BR', fmt);
+            document.getElementById('dash-saldo').innerText = sobra.toLocaleString('pt-BR', fmt);
+            
+            const cardSaldo = document.getElementById('card-saldo');
+            const tituloSaldo = document.getElementById('titulo-saldo');
+            if (sobra < 0) { cardSaldo.classList.remove('saldo-positivo'); cardSaldo.classList.add('saldo-negativo'); tituloSaldo.innerText = "Faltou no Mês"; } 
+            else { cardSaldo.classList.remove('saldo-negativo'); cardSaldo.classList.add('saldo-positivo'); tituloSaldo.innerText = "Sobrou no Mês"; }
+
+            document.getElementById('input-salario').value = salarioAtual > 0 ? salarioAtual : "";
+            document.getElementById('txt-salario-atual').innerText = salarioAtual.toLocaleString('pt-BR', fmt);
         }
+
+        function renderizarListasIndividuais() {
+            const fmt = { style: 'currency', currency: 'BRL' };
+            const render = (lista, elId, tipo, classeBorda, corTexto) => {
+                const el = document.getElementById(elId); el.innerHTML = "";
+                lista.forEach(item => {
+                    const dataShow = item.data ? new Date(item.data).toLocaleDateString('pt-BR',{timeZone:'UTC'}) : '';
+                    const desc = item.nome || item.desc;
+                    let classeExtra = ""; let iconStatus = "fa-check"; let textoStatus = "Concluir";
+                    if (item.pago) { classeExtra = "riscado"; textoStatus = "Desmarcar"; }
+
+                    // Menu dropdown incluindo EDITAR na conta
+                    let botaoEditar = "";
+                    if(tipo === 'conta') {
+                        botaoEditar = `<button onclick="prepararEdicaoConta(${item.id})" class="opt-edit"><i class="fa-solid fa-pen"></i> Editar</button>`;
+                    }
+
+                    el.innerHTML += `
+                    <li class="item-conta ${classeBorda} ${classeExtra}">
+                        <div class="conta-info"><strong>${desc}</strong><small>${dataShow}</small></div>
+                        <div style="display:flex; align-items:center;">
+                            <strong style="margin-right:15px; color:${corTexto};">${item.valor.toLocaleString('pt-BR', fmt)}</strong>
+                            <div style="position:relative;">
+                                <button class="btn-more" onclick="abrirDropdown('${tipo}', ${item.id})"><i class="fa-solid fa-ellipsis-vertical"></i></button>
+                                <div id="drop-${tipo}-${item.id}" class="dropdown-menu">
+                                    ${tipo === 'conta' ? `<button onclick="toggleStatus('${tipo}', ${item.id})" class="opt-check"><i class="fa-solid ${iconStatus}"></i> ${textoStatus}</button>` : ''}
+                                    ${botaoEditar}
+                                    <button onclick="removerItem('${tipo}', ${item.id})" class="opt-del"><i class="fa-solid fa-trash"></i> Excluir</button>
+                                </div>
+                            </div>
+                        </div>
+                    </li>`;
+                });
+            };
+            
+            // Render Empréstimos (Separado)
+            const elEmp = document.getElementById('lista-visual-emprestimos'); elEmp.innerHTML = "";
+            listaEmprestimos.forEach(item => {
+                const dataShow = new Date(item.data).toLocaleDateString('pt-BR',{timeZone:'UTC'});
+                let classeExtra = item.recebido ? "border-green" : "border-blue";
+                let textoStatus = item.recebido ? "Desmarcar" : "Marcar Recebido";
+                elEmp.innerHTML += `
+                <li class="item-conta ${classeExtra}">
+                    <div class="conta-info"><strong>${item.nome} ${item.recebido ? '(Recebido)' : ''}</strong><small>${dataShow}</small></div>
+                    <div style="display:flex; align-items:center;">
+                        <strong style="margin-right:15px; color:#2980b9;">${item.valor.toLocaleString('pt-BR', fmt)}</strong>
+                         <div style="position:relative;">
+                            <button class="btn-more" onclick="abrirDropdown('emp', ${item.id})"><i class="fa-solid fa-ellipsis-vertical"></i></button>
+                            <div id="drop-emp-${item.id}" class="dropdown-menu">
+                                <button onclick="toggleStatus('emp', ${item.id})" class="opt-check"><i class="fa-solid fa-hand-holding-dollar"></i> ${textoStatus}</button>
+                                <button onclick="prepararEdicao(${item.id})" class="opt-edit"><i class="fa-solid fa-pen"></i> Editar</button>
+                                <button onclick="removerItem('emp', ${item.id})" class="opt-del"><i class="fa-solid fa-trash"></i> Excluir</button>
+                            </div>
+                        </div>
+                    </div>
+                </li>`;
+            });
+            render(listaGanhosExtras, 'lista-visual-extras', 'extra', 'border-green', '#27ae60');
+            render(listaContas, 'lista-visual-contas', 'conta', 'border-red', '#c0392b');
+            render(listaGastosDiarios, 'lista-visual-gastos', 'gasto', 'border-orange', '#e67e22');
+        }
+
+        // --- DROPDOWNS ---
+        function abrirDropdown(tipo, id) {
+            document.querySelectorAll('.dropdown-menu').forEach(el => el.classList.remove('show'));
+            document.getElementById(`drop-${tipo}-${id}`).classList.toggle('show');
+        }
+        window.onclick = function(event) {
+            if (!event.target.matches('.btn-more') && !event.target.matches('.fa-ellipsis-vertical')) {
+                document.querySelectorAll('.dropdown-menu').forEach(el => el.classList.remove('show'));
+            }
+        }
+
+        // --- MODAL DE INSTALAÇÃO ---
+        const modal = document.getElementById('modal-ajuda');
+        let deferredPrompt;
+        function abrirModalAjuda() { modal.style.display = "flex"; }
+        function fecharModalAjuda() { modal.style.display = "none"; }
+
+        // Evento que detecta se pode instalar no Android/Chrome
+        window.addEventListener('beforeinstallprompt', (e) => {
+            e.preventDefault();
+            deferredPrompt = e;
+            // Se o evento disparar, mostramos o botão e escondemos a msg de manual
+            document.getElementById('btn-instalar-android').style.display = 'block';
+            document.getElementById('msg-android-manual').style.display = 'none';
+        });
+
+        async function instalarAppAndroid() {
+            if (deferredPrompt) {
+                deferredPrompt.prompt();
+                const { outcome } = await deferredPrompt.userChoice;
+                if (outcome === 'accepted') deferredPrompt = null;
+            }
+        }
+
+        if ('serviceWorker' in navigator) navigator.serviceWorker.register('sw.js').catch(err => console.log(err));
     </script>
 </body>
 </html>
