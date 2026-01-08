@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Minhas Finanças</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <link rel="manifest" href="manifest.json">
     <meta name="theme-color" content="#1E3A8A">
 
@@ -76,7 +75,8 @@
         header {
             position: fixed; top: 0; left: 0; width: 100%; height: 60px;
             background-color: var(--primary); border-bottom: 1px solid var(--border);
-            display: flex; justify-content: center; align-items: center; box-shadow: var(--shadow);
+            display: flex; justify-content: center; align-items: center;
+            z-index: 1000; box-shadow: var(--shadow);
             transition: background 0.3s;
         }
         header h2 { font-size: 18px; margin: 0; color: var(--nav-bg); text-transform: uppercase; letter-spacing: 1px; }
@@ -132,13 +132,6 @@
         .despesa p { color: var(--danger) !important; } 
         .saldo-positivo p { color: var(--primary) !important; } 
         .saldo-negativo p { color: var(--danger) !important; }
-
-        /* Gráfico */
-        .chart-container { 
-            background: var(--card); padding: 20px; border-radius: 16px; 
-            box-shadow: var(--shadow); margin-bottom: 25px; height: 300px; 
-            border: 1px solid var(--border); display: flex; align-items: center; justify-content: center;
-        }
 
         /* Formulários */
         .form-container { 
@@ -283,14 +276,10 @@
                 <div class="card despesa"><h3>Saídas</h3><p id="dash-gastos">R$ 0,00</p></div>
                 <div class="card saldo-positivo" id="card-saldo"><h3>Saldo</h3><p id="dash-saldo">R$ 0,00</p></div>
             </div>
-            
-           <div class="chart-container" style="position: relative;">
-                <canvas id="financeChart"></canvas>
-           </div>
         </section>
 
         <section id="tela-receitas" class="tela">
-            <h1>Receitas</h1>
+            <h1>Ganhos</h1>
             
             <div class="form-container" style="border-left: 5px solid var(--success);">
                 <div class="input-group">
@@ -352,7 +341,7 @@
         <section id="tela-emprestados" class="tela">
             <h1>Empréstimos</h1>
             <div class="form-container">
-                <div class="input-group"><label>Emprestei para Quem?</label><input type="text" id="emp-nome"></div>
+                <div class="input-group"><label>Quem?</label><input type="text" id="emp-nome"></div>
                 <div class="input-group"><label>Valor</label><input type="number" id="emp-valor"></div>
                 <div class="input-group"><label>Data Combinada</label><input type="date" id="emp-data"></div>
                 <button id="btn-salvar-emprestimo" class="btn-sucesso" onclick="salvarEmprestimo()">Salvar</button>
@@ -463,12 +452,11 @@
             const icon = document.getElementById('icon-theme');
             if(target === 'dark') { icon.classList.replace('fa-moon', 'fa-sun'); }
             else { icon.classList.replace('fa-sun', 'fa-moon'); }
-            atualizarGrafico(); 
         }
 
         // --- DADOS ---
         let dadosGlobais = JSON.parse(localStorage.getItem('financas_db_v5')) || { salarios: {}, extras: [], contas: [], gastos: [], emprestimos: [], metas: [] };
-        function salvarDB() { localStorage.setItem('financas_db_v5', JSON.stringify(dadosGlobais)); atualizarGrafico(); }
+        function salvarDB() { localStorage.setItem('financas_db_v5', JSON.stringify(dadosGlobais)); }
 
         // --- NAVEGAÇÃO ---
         function navegar(tela, elItem) {
@@ -521,7 +509,6 @@
             const valor = parseFloat(input.value);
             if(!isNaN(valor)) {
                 dadosGlobais.salarios[mesSelecionado] = valor; salvarDB(); atualizarInterfaceGeral();
-                // EFEITO VISUAL DE SUCESSO
                 btn.classList.add('saved'); btn.innerHTML = '<i class="fa-solid fa-check-double"></i>';
                 setTimeout(() => { btn.classList.remove('saved'); btn.innerHTML = '<i class="fa-solid fa-check"></i>'; }, 2000);
             }
@@ -662,50 +649,8 @@
         function abrirDropdown(t, i) { document.querySelectorAll('.dropdown-menu').forEach(d => d.classList.remove('show')); document.getElementById(`drop-${t}-${i}`).classList.toggle('show'); }
         window.onclick = function(e) { if(!e.target.matches('.btn-more') && !e.target.matches('.fa-ellipsis-vertical')) document.querySelectorAll('.dropdown-menu').forEach(d => d.classList.remove('show')); }
 
-        // --- GRÁFICO ---
-        let financeChart;
-        function atualizarGrafico() {
-            const ctx = document.getElementById('financeChart').getContext('2d');
-            const style = getComputedStyle(document.body);
-            const corEntrada = style.getPropertyValue('--success').trim();
-            const corSaida = style.getPropertyValue('--danger').trim();
-            const corTexto = style.getPropertyValue('--text-secondary').trim();
-
-            // Dados do Mês Selecionado
-            const salarioMes = dadosGlobais.salarios[mesSelecionado] || 0;
-            const extrasMes = dadosGlobais.extras.filter(i => i.mesRef === mesSelecionado).reduce((a,b)=>a+b.valor,0);
-            const empRecebidos = dadosGlobais.emprestimos.filter(e => e.recebido).reduce((a,b)=>a+b.valor,0);
-            const receitaTotal = salarioMes + extrasMes + empRecebidos;
-
-            const contasMes = dadosGlobais.contas.filter(c => c.mesRef === mesSelecionado && !c.pago).reduce((a,b)=>a+b.valor,0);
-            const gastosMes = dadosGlobais.gastos.filter(i => i.mesRef === mesSelecionado).reduce((a,b)=>a+b.valor,0);
-            const totalSaida = contasMes + gastosMes;
-
-            if(financeChart) financeChart.destroy();
-            financeChart = new Chart(ctx, { 
-                type: 'doughnut', 
-                data: { 
-                    labels: ['Entradas', 'Saídas'], 
-                    datasets: [{ 
-                        data: [receitaTotal, totalSaida], 
-                        backgroundColor: [corEntrada, corSaida],
-                        borderWidth: 0,
-                        hoverOffset: 4
-                    }] 
-                }, 
-                options: { 
-                    responsive: true, 
-                    maintainAspectRatio: false, 
-                    plugins: { 
-                        legend: { position: 'bottom', labels: { color: corTexto, font: { size: 12 } } } 
-                    },
-                    cutout: '70%' // Deixa o furo da rosca maior
-                } 
-            });
-        }
-
         // START
-        gerarBarraMeses(); atualizarInterfaceGeral(); renderizarListasIndividuais(); renderizarMetas(); atualizarGrafico();
+        gerarBarraMeses(); atualizarInterfaceGeral(); renderizarListasIndividuais(); renderizarMetas(); 
         if ('serviceWorker' in navigator) navigator.serviceWorker.register('sw.js');
     </script>
 </body>

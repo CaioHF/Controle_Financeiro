@@ -1,4 +1,4 @@
-const CACHE_NAME = 'financas-v12'; // Mudei para v12 para forçar atualização
+const CACHE_NAME = 'financas-v13'; // Mudei para v13 para forçar atualização
 const urlsToCache = [
   './',
   './index.html',
