@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-br" data-theme="light">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
@@ -7,129 +7,272 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <link rel="manifest" href="manifest.json">
-    <meta name="theme-color" content="#f0f2f5">
+    <meta name="theme-color" content="#1E3A8A">
 
     <style>
-        /* --- RESET E GERAL --- */
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', sans-serif; -webkit-tap-highlight-color: transparent; }
-        body { background-color: #f0f2f5; min-height: 100vh; padding-bottom: 90px; /* Espaço para nav inferior */ }
+        /* =========================================
+           1. SISTEMA DE CORES (VARIÁVEIS)
+           ========================================= */
+        :root {
+            /* --- LIGHT MODE --- */
+            --primary: #1E3A8A;       /* Azul Financeiro Profundo */
+            --success: #16A34A;       /* Verde Dinheiro */
+            --danger: #DC2626;        /* Vermelho Elegante */
+            --warning: #F59E0B;       /* Âmbar Aviso */
+            
+            --background: #F1F5F9;    /* Fundo Geral */
+            --card: #FFFFFF;          /* Fundo Cards */
+            --nav-bg: #FFFFFF;        /* Fundo Navegação */
+            
+            --text-primary: #0F172A;  /* Preto Azulado */
+            --text-secondary: #475569;/* Cinza Azulado */
+            
+            --border: #CBD5E1;        /* Bordas */
+            --secondary: #334155;     /* Botões Neutros */
+            
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
 
-        /* --- ÁREA PRINCIPAL --- */
+        /* --- DARK MODE --- */
+        [data-theme="dark"] {
+            --primary: #3B82F6;       
+            --success: #22C55E;       
+            --danger: #EF4444;        
+            --warning: #FBBF24;       
+            
+            --background: #020617;    
+            --card: #0F172A;          
+            --nav-bg: #0F172A;
+            
+            --text-primary: #E5E7EB;  
+            --text-secondary: #9CA3AF;
+            
+            --border: #1E293B;        
+            --secondary: #1E293B;     
+            
+            --shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.5);
+        }
+
+        /* =========================================
+           2. ESTILOS GERAIS
+           ========================================= */
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', 'Segoe UI', sans-serif; -webkit-tap-highlight-color: transparent; }
+        
+        body { 
+            background-color: var(--background); 
+            color: var(--text-primary);
+            min-height: 100vh; 
+            padding-bottom: 90px; /* Espaço nav inferior */
+            padding-top: 60px;    /* Espaço header superior */
+            transition: background 0.3s, color 0.3s;
+        }
+
         main { padding: 20px; max-width: 800px; margin: 0 auto; width: 100%; }
+
+        h1, h2, h3, h4, strong { color: var(--text-primary); font-weight: 700; }
+        p, small, label { color: var(--text-secondary); }
+
+        /* --- HEADER SUPERIOR --- */
+        header {
+            position: fixed; top: 0; left: 0; width: 100%; height: 60px;
+            background-color: var(--primary); border-bottom: 1px solid var(--border);
+            display: flex; justify-content: center; align-items: center; box-shadow: var(--shadow);
+            transition: background 0.3s;
+        }
+        header h2 { font-size: 18px; margin: 0; color: var(--nav-bg); text-transform: uppercase; letter-spacing: 1px; }
 
         /* --- BARRA DE NAVEGAÇÃO INFERIOR --- */
         .bottom-nav {
             position: fixed; bottom: 0; left: 0; width: 100%; height: 70px;
-            background-color: white; border-top: 1px solid #eee;
+            background-color: var(--nav-bg); border-top: 1px solid var(--border);
             display: flex; justify-content: space-around; align-items: center;
-            z-index: 1000; box-shadow: 0 -5px 15px rgba(0,0,0,0.03);
+            z-index: 1000; box-shadow: 0 -4px 20px rgba(0,0,0,0.05);
+            transition: background 0.3s;
         }
         .nav-item {
             display: flex; flex-direction: column; align-items: center; justify-content: center;
-            color: #95a5a6; font-size: 10px; cursor: pointer; width: 20%; height: 100%; transition: 0.2s;
+            color: var(--text-secondary); font-size: 10px; cursor: pointer; width: 20%; height: 100%; transition: 0.2s;
         }
         .nav-item i { font-size: 22px; margin-bottom: 5px; }
-        .nav-item.active { color: #2c3e50; font-weight: bold; }
-        .nav-item.active i { transform: translateY(-2px); color: #27ae60; }
+        .nav-item.active { color: var(--primary); font-weight: bold; }
+        .nav-item.active i { transform: translateY(-2px); }
 
         /* --- BARRA DE MESES --- */
         .meses-container {
-            display: flex; overflow-x: auto; gap: 8px; padding: 10px 0; margin-bottom: 20px;
-            scrollbar-width: none; background: #f0f2f5; position: sticky; top: 0; z-index: 90;
+            display: flex; overflow-x: auto; gap: 8px; padding: 15px 0; 
+            scrollbar-width: none; background: var(--background); 
+            position: sticky; top: 60px; /* Logo abaixo do header */
+            z-index: 90; transition: background 0.3s;
         }
         .meses-container::-webkit-scrollbar { display: none; }
         .mes-pill {
-            background-color: white; color: #555; padding: 8px 18px; border-radius: 20px;
-            white-space: nowrap; cursor: pointer; border: 1px solid #ddd; font-weight: 600; font-size: 13px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.02);
+            background-color: var(--card); color: var(--text-secondary); 
+            padding: 8px 18px; border-radius: 20px;
+            white-space: nowrap; cursor: pointer; border: 1px solid var(--border); 
+            font-weight: 600; font-size: 13px; box-shadow: var(--shadow); transition: 0.3s;
         }
-        .mes-pill.mes-ativo { background-color: #2c3e50; color: white; border-color: #2c3e50; transform: scale(1.05); }
+        .mes-pill.mes-ativo { 
+            background-color: var(--primary); color: #fff; border-color: var(--primary); transform: scale(1.05); 
+        }
 
         /* --- CARDS & UI --- */
         .tela { display: none; animation: fadeIn 0.3s; } .tela-ativa { display: block; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
         
-        h1, h3 { color: #2c3e50; margin-bottom: 15px; }
-        
         .resumo-cards { display: flex; gap: 15px; flex-wrap: wrap; margin-bottom: 25px; }
-        .card { background: white; padding: 20px; border-radius: 16px; flex: 1; min-width: 140px; box-shadow: 0 4px 15px rgba(0,0,0,0.03); text-align: center; }
-        .card h3 { color: #95a5a6; font-size: 11px; margin-bottom: 8px; text-transform: uppercase; letter-spacing: 1px; }
-        .card p { font-size: 24px; font-weight: 800; }
-        .ganho p { color: #27ae60; } .despesa p { color: #c0392b; } 
-        .saldo-positivo p { color: #2980b9; } .saldo-negativo p { color: #e74c3c; }
+        .card { 
+            background: var(--card); padding: 20px; border-radius: 16px; 
+            flex: 1; min-width: 140px; box-shadow: var(--shadow); 
+            text-align: center; border: 1px solid var(--border); 
+        }
+        .card h3 { color: var(--text-secondary); font-size: 11px; margin-bottom: 8px; text-transform: uppercase; letter-spacing: 1px; }
+        .card p { font-size: 24px; font-weight: 800; color: var(--text-primary); }
+        
+        .ganho p { color: var(--success) !important; } 
+        .despesa p { color: var(--danger) !important; } 
+        .saldo-positivo p { color: var(--primary) !important; } 
+        .saldo-negativo p { color: var(--danger) !important; }
 
         /* Gráfico */
-        .chart-container { background: white; padding: 15px; border-radius: 16px; box-shadow: 0 4px 15px rgba(0,0,0,0.03); margin-bottom: 25px; height: 220px; }
+        .chart-container { 
+            background: var(--card); padding: 20px; border-radius: 16px; 
+            box-shadow: var(--shadow); margin-bottom: 25px; height: 300px; 
+            border: 1px solid var(--border); display: flex; align-items: center; justify-content: center;
+        }
 
         /* Formulários */
-        .form-container { background: white; padding: 20px; border-radius: 16px; box-shadow: 0 4px 15px rgba(0,0,0,0.03); margin-bottom: 25px; }
+        .form-container { 
+            background: var(--card); padding: 20px; border-radius: 16px; 
+            box-shadow: var(--shadow); margin-bottom: 25px; border: 1px solid var(--border); 
+        }
         .input-group { margin-bottom: 15px; }
-        .input-group label { display: block; margin-bottom: 6px; color: #7f8c8d; font-size: 12px; font-weight: 600; text-transform: uppercase; }
-        .input-group input { width: 100%; padding: 12px; border: 1px solid #e0e0e0; border-radius: 10px; outline: none; font-size: 16px; transition: 0.3s; }
-        .input-group input:focus { border-color: #3498db; }
+        .input-group label { display: block; margin-bottom: 6px; color: var(--text-secondary); font-size: 12px; font-weight: 600; text-transform: uppercase; }
+        .input-group input { 
+            width: 100%; padding: 12px; border: 1px solid var(--border); 
+            border-radius: 10px; outline: none; font-size: 16px; transition: 0.3s; 
+            background-color: var(--background); color: var(--text-primary);
+        }
+        .input-group input:focus { border-color: var(--primary); }
         
         /* Botões */
-        button.btn-sucesso { background-color: #27ae60; color: white; border: none; padding: 14px; border-radius: 10px; cursor: pointer; width: 100%; font-size: 16px; font-weight: bold; box-shadow: 0 4px 10px rgba(39, 174, 96, 0.2); }
+        button.btn-sucesso { 
+            background-color: var(--primary); color: #fff; border: none; 
+            padding: 14px; border-radius: 10px; cursor: pointer; width: 100%; 
+            font-size: 16px; font-weight: bold; box-shadow: 0 4px 10px rgba(0,0,0,0.1); 
+        }
         button.btn-sucesso:active { transform: scale(0.98); }
         
-        button.btn-editar { background-color: #f39c12; box-shadow: 0 4px 10px rgba(243, 156, 18, 0.2); }
+        button.btn-editar { background-color: var(--warning); color: #fff; }
         
-        button.btn-importar { background-color: #34495e; color: white; border: none; padding: 12px; border-radius: 10px; width: 100%; margin-bottom: 15px; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; font-size: 14px; }
+        button.btn-importar { 
+            background-color: var(--secondary); color: #fff; 
+            border: 1px solid var(--border); padding: 12px; border-radius: 10px; 
+            width: 100%; margin-bottom: 15px; cursor: pointer; 
+            display: flex; align-items: center; justify-content: center; gap: 8px; font-size: 14px; 
+        }
 
-        /* Input Salário Especial */
+        /* Check Salário */
         .input-row { display: flex; gap: 10px; align-items: center; }
-        .btn-check { background-color: #bdc3c7; color: white; border: none; width: 50px; height: 46px; border-radius: 10px; cursor: pointer; font-size: 18px; transition: 0.3s; }
-        .btn-check.saved { background-color: #27ae60; }
+        .btn-check { 
+            background-color: var(--secondary); color: #fff; border: none; 
+            width: 50px; height: 46px; border-radius: 10px; cursor: pointer; 
+            font-size: 18px; transition: 0.3s; 
+        }
+        .btn-check.saved { background-color: var(--success); }
 
         /* Listas */
         .lista-contas { list-style: none; } 
-        .item-conta { background: white; padding: 15px; border-radius: 12px; margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center; border: 1px solid #f0f0f0; }
-        .conta-info strong { display: block; font-size: 15px; color: #2c3e50; margin-bottom: 3px; } .conta-info small { color: #95a5a6; font-size: 12px; }
-        .border-green { border-left: 4px solid #27ae60; } .border-red { border-left: 4px solid #c0392b; } .border-orange { border-left: 4px solid #e67e22; } .border-blue { border-left: 4px solid #2980b9; }
-        .riscado { opacity: 0.5; text-decoration: line-through; background-color: #fafafa; } .riscado .border-red { border-left-color: #ddd; } 
+        .item-conta { 
+            background: var(--card); padding: 15px; border-radius: 12px; margin-bottom: 10px; 
+            display: flex; justify-content: space-between; align-items: center; 
+            border: 1px solid var(--border); box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+        }
+        .conta-info strong { display: block; font-size: 15px; margin-bottom: 3px; color: var(--text-primary); } 
+        .conta-info small { font-size: 12px; color: var(--text-secondary); }
+        
+        .border-green { border-left: 4px solid var(--success); } 
+        .border-red { border-left: 4px solid var(--danger); } 
+        .border-orange { border-left: 4px solid var(--warning); } 
+        .border-blue { border-left: 4px solid var(--primary); }
+        
+        .riscado { opacity: 0.5; text-decoration: line-through; background-color: var(--background); } 
+        .riscado .border-red { border-left-color: var(--border); } 
 
-        .btn-more { background: none; border: none; font-size: 18px; color: #95a5a6; cursor: pointer; padding: 5px 10px; }
-        .dropdown-menu { display: none; position: absolute; right: 40px; background-color: white; min-width: 140px; box-shadow: 0 10px 30px rgba(0,0,0,0.15); z-index: 50; border-radius: 10px; overflow: hidden; }
+        .btn-more { background: none; border: none; font-size: 18px; color: var(--text-secondary); cursor: pointer; padding: 5px 10px; }
+        .dropdown-menu { 
+            display: none; position: absolute; right: 40px; 
+            background-color: var(--card); min-width: 140px; 
+            box-shadow: var(--shadow); z-index: 50; border-radius: 10px; 
+            overflow: hidden; border: 1px solid var(--border);
+        }
         .dropdown-menu.show { display: block; }
-        .dropdown-menu button { width: 100%; padding: 12px 15px; text-align: left; background: none; border: none; cursor: pointer; border-bottom: 1px solid #f9f9f9; font-size: 14px; color: #34495e; }
-        .opt-check { color: #27ae60 !important; } .opt-del { color: #e74c3c !important; }
+        .dropdown-menu button { 
+            width: 100%; padding: 12px 15px; text-align: left; background: none; 
+            border: none; cursor: pointer; border-bottom: 1px solid var(--border); 
+            font-size: 14px; color: var(--text-primary); 
+        }
+        .dropdown-menu button:hover { background-color: var(--background); }
+        .opt-check { color: var(--success) !important; } .opt-del { color: var(--danger) !important; }
 
         /* Metas */
-        .meta-card { background: white; padding: 20px; border-radius: 16px; margin-bottom: 15px; border: 1px solid #eee; position: relative; }
-        .barra-fundo { width: 100%; height: 8px; background-color: #ecf0f1; border-radius: 4px; margin: 12px 0; overflow: hidden; }
-        .barra-progresso { height: 100%; background-color: #3498db; width: 0%; transition: width 1s; border-radius: 4px; }
-        .barra-completa { background-color: #27ae60 !important; }
-        .btn-depositar { margin-top: 5px; background-color: #e3f2fd; color: #2980b9; border: none; padding: 10px; width: 100%; border-radius: 8px; font-weight: bold; cursor: pointer; }
-        .btn-excluir-meta { position: absolute; top: 15px; right: 15px; background: none; border: none; color: #e74c3c; cursor: pointer; }
+        .meta-card { 
+            background: var(--card); padding: 20px; border-radius: 16px; 
+            margin-bottom: 15px; border: 1px solid var(--border); 
+            position: relative; box-shadow: var(--shadow); 
+        }
+        .barra-fundo { width: 100%; height: 8px; background-color: var(--border); border-radius: 4px; margin: 12px 0; overflow: hidden; }
+        .barra-progresso { height: 100%; background-color: var(--primary); width: 0%; transition: width 1s; border-radius: 4px; }
+        .barra-completa { background-color: var(--success) !important; }
+        .btn-depositar { 
+            margin-top: 5px; background-color: var(--background); color: var(--primary); 
+            border: 1px solid var(--primary); padding: 10px; width: 100%; 
+            border-radius: 8px; font-weight: bold; cursor: pointer; 
+        }
+        .btn-excluir-meta { position: absolute; top: 15px; right: 15px; background: none; border: none; color: var(--danger); cursor: pointer; }
 
-        /* MODAL MENU (Overlay) */
+        /* MODAL */
         .modal { display: none; position: fixed; z-index: 2000; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.5); align-items: flex-end; justify-content: center; backdrop-filter: blur(2px); }
-        .modal-content { background-color: white; padding: 25px 20px; border-radius: 25px 25px 0 0; width: 100%; max-width: 600px; animation: slideUp 0.3s; max-height: 85vh; overflow-y: auto; }
+        .modal-content { 
+            background-color: var(--card); padding: 25px 20px; border-radius: 25px 25px 0 0; 
+            width: 100%; max-width: 600px; animation: slideUp 0.3s; 
+            max-height: 85vh; overflow-y: auto; color: var(--text-primary); 
+        }
         @keyframes slideUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
         
         .menu-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 15px; }
-        .menu-option { background-color: #f8f9fa; padding: 20px; border-radius: 15px; text-align: center; cursor: pointer; border: 1px solid #eee; transition: 0.2s; }
-        .menu-option:active { background-color: #e9ecef; transform: scale(0.98); }
-        .menu-option i { font-size: 26px; margin-bottom: 8px; display: block; color: #34495e; }
+        .menu-option { 
+            background-color: var(--background); padding: 20px; border-radius: 15px; 
+            text-align: center; cursor: pointer; border: 1px solid var(--border); transition: 0.2s; 
+        }
+        .menu-option:active { transform: scale(0.98); }
+        .menu-option i { font-size: 26px; margin-bottom: 8px; display: block; color: var(--primary); }
         
-        .menu-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #eee; padding-bottom: 15px; margin-bottom: 10px; }
-        .close-modal { font-size: 24px; cursor: pointer; color: #bdc3c7; }
+        .menu-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border); padding-bottom: 15px; margin-bottom: 10px; }
+        .close-modal { font-size: 24px; cursor: pointer; color: var(--text-secondary); }
 
-        .config-section { margin-top: 25px; border-top: 1px solid #eee; padding-top: 20px; }
-        .btn-config { background-color: #fff; border: 1px solid #ddd; color: #333; width: 100%; padding: 12px; border-radius: 10px; margin-bottom: 10px; text-align: left; display: flex; align-items: center; gap: 12px; font-size: 14px; }
+        .config-section { margin-top: 25px; border-top: 1px solid var(--border); padding-top: 20px; }
+        .btn-config { 
+            background-color: var(--background); border: 1px solid var(--border); 
+            color: var(--text-primary); width: 100%; padding: 12px; border-radius: 10px; 
+            margin-bottom: 10px; text-align: left; display: flex; align-items: center; 
+            gap: 12px; font-size: 14px; cursor: pointer; 
+        }
         
-        /* MODAL APP INSTALL */
         .install-options { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 20px; }
         .btn-install-choice { padding: 20px; border-radius: 15px; border: none; cursor: pointer; font-weight: bold; color: white; display: flex; flex-direction: column; align-items: center; gap: 10px; font-size: 14px; }
-        .choice-android { background-color: #27ae60; box-shadow: 0 4px 10px rgba(39, 174, 96, 0.3); }
-        .choice-ios { background-color: #3498db; box-shadow: 0 4px 10px rgba(52, 152, 219, 0.3); }
+        .choice-android { background-color: var(--success); box-shadow: 0 4px 10px rgba(0,0,0,0.2); }
+        .choice-ios { background-color: var(--primary); box-shadow: 0 4px 10px rgba(0,0,0,0.2); }
         
-        .ios-help-box { background-color: #e3f2fd; padding: 15px; border-radius: 10px; margin-top: 20px; text-align: left; display: none; }
-        .ios-icon { font-size: 18px; margin: 0 5px; color: #2980b9; vertical-align: middle; }
+        .ios-help-box { background-color: var(--background); padding: 15px; border-radius: 10px; margin-top: 20px; text-align: left; display: none; border: 1px solid var(--border); }
+        .ios-icon { font-size: 18px; margin: 0 5px; color: var(--primary); vertical-align: middle; }
 
     </style>
 </head>
 <body>
+
+    <header>
+        <h2>Controle Financeiro</h2>
+    </header>
 
     <main>
         <div class="meses-container" id="barra-meses"></div>
@@ -140,13 +283,16 @@
                 <div class="card despesa"><h3>Saídas</h3><p id="dash-gastos">R$ 0,00</p></div>
                 <div class="card saldo-positivo" id="card-saldo"><h3>Saldo</h3><p id="dash-saldo">R$ 0,00</p></div>
             </div>
-            <div class="chart-container"><canvas id="financeChart"></canvas></div>
+            
+           <div class="chart-container" style="position: relative;">
+                <canvas id="financeChart"></canvas>
+           </div>
         </section>
 
         <section id="tela-receitas" class="tela">
             <h1>Receitas</h1>
             
-            <div class="form-container" style="border-left: 5px solid #27ae60;">
+            <div class="form-container" style="border-left: 5px solid var(--success);">
                 <div class="input-group">
                     <label>Salário Mensal (Fixo)</label>
                     <div class="input-row">
@@ -166,7 +312,7 @@
         </section>
 
         <section id="tela-contas" class="tela">
-            <h1>Contas Fixas</h1>
+            <h1>Contas</h1>
             <button id="btn-importar" class="btn-importar" onclick="importarContasMesAnterior()" style="display:none;">
                 <i class="fa-solid fa-copy"></i> Copiar contas do mês passado
             </button>
@@ -177,7 +323,7 @@
                 <div class="input-group"><label>Vencimento</label><input type="date" id="vencimento-conta"></div>
                 
                 <button id="btn-salvar-conta" class="btn-sucesso" onclick="adicionarConta()">Salvar Conta</button>
-                <button id="btn-cancelar-conta" onclick="cancelarEdicaoConta()" style="display:none; margin-top:10px; width:100%; padding:8px; background:#e74c3c;">Cancelar</button>
+                <button id="btn-cancelar-conta" onclick="cancelarEdicaoConta()" style="display:none; margin-top:10px; width:100%; padding:8px; background:var(--danger);">Cancelar</button>
             </div>
             <ul id="lista-visual-contas" class="lista-contas"></ul>
         </section>
@@ -185,7 +331,7 @@
         <section id="tela-gastos" class="tela">
             <h1>Gastos Diários</h1>
             <div class="form-container">
-                <div class="input-group"><label>Descrição (Ex: Uber, Mercado)</label><input type="text" id="gasto-nome"></div>
+                <div class="input-group"><label>Descrição</label><input type="text" id="gasto-nome"></div>
                 <div class="input-group"><label>Valor</label><input type="number" id="gasto-valor"></div>
                 <div class="input-group"><label>Data</label><input type="date" id="gasto-data"></div>
                 <button class="btn-sucesso" onclick="adicionarGastoDiario()">Salvar</button>
@@ -195,7 +341,7 @@
 
         <section id="tela-metas" class="tela">
             <h1>Metas Financeiras</h1>
-            <div class="form-container" style="border-left: 5px solid #3498db;">
+            <div class="form-container" style="border-left: 5px solid var(--primary);">
                 <div class="input-group"><label>Nome do Objetivo</label><input type="text" id="meta-nome"></div>
                 <div class="input-group"><label>Valor Total</label><input type="number" id="meta-valor"></div>
                 <button class="btn-sucesso" onclick="adicionarMeta()">Criar Meta</button>
@@ -206,11 +352,11 @@
         <section id="tela-emprestados" class="tela">
             <h1>Empréstimos</h1>
             <div class="form-container">
-                <div class="input-group"><label>Quem?</label><input type="text" id="emp-nome"></div>
+                <div class="input-group"><label>Emprestei para Quem?</label><input type="text" id="emp-nome"></div>
                 <div class="input-group"><label>Valor</label><input type="number" id="emp-valor"></div>
                 <div class="input-group"><label>Data Combinada</label><input type="date" id="emp-data"></div>
                 <button id="btn-salvar-emprestimo" class="btn-sucesso" onclick="salvarEmprestimo()">Salvar</button>
-                <button id="btn-cancelar-edicao" onclick="cancelarEdicao()" style="display:none; margin-top:10px; width:100%; padding:8px; background:#e74c3c;">Cancelar</button>
+                <button id="btn-cancelar-edicao" onclick="cancelarEdicao()" style="display:none; margin-top:10px; width:100%; padding:8px; background:var(--danger);">Cancelar</button>
             </div>
             <ul id="lista-visual-emprestimos" class="lista-contas"></ul>
         </section>
@@ -218,7 +364,7 @@
 
     <nav class="bottom-nav">
         <div class="nav-item active" onclick="navegar('dashboard', this)"><i class="fa-solid fa-chart-pie"></i>Dash</div>
-        <div class="nav-item" onclick="navegar('receitas', this)"><i class="fa-solid fa-sack-dollar"></i>Receita</div>
+        <div class="nav-item" onclick="navegar('receitas', this)"><i class="fa-solid fa-sack-dollar"></i>Ganhos</div>
         <div class="nav-item" onclick="navegar('contas', this)"><i class="fa-solid fa-file-invoice-dollar"></i>Contas</div>
         <div class="nav-item" onclick="navegar('gastos', this)"><i class="fa-solid fa-money-bill-wave"></i>Gastos</div>
         <div class="nav-item" onclick="abrirMenuMais()"><i class="fa-solid fa-bars"></i>Menu</div>
@@ -238,7 +384,11 @@
             </div>
 
             <div class="config-section">
-                <button class="btn-config" onclick="baixarBackup()"><i class="fa-solid fa-download"></i> Salvar Backup (Dados)</button>
+                <button class="btn-config" onclick="toggleDarkMode()">
+                    <i id="icon-theme" class="fa-solid fa-moon"></i> Alternar Tema
+                </button>
+
+                <button class="btn-config" onclick="baixarBackup()"><i class="fa-solid fa-download"></i> Salvar Backup</button>
                 <button class="btn-config" onclick="document.getElementById('input-restore').click()"><i class="fa-solid fa-upload"></i> Restaurar Backup</button>
                 <input type="file" id="input-restore" style="display:none;" onchange="restaurarBackup(this)">
                 <button class="btn-config" onclick="abrirModalInstall()"><i class="fa-solid fa-mobile-screen"></i> Baixar Aplicativo</button>
@@ -250,7 +400,7 @@
         <div class="modal-content">
             <div class="menu-header"><h3>Baixar App</h3><span class="close-modal" onclick="fecharModalInstall()">&times;</span></div>
             
-            <p style="text-align:center; color:#666;">Escolha seu sistema:</p>
+            <p style="text-align:center; color:var(--texto-secundario); margin-bottom:15px;">Escolha seu sistema:</p>
             <div class="install-options">
                 <button class="btn-install-choice choice-android" onclick="tentarInstallAndroid()">
                     <i class="fa-brands fa-android" style="font-size:30px;"></i> Android
@@ -266,7 +416,7 @@
                 <p>3. Escolha <strong>"Adicionar à Tela de Início"</strong> <i class="fa-regular fa-square-plus ios-icon"></i>.</p>
             </div>
             
-            <div id="android-help" class="ios-help-box" style="background-color: #e8f5e9; border: 1px solid #c8e6c9;">
+            <div id="android-help" class="ios-help-box" style="background-color: var(--background); border: 1px solid var(--success);">
                 <p><i class="fa-solid fa-circle-exclamation"></i> Se o download não iniciou:</p>
                 <p>Toque nos <strong>3 pontinhos</strong> do navegador e escolha <strong>"Instalar aplicativo"</strong>.</p>
             </div>
@@ -298,6 +448,24 @@
             verificarBotaoImportar();
         }
 
+        // --- DARK MODE ---
+        if (localStorage.getItem('financas_tema') === 'dark' || (!localStorage.getItem('financas_tema') && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            document.documentElement.setAttribute('data-theme', 'dark');
+            document.getElementById('icon-theme').classList.replace('fa-moon', 'fa-sun');
+        }
+
+        function toggleDarkMode() {
+            const current = document.documentElement.getAttribute('data-theme');
+            const target = current === 'dark' ? 'light' : 'dark';
+            document.documentElement.setAttribute('data-theme', target);
+            localStorage.setItem('financas_tema', target);
+            
+            const icon = document.getElementById('icon-theme');
+            if(target === 'dark') { icon.classList.replace('fa-moon', 'fa-sun'); }
+            else { icon.classList.replace('fa-sun', 'fa-moon'); }
+            atualizarGrafico(); 
+        }
+
         // --- DADOS ---
         let dadosGlobais = JSON.parse(localStorage.getItem('financas_db_v5')) || { salarios: {}, extras: [], contas: [], gastos: [], emprestimos: [], metas: [] };
         function salvarDB() { localStorage.setItem('financas_db_v5', JSON.stringify(dadosGlobais)); atualizarGrafico(); }
@@ -310,11 +478,19 @@
         }
         function abrirMenuMais() { document.getElementById('modal-mais').style.display = 'flex'; }
         function fecharMenuMais() { document.getElementById('modal-mais').style.display = 'none'; }
-        
         function abrirModalInstall() { fecharMenuMais(); document.getElementById('modal-install').style.display = 'flex'; }
         function fecharModalInstall() { document.getElementById('modal-install').style.display = 'none'; }
 
-        // --- BACKUP / IMPORTAR ---
+        // --- INSTALAÇÃO ---
+        let deferredPrompt;
+        window.addEventListener('beforeinstallprompt', (e) => { e.preventDefault(); deferredPrompt = e; });
+        async function tentarInstallAndroid() {
+            if(deferredPrompt) { deferredPrompt.prompt(); deferredPrompt = null; } 
+            else { document.getElementById('android-help').style.display = 'block'; }
+        }
+        function mostrarHelpIOS() { document.getElementById('ios-help').style.display = 'block'; }
+
+        // --- BACKUP ---
         function baixarBackup() {
             const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(dadosGlobais));
             const dl = document.createElement('a'); dl.setAttribute("href", dataStr); dl.setAttribute("download", "backup_financas.json");
@@ -345,7 +521,7 @@
             const valor = parseFloat(input.value);
             if(!isNaN(valor)) {
                 dadosGlobais.salarios[mesSelecionado] = valor; salvarDB(); atualizarInterfaceGeral();
-                // Feedback Visual
+                // EFEITO VISUAL DE SUCESSO
                 btn.classList.add('saved'); btn.innerHTML = '<i class="fa-solid fa-check-double"></i>';
                 setTimeout(() => { btn.classList.remove('saved'); btn.innerHTML = '<i class="fa-solid fa-check"></i>'; }, 2000);
             }
@@ -434,7 +610,7 @@
             const fmt = { style: 'currency', currency: 'BRL' };
             const render = (lista, elId, tipo, border, color) => {
                 const el = document.getElementById(elId); el.innerHTML = "";
-                if(lista.length === 0) el.innerHTML = "<p style='text-align:center; color:#ccc; font-size:12px; margin-top:10px;'>Vazio</p>";
+                if(lista.length === 0) el.innerHTML = "<p style='text-align:center; color:var(--text-secondary); font-size:12px; margin-top:10px;'>Vazio</p>";
                 lista.forEach(item => {
                     let st = ""; let txtBtn = "Concluir"; let icon = "fa-check";
                     if(item.pago) { st = "riscado"; txtBtn = "Reabrir"; }
@@ -448,7 +624,7 @@
                     <li class="item-conta ${border} ${st}">
                         <div class="conta-info"><strong>${item.nome || item.desc}</strong><small>${dataShow}</small></div>
                         <div style="display:flex; align-items:center;">
-                            <strong style="margin-right:10px; color:${color}">${item.valor.toLocaleString('pt-BR', fmt)}</strong>
+                            <strong style="margin-right:10px; color:var(--${color === 'var(--primary)' ? 'primary' : (color === 'var(--success)' ? 'success' : (color === 'var(--danger)' ? 'danger' : 'warning'))})">${item.valor.toLocaleString('pt-BR', fmt)}</strong>
                             <div style="position:relative;">
                                 <button class="btn-more" onclick="abrirDropdown('${tipo}', ${item.id})"><i class="fa-solid fa-ellipsis-vertical"></i></button>
                                 <div id="drop-${tipo}-${item.id}" class="dropdown-menu">
@@ -461,10 +637,11 @@
                     </li>`;
                 });
             };
-            render(dadosGlobais.extras.filter(i => i.mesRef === mesSelecionado), 'lista-visual-extras', 'extra', 'border-green', '#27ae60');
-            render(dadosGlobais.contas.filter(i => i.mesRef === mesSelecionado), 'lista-visual-contas', 'conta', 'border-red', '#c0392b');
-            render(dadosGlobais.gastos.filter(i => i.mesRef === mesSelecionado), 'lista-visual-gastos', 'gasto', 'border-orange', '#e67e22');
-            render(dadosGlobais.emprestimos, 'lista-visual-emprestimos', 'emp', 'border-blue', '#2980b9');
+            // Usando variáveis de cor para a função render
+            render(dadosGlobais.extras.filter(i => i.mesRef === mesSelecionado), 'lista-visual-extras', 'extra', 'border-green', 'var(--success)');
+            render(dadosGlobais.contas.filter(i => i.mesRef === mesSelecionado), 'lista-visual-contas', 'conta', 'border-red', 'var(--danger)');
+            render(dadosGlobais.gastos.filter(i => i.mesRef === mesSelecionado), 'lista-visual-gastos', 'gasto', 'border-orange', 'var(--warning)');
+            render(dadosGlobais.emprestimos, 'lista-visual-emprestimos', 'emp', 'border-blue', 'var(--primary)');
         }
 
         function renderizarMetas() {
@@ -489,27 +666,43 @@
         let financeChart;
         function atualizarGrafico() {
             const ctx = document.getElementById('financeChart').getContext('2d');
-            const labels = []; const dEnt = []; const dSai = [];
-            for (let i = 0; i < 12; i++) {
-                let chave = `${anoFixo}-${String(i + 1).padStart(2, '0')}`;
-                let sal = dadosGlobais.salarios[chave] || 0;
-                let ext = dadosGlobais.extras.filter(e => e.mesRef === chave).reduce((a,b)=>a+b.valor,0);
-                let con = dadosGlobais.contas.filter(c => c.mesRef === chave).reduce((a,b)=>a+b.valor,0);
-                let gas = dadosGlobais.gastos.filter(g => g.mesRef === chave).reduce((a,b)=>a+b.valor,0);
-                dEnt.push(sal + ext); dSai.push(con + gas); labels.push(mesesNomes[i]);
-            }
-            if(financeChart) financeChart.destroy();
-            financeChart = new Chart(ctx, { type: 'bar', data: { labels: labels, datasets: [{ label: 'Entrada', data: dEnt, backgroundColor: '#27ae60' }, { label: 'Saída', data: dSai, backgroundColor: '#c0392b' }] }, options: { responsive: true, maintainAspectRatio: false } });
-        }
+            const style = getComputedStyle(document.body);
+            const corEntrada = style.getPropertyValue('--success').trim();
+            const corSaida = style.getPropertyValue('--danger').trim();
+            const corTexto = style.getPropertyValue('--text-secondary').trim();
 
-        // --- INSTALL LOGIC ---
-        let deferredPrompt;
-        window.addEventListener('beforeinstallprompt', (e) => { e.preventDefault(); deferredPrompt = e; });
-        async function tentarInstallAndroid() {
-            if(deferredPrompt) { deferredPrompt.prompt(); deferredPrompt = null; } 
-            else { document.getElementById('android-help').style.display = 'block'; }
+            // Dados do Mês Selecionado
+            const salarioMes = dadosGlobais.salarios[mesSelecionado] || 0;
+            const extrasMes = dadosGlobais.extras.filter(i => i.mesRef === mesSelecionado).reduce((a,b)=>a+b.valor,0);
+            const empRecebidos = dadosGlobais.emprestimos.filter(e => e.recebido).reduce((a,b)=>a+b.valor,0);
+            const receitaTotal = salarioMes + extrasMes + empRecebidos;
+
+            const contasMes = dadosGlobais.contas.filter(c => c.mesRef === mesSelecionado && !c.pago).reduce((a,b)=>a+b.valor,0);
+            const gastosMes = dadosGlobais.gastos.filter(i => i.mesRef === mesSelecionado).reduce((a,b)=>a+b.valor,0);
+            const totalSaida = contasMes + gastosMes;
+
+            if(financeChart) financeChart.destroy();
+            financeChart = new Chart(ctx, { 
+                type: 'doughnut', 
+                data: { 
+                    labels: ['Entradas', 'Saídas'], 
+                    datasets: [{ 
+                        data: [receitaTotal, totalSaida], 
+                        backgroundColor: [corEntrada, corSaida],
+                        borderWidth: 0,
+                        hoverOffset: 4
+                    }] 
+                }, 
+                options: { 
+                    responsive: true, 
+                    maintainAspectRatio: false, 
+                    plugins: { 
+                        legend: { position: 'bottom', labels: { color: corTexto, font: { size: 12 } } } 
+                    },
+                    cutout: '70%' // Deixa o furo da rosca maior
+                } 
+            });
         }
-        function mostrarHelpIOS() { document.getElementById('ios-help').style.display = 'block'; }
 
         // START
         gerarBarraMeses(); atualizarInterfaceGeral(); renderizarListasIndividuais(); renderizarMetas(); atualizarGrafico();
