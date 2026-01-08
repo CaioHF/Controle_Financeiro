@@ -56,231 +56,143 @@
            2. ESTILOS GERAIS
            ========================================= */
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', 'Segoe UI', sans-serif; -webkit-tap-highlight-color: transparent; }
-        
-        body { 
-            background-color: var(--background); 
-            color: var(--text-primary);
-            min-height: 100vh; 
-            padding-bottom: 90px; /* Espaço nav inferior */
-            padding-top: 60px;    /* Espaço header superior */
-            transition: background 0.3s, color 0.3s;
-        }
-
+        body { background-color: var(--background); color: var(--text-primary); min-height: 100vh; padding-bottom: 90px; padding-top: 60px; transition: background 0.3s, color 0.3s; }
         main { padding: 20px; max-width: 800px; margin: 0 auto; width: 100%; }
+        h1, h2, h3, h4, strong { color: var(--text-primary); font-weight: 700; } p, small, label { color: var(--text-secondary); }
 
-        h1, h2, h3, h4, strong { color: var(--text-primary); font-weight: 700; }
-        p, small, label { color: var(--text-secondary); }
+        /* --- HEADER --- */
+        header { position: fixed; top: 0; left: 0; width: 100%; height: 60px; background-color: var(--nav-bg); border-bottom: 1px solid var(--border); display: flex; justify-content: center; align-items: center; z-index: 1000; box-shadow: var(--shadow); transition: background 0.3s; }
+        header h2 { font-size: 18px; margin: 0; color: var(--primary); text-transform: uppercase; letter-spacing: 1px; }
 
-        /* --- HEADER SUPERIOR --- */
-        header {
-            position: fixed; top: 0; left: 0; width: 100%; height: 60px;
-            background-color: var(--primary); border-bottom: 1px solid var(--border);
-            display: flex; justify-content: center; align-items: center;
-            z-index: 1000; box-shadow: var(--shadow);
-            transition: background 0.3s;
-        }
-        header h2 { font-size: 18px; margin: 0; color: var(--nav-bg); text-transform: uppercase; letter-spacing: 1px; }
-
-        /* --- BARRA DE NAVEGAÇÃO INFERIOR --- */
-        .bottom-nav {
-            position: fixed; bottom: 0; left: 0; width: 100%; height: 70px;
-            background-color: var(--nav-bg); border-top: 1px solid var(--border);
-            display: flex; justify-content: space-around; align-items: center;
-            z-index: 1000; box-shadow: 0 -4px 20px rgba(0,0,0,0.05);
-            transition: background 0.3s;
-        }
-        .nav-item {
-            display: flex; flex-direction: column; align-items: center; justify-content: center;
-            color: var(--text-secondary); font-size: 10px; cursor: pointer; width: 20%; height: 100%; transition: 0.2s;
-        }
+        /* --- BOTTOM NAV --- */
+        .bottom-nav { position: fixed; bottom: 0; left: 0; width: 100%; height: 70px; background-color: var(--nav-bg); border-top: 1px solid var(--border); display: flex; justify-content: space-around; align-items: center; z-index: 1000; box-shadow: 0 -4px 20px rgba(0,0,0,0.05); transition: background 0.3s; }
+        .nav-item { display: flex; flex-direction: column; align-items: center; justify-content: center; color: var(--text-secondary); font-size: 10px; cursor: pointer; width: 20%; height: 100%; transition: 0.2s; }
         .nav-item i { font-size: 22px; margin-bottom: 5px; }
         .nav-item.active { color: var(--primary); font-weight: bold; }
         .nav-item.active i { transform: translateY(-2px); }
 
-        /* --- BARRA DE MESES --- */
-        .meses-container {
-            display: flex; overflow-x: auto; gap: 8px; padding: 15px 0; 
-            scrollbar-width: none; background: var(--background); 
-            position: sticky; top: 60px; /* Logo abaixo do header */
-            z-index: 90; transition: background 0.3s;
-        }
+        /* --- MESES --- */
+        .meses-container { display: flex; overflow-x: auto; gap: 8px; padding: 15px 0; scrollbar-width: none; background: var(--background); position: sticky; top: 60px; z-index: 90; transition: background 0.3s; }
         .meses-container::-webkit-scrollbar { display: none; }
-        .mes-pill {
-            background-color: var(--card); color: var(--text-secondary); 
-            padding: 8px 18px; border-radius: 20px;
-            white-space: nowrap; cursor: pointer; border: 1px solid var(--border); 
-            font-weight: 600; font-size: 13px; box-shadow: var(--shadow); transition: 0.3s;
-        }
-        .mes-pill.mes-ativo { 
-            background-color: var(--primary); color: #fff; border-color: var(--primary); transform: scale(1.05); 
-        }
+        .mes-pill { background-color: var(--card); color: var(--text-secondary); padding: 8px 18px; border-radius: 20px; white-space: nowrap; cursor: pointer; border: 1px solid var(--border); font-weight: 600; font-size: 13px; box-shadow: var(--shadow); transition: 0.3s; }
+        .mes-pill.mes-ativo { background-color: var(--primary); color: #fff; border-color: var(--primary); transform: scale(1.05); }
 
-        /* --- CARDS & UI --- */
+        /* --- CARDS DASHBOARD --- */
         .tela { display: none; animation: fadeIn 0.3s; } .tela-ativa { display: block; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
         
-        .resumo-cards { display: flex; gap: 15px; flex-wrap: wrap; margin-bottom: 25px; }
+        .resumo-cards { display: flex; flex-direction: column; gap: 15px; margin-bottom: 25px; }
         .card { 
-            background: var(--card); padding: 20px; border-radius: 16px; 
-            flex: 1; min-width: 140px; box-shadow: var(--shadow); 
-            text-align: center; border: 1px solid var(--border); 
+            background: var(--card); padding: 25px; border-radius: 16px; 
+            width: 100%; 
+            box-shadow: var(--shadow); text-align: center; border: 1px solid var(--border); 
+            cursor: pointer; transition: transform 0.1s;
         }
-        .card h3 { color: var(--text-secondary); font-size: 11px; margin-bottom: 8px; text-transform: uppercase; letter-spacing: 1px; }
-        .card p { font-size: 24px; font-weight: 800; color: var(--text-primary); }
+        .card:active { transform: scale(0.98); }
+        .card h3 { color: var(--text-secondary); font-size: 12px; margin-bottom: 8px; text-transform: uppercase; letter-spacing: 1px; }
+        .card p { font-size: 28px; font-weight: 800; color: var(--text-primary); word-break: break-all; }
         
-        .ganho p { color: var(--success) !important; } 
-        .despesa p { color: var(--danger) !important; } 
-        .saldo-positivo p { color: var(--primary) !important; } 
-        .saldo-negativo p { color: var(--danger) !important; }
+        .ganho p { color: var(--success) !important; } .despesa p { color: var(--danger) !important; } 
+        .saldo-positivo p { color: var(--primary) !important; } .saldo-negativo p { color: var(--danger) !important; }
 
-        /* Formulários */
-        .form-container { 
-            background: var(--card); padding: 20px; border-radius: 16px; 
-            box-shadow: var(--shadow); margin-bottom: 25px; border: 1px solid var(--border); 
-        }
+        /* --- FORMULÁRIOS & BOTÕES --- */
+        .form-container { background: var(--card); padding: 20px; border-radius: 16px; box-shadow: var(--shadow); margin-bottom: 25px; border: 1px solid var(--border); }
         .input-group { margin-bottom: 15px; }
         .input-group label { display: block; margin-bottom: 6px; color: var(--text-secondary); font-size: 12px; font-weight: 600; text-transform: uppercase; }
-        .input-group input { 
-            width: 100%; padding: 12px; border: 1px solid var(--border); 
-            border-radius: 10px; outline: none; font-size: 16px; transition: 0.3s; 
-            background-color: var(--background); color: var(--text-primary);
-        }
+        .input-group input { width: 100%; padding: 12px; border: 1px solid var(--border); border-radius: 10px; outline: none; font-size: 16px; transition: 0.3s; background-color: var(--background); color: var(--text-primary); }
         .input-group input:focus { border-color: var(--primary); }
         
-        /* Botões */
-        button.btn-sucesso { 
-            background-color: var(--primary); color: #fff; border: none; 
-            padding: 14px; border-radius: 10px; cursor: pointer; width: 100%; 
-            font-size: 16px; font-weight: bold; box-shadow: 0 4px 10px rgba(0,0,0,0.1); 
-        }
+        button.btn-sucesso { background-color: var(--primary); color: #fff; border: none; padding: 14px; border-radius: 10px; cursor: pointer; width: 100%; font-size: 16px; font-weight: bold; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
         button.btn-sucesso:active { transform: scale(0.98); }
-        
         button.btn-editar { background-color: var(--warning); color: #fff; }
+        button.btn-importar { background-color: var(--secondary); color: #fff; border: 1px solid var(--border); padding: 12px; border-radius: 10px; width: 100%; margin-bottom: 15px; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; font-size: 14px; }
         
-        button.btn-importar { 
-            background-color: var(--secondary); color: #fff; 
-            border: 1px solid var(--border); padding: 12px; border-radius: 10px; 
-            width: 100%; margin-bottom: 15px; cursor: pointer; 
-            display: flex; align-items: center; justify-content: center; gap: 8px; font-size: 14px; 
-        }
-
-        /* Check Salário */
         .input-row { display: flex; gap: 10px; align-items: center; }
-        .btn-check { 
-            background-color: var(--secondary); color: #fff; border: none; 
-            width: 50px; height: 46px; border-radius: 10px; cursor: pointer; 
-            font-size: 18px; transition: 0.3s; 
-        }
+        .btn-check { background-color: var(--secondary); color: #fff; border: none; width: 50px; height: 46px; border-radius: 10px; cursor: pointer; font-size: 18px; transition: 0.3s; }
         .btn-check.saved { background-color: var(--success); }
 
-        /* Listas */
+        /* --- LISTAS & DROPDOWN --- */
         .lista-contas { list-style: none; } 
-        .item-conta { 
-            background: var(--card); padding: 15px; border-radius: 12px; margin-bottom: 10px; 
-            display: flex; justify-content: space-between; align-items: center; 
-            border: 1px solid var(--border); box-shadow: 0 2px 4px rgba(0,0,0,0.02);
-        }
-        .conta-info strong { display: block; font-size: 15px; margin-bottom: 3px; color: var(--text-primary); } 
-        .conta-info small { font-size: 12px; color: var(--text-secondary); }
-        
-        .border-green { border-left: 4px solid var(--success); } 
-        .border-red { border-left: 4px solid var(--danger); } 
-        .border-orange { border-left: 4px solid var(--warning); } 
-        .border-blue { border-left: 4px solid var(--primary); }
-        
-        .riscado { opacity: 0.5; text-decoration: line-through; background-color: var(--background); } 
-        .riscado .border-red { border-left-color: var(--border); } 
+        .item-conta { background: var(--card); padding: 15px; border-radius: 12px; margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center; border: 1px solid var(--border); box-shadow: 0 2px 4px rgba(0,0,0,0.02); }
+        .conta-info strong { display: block; font-size: 15px; margin-bottom: 3px; color: var(--text-primary); } .conta-info small { font-size: 12px; color: var(--text-secondary); }
+        .border-green { border-left: 4px solid var(--success); } .border-red { border-left: 4px solid var(--danger); } .border-orange { border-left: 4px solid var(--warning); } .border-blue { border-left: 4px solid var(--primary); }
+        .riscado { opacity: 0.5; text-decoration: line-through; background-color: var(--background); } .riscado .border-red { border-left-color: var(--border); } 
 
         .btn-more { background: none; border: none; font-size: 18px; color: var(--text-secondary); cursor: pointer; padding: 5px 10px; }
+        
         .dropdown-menu { 
-            display: none; position: absolute; right: 40px; 
+            display: none; position: absolute; right: 40px; bottom: 100%; /* Joga para cima */
             background-color: var(--card); min-width: 140px; 
-            box-shadow: var(--shadow); z-index: 50; border-radius: 10px; 
-            overflow: hidden; border: 1px solid var(--border);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3); z-index: 9999; 
+            border-radius: 10px; overflow: hidden; border: 1px solid var(--border);
+            margin-bottom: 5px;
         }
         .dropdown-menu.show { display: block; }
-        .dropdown-menu button { 
-            width: 100%; padding: 12px 15px; text-align: left; background: none; 
-            border: none; cursor: pointer; border-bottom: 1px solid var(--border); 
-            font-size: 14px; color: var(--text-primary); 
-        }
+        .dropdown-menu button { width: 100%; padding: 12px 15px; text-align: left; background: none; border: none; cursor: pointer; border-bottom: 1px solid var(--border); font-size: 14px; color: var(--text-primary); }
         .dropdown-menu button:hover { background-color: var(--background); }
         .opt-check { color: var(--success) !important; } .opt-del { color: var(--danger) !important; }
 
-        /* Metas */
-        .meta-card { 
-            background: var(--card); padding: 20px; border-radius: 16px; 
-            margin-bottom: 15px; border: 1px solid var(--border); 
-            position: relative; box-shadow: var(--shadow); 
-        }
+        /* --- METAS --- */
+        .meta-card { background: var(--card); padding: 20px; border-radius: 16px; margin-bottom: 15px; border: 1px solid var(--border); position: relative; box-shadow: var(--shadow); }
         .barra-fundo { width: 100%; height: 8px; background-color: var(--border); border-radius: 4px; margin: 12px 0; overflow: hidden; }
         .barra-progresso { height: 100%; background-color: var(--primary); width: 0%; transition: width 1s; border-radius: 4px; }
         .barra-completa { background-color: var(--success) !important; }
-        .btn-depositar { 
-            margin-top: 5px; background-color: var(--background); color: var(--primary); 
-            border: 1px solid var(--primary); padding: 10px; width: 100%; 
-            border-radius: 8px; font-weight: bold; cursor: pointer; 
-        }
+        .btn-depositar { margin-top: 5px; background-color: var(--background); color: var(--primary); border: 1px solid var(--primary); padding: 10px; width: 100%; border-radius: 8px; font-weight: bold; cursor: pointer; }
         .btn-excluir-meta { position: absolute; top: 15px; right: 15px; background: none; border: none; color: var(--danger); cursor: pointer; }
 
-        /* MODAL */
+        /* --- MODAIS GERAIS --- */
         .modal { display: none; position: fixed; z-index: 2000; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.5); align-items: flex-end; justify-content: center; backdrop-filter: blur(2px); }
-        .modal-content { 
-            background-color: var(--card); padding: 25px 20px; border-radius: 25px 25px 0 0; 
-            width: 100%; max-width: 600px; animation: slideUp 0.3s; 
-            max-height: 85vh; overflow-y: auto; color: var(--text-primary); 
-        }
+        .modal-content { background-color: var(--card); padding: 25px 20px; border-radius: 25px 25px 0 0; width: 100%; max-width: 600px; animation: slideUp 0.3s; max-height: 85vh; overflow-y: auto; color: var(--text-primary); }
         @keyframes slideUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
-        
         .menu-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 15px; }
-        .menu-option { 
-            background-color: var(--background); padding: 20px; border-radius: 15px; 
-            text-align: center; cursor: pointer; border: 1px solid var(--border); transition: 0.2s; 
-        }
+        .menu-option { background-color: var(--background); padding: 20px; border-radius: 15px; text-align: center; cursor: pointer; border: 1px solid var(--border); transition: 0.2s; }
         .menu-option:active { transform: scale(0.98); }
         .menu-option i { font-size: 26px; margin-bottom: 8px; display: block; color: var(--primary); }
-        
         .menu-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border); padding-bottom: 15px; margin-bottom: 10px; }
         .close-modal { font-size: 24px; cursor: pointer; color: var(--text-secondary); }
-
         .config-section { margin-top: 25px; border-top: 1px solid var(--border); padding-top: 20px; }
-        .btn-config { 
-            background-color: var(--background); border: 1px solid var(--border); 
-            color: var(--text-primary); width: 100%; padding: 12px; border-radius: 10px; 
-            margin-bottom: 10px; text-align: left; display: flex; align-items: center; 
-            gap: 12px; font-size: 14px; cursor: pointer; 
-        }
-        
+        .btn-config { background-color: var(--background); border: 1px solid var(--border); color: var(--text-primary); width: 100%; padding: 12px; border-radius: 10px; margin-bottom: 10px; text-align: left; display: flex; align-items: center; gap: 12px; font-size: 14px; cursor: pointer; }
         .install-options { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 20px; }
         .btn-install-choice { padding: 20px; border-radius: 15px; border: none; cursor: pointer; font-weight: bold; color: white; display: flex; flex-direction: column; align-items: center; gap: 10px; font-size: 14px; }
         .choice-android { background-color: var(--success); box-shadow: 0 4px 10px rgba(0,0,0,0.2); }
         .choice-ios { background-color: var(--primary); box-shadow: 0 4px 10px rgba(0,0,0,0.2); }
-        
         .ios-help-box { background-color: var(--background); padding: 15px; border-radius: 10px; margin-top: 20px; text-align: left; display: none; border: 1px solid var(--border); }
         .ios-icon { font-size: 18px; margin: 0 5px; color: var(--primary); vertical-align: middle; }
+
+        /* LISTA RELATÓRIO */
+        .relatorio-lista { list-style: none; margin-top: 10px; }
+        .relatorio-item { display: flex; justify-content: space-between; padding: 12px 0; border-bottom: 1px solid var(--border); }
+        .relatorio-item span { font-weight: 500; }
+        .relatorio-total { margin-top: 15px; text-align: right; font-size: 18px; font-weight: bold; color: var(--text-primary); }
 
     </style>
 </head>
 <body>
 
-    <header>
-        <h2>Controle Financeiro</h2>
-    </header>
+    <header><h2>Controle Financeiro</h2></header>
 
     <main>
         <div class="meses-container" id="barra-meses"></div>
 
         <section id="tela-dashboard" class="tela tela-ativa">
             <div class="resumo-cards">
-                <div class="card ganho"><h3>Entradas</h3><p id="dash-receita">R$ 0,00</p></div>
-                <div class="card despesa"><h3>Saídas</h3><p id="dash-gastos">R$ 0,00</p></div>
-                <div class="card saldo-positivo" id="card-saldo"><h3>Saldo</h3><p id="dash-saldo">R$ 0,00</p></div>
+                <div class="card ganho" onclick="abrirRelatorio('entrada')">
+                    <h3>Entradas <i class="fa-solid fa-circle-info" style="font-size:10px;"></i></h3>
+                    <p id="dash-receita">R$ 0,00</p>
+                </div>
+                <div class="card despesa" onclick="abrirRelatorio('saida')">
+                    <h3>Saídas <i class="fa-solid fa-circle-info" style="font-size:10px;"></i></h3>
+                    <p id="dash-gastos">R$ 0,00</p>
+                </div>
+                <div class="card saldo-positivo" id="card-saldo">
+                    <h3>Saldo</h3>
+                    <p id="dash-saldo">R$ 0,00</p>
+                </div>
             </div>
         </section>
 
         <section id="tela-receitas" class="tela">
-            <h1>Ganhos</h1>
-            
+            <h1>Receitas</h1>
             <div class="form-container" style="border-left: 5px solid var(--success);">
                 <div class="input-group">
                     <label>Salário Mensal (Fixo)</label>
@@ -290,7 +202,6 @@
                     </div>
                 </div>
             </div>
-
             <div class="form-container">
                 <h4>Ganho Extra</h4>
                 <div class="input-group"><label>Descrição</label><input type="text" id="extra-desc"></div>
@@ -301,16 +212,12 @@
         </section>
 
         <section id="tela-contas" class="tela">
-            <h1>Contas</h1>
-            <button id="btn-importar" class="btn-importar" onclick="importarContasMesAnterior()" style="display:none;">
-                <i class="fa-solid fa-copy"></i> Copiar contas do mês passado
-            </button>
-
+            <h1>Contas Fixas</h1>
+            <button id="btn-importar" class="btn-importar" onclick="importarContasMesAnterior()" style="display:none;"><i class="fa-solid fa-copy"></i> Copiar contas do mês passado</button>
             <div class="form-container">
                 <div class="input-group"><label>Nome da Conta</label><input type="text" id="nome-conta"></div>
                 <div class="input-group"><label>Valor</label><input type="number" id="valor-conta"></div>
                 <div class="input-group"><label>Vencimento</label><input type="date" id="vencimento-conta"></div>
-                
                 <button id="btn-salvar-conta" class="btn-sucesso" onclick="adicionarConta()">Salvar Conta</button>
                 <button id="btn-cancelar-conta" onclick="cancelarEdicaoConta()" style="display:none; margin-top:10px; width:100%; padding:8px; background:var(--danger);">Cancelar</button>
             </div>
@@ -320,7 +227,7 @@
         <section id="tela-gastos" class="tela">
             <h1>Gastos Diários</h1>
             <div class="form-container">
-                <div class="input-group"><label>Descrição</label><input type="text" id="gasto-nome"></div>
+                <div class="input-group"><label>Descrição (Ex: Uber, Mercado)</label><input type="text" id="gasto-nome"></div>
                 <div class="input-group"><label>Valor</label><input type="number" id="gasto-valor"></div>
                 <div class="input-group"><label>Data</label><input type="date" id="gasto-data"></div>
                 <button class="btn-sucesso" onclick="adicionarGastoDiario()">Salvar</button>
@@ -353,7 +260,7 @@
 
     <nav class="bottom-nav">
         <div class="nav-item active" onclick="navegar('dashboard', this)"><i class="fa-solid fa-chart-pie"></i>Dash</div>
-        <div class="nav-item" onclick="navegar('receitas', this)"><i class="fa-solid fa-sack-dollar"></i>Ganhos</div>
+        <div class="nav-item" onclick="navegar('receitas', this)"><i class="fa-solid fa-sack-dollar"></i>Receitas</div>
         <div class="nav-item" onclick="navegar('contas', this)"><i class="fa-solid fa-file-invoice-dollar"></i>Contas</div>
         <div class="nav-item" onclick="navegar('gastos', this)"><i class="fa-solid fa-money-bill-wave"></i>Gastos</div>
         <div class="nav-item" onclick="abrirMenuMais()"><i class="fa-solid fa-bars"></i>Menu</div>
@@ -362,21 +269,12 @@
     <div id="modal-mais" class="modal">
         <div class="modal-content">
             <div class="menu-header"><h3>Menu</h3><span class="close-modal" onclick="fecharMenuMais()">&times;</span></div>
-            
             <div class="menu-grid">
-                <div class="menu-option" onclick="navegar('metas'); fecharMenuMais()">
-                    <i class="fa-solid fa-bullseye"></i> Metas
-                </div>
-                <div class="menu-option" onclick="navegar('emprestados'); fecharMenuMais()">
-                    <i class="fa-solid fa-hand-holding-dollar"></i> Empréstimos
-                </div>
+                <div class="menu-option" onclick="navegar('metas'); fecharMenuMais()"><i class="fa-solid fa-bullseye"></i> Metas</div>
+                <div class="menu-option" onclick="navegar('emprestados'); fecharMenuMais()"><i class="fa-solid fa-hand-holding-dollar"></i> Empréstimos</div>
             </div>
-
             <div class="config-section">
-                <button class="btn-config" onclick="toggleDarkMode()">
-                    <i id="icon-theme" class="fa-solid fa-moon"></i> Alternar Tema
-                </button>
-
+                <button class="btn-config" onclick="toggleDarkMode()"><i id="icon-theme" class="fa-solid fa-moon"></i> Alternar Tema</button>
                 <button class="btn-config" onclick="baixarBackup()"><i class="fa-solid fa-download"></i> Salvar Backup</button>
                 <button class="btn-config" onclick="document.getElementById('input-restore').click()"><i class="fa-solid fa-upload"></i> Restaurar Backup</button>
                 <input type="file" id="input-restore" style="display:none;" onchange="restaurarBackup(this)">
@@ -388,27 +286,26 @@
     <div id="modal-install" class="modal">
         <div class="modal-content">
             <div class="menu-header"><h3>Baixar App</h3><span class="close-modal" onclick="fecharModalInstall()">&times;</span></div>
-            
-            <p style="text-align:center; color:var(--texto-secundario); margin-bottom:15px;">Escolha seu sistema:</p>
             <div class="install-options">
-                <button class="btn-install-choice choice-android" onclick="tentarInstallAndroid()">
-                    <i class="fa-brands fa-android" style="font-size:30px;"></i> Android
-                </button>
-                <button class="btn-install-choice choice-ios" onclick="mostrarHelpIOS()">
-                    <i class="fa-brands fa-apple" style="font-size:30px;"></i> iPhone
-                </button>
+                <button class="btn-install-choice choice-android" onclick="tentarInstallAndroid()"><i class="fa-brands fa-android" style="font-size:30px;"></i> Android</button>
+                <button class="btn-install-choice choice-ios" onclick="mostrarHelpIOS()"><i class="fa-brands fa-apple" style="font-size:30px;"></i> iPhone</button>
             </div>
-
             <div id="ios-help" class="ios-help-box">
                 <p>1. Abra no <strong>Safari</strong>.</p>
                 <p>2. Toque em <strong>Compartilhar</strong> <i class="fa-solid fa-arrow-up-from-bracket ios-icon"></i>.</p>
                 <p>3. Escolha <strong>"Adicionar à Tela de Início"</strong> <i class="fa-regular fa-square-plus ios-icon"></i>.</p>
             </div>
-            
             <div id="android-help" class="ios-help-box" style="background-color: var(--background); border: 1px solid var(--success);">
-                <p><i class="fa-solid fa-circle-exclamation"></i> Se o download não iniciou:</p>
                 <p>Toque nos <strong>3 pontinhos</strong> do navegador e escolha <strong>"Instalar aplicativo"</strong>.</p>
             </div>
+        </div>
+    </div>
+
+    <div id="modal-relatorio" class="modal">
+        <div class="modal-content">
+            <div class="menu-header"><h3 id="titulo-relatorio">Detalhes</h3><span class="close-modal" onclick="document.getElementById('modal-relatorio').style.display='none'">&times;</span></div>
+            <ul id="lista-relatorio" class="relatorio-lista"></ul>
+            <div id="total-relatorio" class="relatorio-total"></div>
         </div>
     </div>
 
@@ -442,16 +339,13 @@
             document.documentElement.setAttribute('data-theme', 'dark');
             document.getElementById('icon-theme').classList.replace('fa-moon', 'fa-sun');
         }
-
         function toggleDarkMode() {
             const current = document.documentElement.getAttribute('data-theme');
             const target = current === 'dark' ? 'light' : 'dark';
             document.documentElement.setAttribute('data-theme', target);
             localStorage.setItem('financas_tema', target);
-            
             const icon = document.getElementById('icon-theme');
-            if(target === 'dark') { icon.classList.replace('fa-moon', 'fa-sun'); }
-            else { icon.classList.replace('fa-sun', 'fa-moon'); }
+            if(target === 'dark') { icon.classList.replace('fa-moon', 'fa-sun'); } else { icon.classList.replace('fa-sun', 'fa-moon'); }
         }
 
         // --- DADOS ---
@@ -468,15 +362,6 @@
         function fecharMenuMais() { document.getElementById('modal-mais').style.display = 'none'; }
         function abrirModalInstall() { fecharMenuMais(); document.getElementById('modal-install').style.display = 'flex'; }
         function fecharModalInstall() { document.getElementById('modal-install').style.display = 'none'; }
-
-        // --- INSTALAÇÃO ---
-        let deferredPrompt;
-        window.addEventListener('beforeinstallprompt', (e) => { e.preventDefault(); deferredPrompt = e; });
-        async function tentarInstallAndroid() {
-            if(deferredPrompt) { deferredPrompt.prompt(); deferredPrompt = null; } 
-            else { document.getElementById('android-help').style.display = 'block'; }
-        }
-        function mostrarHelpIOS() { document.getElementById('ios-help').style.display = 'block'; }
 
         // --- BACKUP ---
         function baixarBackup() {
@@ -501,6 +386,48 @@
             if (contasAnt.length === 0) { alert("Nada no mês anterior."); return; }
             contasAnt.forEach(c => { dadosGlobais.contas.push({ id: Date.now() + Math.random(), nome: c.nome, valor: c.valor, pago: false, mesRef: mesSelecionado, vencimento: "" }); });
             salvarDB(); renderizarListasIndividuais(); verificarBotaoImportar();
+        }
+
+        // --- RELATÓRIO DETALHADO ---
+        function abrirRelatorio(tipo) {
+            const modal = document.getElementById('modal-relatorio');
+            const lista = document.getElementById('lista-relatorio');
+            const totalEl = document.getElementById('total-relatorio');
+            const titulo = document.getElementById('titulo-relatorio');
+            const fmt = { style: 'currency', currency: 'BRL' };
+            
+            lista.innerHTML = "";
+            let total = 0;
+            let itens = [];
+
+            if (tipo === 'entrada') {
+                titulo.innerText = "Entradas Detalhadas";
+                titulo.style.color = "var(--success)";
+                const sal = dadosGlobais.salarios[mesSelecionado] || 0;
+                if(sal > 0) itens.push({nome: "Salário Fixo", valor: sal});
+                const extras = dadosGlobais.extras.filter(i => i.mesRef === mesSelecionado);
+                extras.forEach(e => itens.push({nome: e.desc, valor: e.valor}));
+                const emps = dadosGlobais.emprestimos.filter(e => e.recebido);
+                emps.forEach(e => itens.push({nome: `Recebido: ${e.nome}`, valor: e.valor}));
+            } else {
+                titulo.innerText = "Saídas Detalhadas";
+                titulo.style.color = "var(--danger)";
+                const contas = dadosGlobais.contas.filter(c => c.mesRef === mesSelecionado && !c.pago);
+                contas.forEach(c => itens.push({nome: c.nome, valor: c.valor}));
+                const gastos = dadosGlobais.gastos.filter(g => g.mesRef === mesSelecionado);
+                gastos.forEach(g => itens.push({nome: g.nome, valor: g.valor}));
+            }
+
+            if(itens.length === 0) {
+                lista.innerHTML = "<li style='text-align:center; padding:10px;'>Nenhum registro.</li>";
+            } else {
+                itens.forEach(i => {
+                    total += i.valor;
+                    lista.innerHTML += `<li class="relatorio-item"><span>${i.nome}</span><span>${i.valor.toLocaleString('pt-BR', fmt)}</span></li>`;
+                });
+            }
+            totalEl.innerText = `Total: ${total.toLocaleString('pt-BR', fmt)}`;
+            modal.style.display = 'flex';
         }
 
         // --- FINANCEIRO ---
@@ -624,7 +551,6 @@
                     </li>`;
                 });
             };
-            // Usando variáveis de cor para a função render
             render(dadosGlobais.extras.filter(i => i.mesRef === mesSelecionado), 'lista-visual-extras', 'extra', 'border-green', 'var(--success)');
             render(dadosGlobais.contas.filter(i => i.mesRef === mesSelecionado), 'lista-visual-contas', 'conta', 'border-red', 'var(--danger)');
             render(dadosGlobais.gastos.filter(i => i.mesRef === mesSelecionado), 'lista-visual-gastos', 'gasto', 'border-orange', 'var(--warning)');
@@ -647,7 +573,22 @@
         }
         function formatData(iso) { if(!iso) return ""; return new Date(iso).toLocaleDateString('pt-BR', {timeZone:'UTC'}); }
         function abrirDropdown(t, i) { document.querySelectorAll('.dropdown-menu').forEach(d => d.classList.remove('show')); document.getElementById(`drop-${t}-${i}`).classList.toggle('show'); }
-        window.onclick = function(e) { if(!e.target.matches('.btn-more') && !e.target.matches('.fa-ellipsis-vertical')) document.querySelectorAll('.dropdown-menu').forEach(d => d.classList.remove('show')); }
+        
+        // --- FECHAR MODAL/DROPDOWN AO CLICAR FORA ---
+        window.onclick = function(e) { 
+            if(!e.target.matches('.btn-more') && !e.target.matches('.fa-ellipsis-vertical')) {
+                document.querySelectorAll('.dropdown-menu').forEach(d => d.classList.remove('show'));
+            }
+            if(e.target.classList.contains('modal')) {
+                e.target.style.display = 'none';
+            }
+        }
+
+        // --- INSTALL LOGIC ---
+        let deferredPrompt;
+        window.addEventListener('beforeinstallprompt', (e) => { e.preventDefault(); deferredPrompt = e; });
+        async function tentarInstallAndroid() { if(deferredPrompt) { deferredPrompt.prompt(); deferredPrompt = null; } else { document.getElementById('android-help').style.display = 'block'; } }
+        function mostrarHelpIOS() { document.getElementById('ios-help').style.display = 'block'; }
 
         // START
         gerarBarraMeses(); atualizarInterfaceGeral(); renderizarListasIndividuais(); renderizarMetas(); 
