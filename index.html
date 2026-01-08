@@ -2,174 +2,182 @@
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Minhas Finanças</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <link rel="manifest" href="manifest.json">
-    <meta name="theme-color" content="#2c3e50">
+    <meta name="theme-color" content="#f0f2f5">
 
     <style>
         /* --- RESET E GERAL --- */
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', sans-serif; }
-        body { display: flex; background-color: #f0f2f5; min-height: 100vh; overflow-x: hidden; }
-
-        /* --- MENU LATERAL --- */
-        #menu-lateral {
-            width: 260px;
-            background-color: #2c3e50;
-            display: flex; flex-direction: column; list-style: none;
-            padding-top: 80px; transition: width 0.4s ease;
-            white-space: nowrap; overflow: hidden; flex-shrink: 0;
-            position: fixed; height: 100%; z-index: 99;
-        }
-        
-        #menu-lateral li {
-            padding: 20px 30px; border-bottom: 1px solid #34495e; color: #ecf0f1; cursor: pointer;
-            display: flex; align-items: center; gap: 25px; transition: background 0.3s; font-size: 16px;
-        }
-        #menu-lateral li:hover, #menu-lateral li.ativo { background-color: #34495e; border-left: 5px solid #2ecc71; }
-
-        /* Botão de Instalar/Ajuda no Menu */
-        #help-btn { margin-top: auto; background-color: #8e44ad; }
-        #help-btn:hover { background-color: #9b59b6 !important; }
-
-        /* --- BOTÃO MENU TOGGLE --- */
-        #btn-menu {
-            position: fixed; top: 20px; left: 20px; z-index: 100;
-            background: none; border: none; font-size: 28px; cursor: pointer; width: 40px; height: 40px;
-        }
-        .menu-fechado { width: 0px !important; padding: 0 !important; }
-        .btn-escuro { color: #2c3e50 !important; } 
-        .btn-claro { color: #ecf0f1 !important; }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', sans-serif; -webkit-tap-highlight-color: transparent; }
+        body { background-color: #f0f2f5; min-height: 100vh; padding-bottom: 90px; /* Espaço para nav inferior */ }
 
         /* --- ÁREA PRINCIPAL --- */
-        main { flex-grow: 1; padding: 20px; margin-top: 60px; }
-        @media (min-width: 768px) { #menu-lateral { position: relative; } main { margin-top: 0; padding: 50px; } }
+        main { padding: 20px; max-width: 800px; margin: 0 auto; width: 100%; }
 
-        main h1 { color: #333; margin-bottom: 35px; font-size: 28px; }
-        .tela { display: none; animation: fadeIn 0.5s; } .tela-ativa { display: block; }
-        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        /* --- BARRA DE NAVEGAÇÃO INFERIOR --- */
+        .bottom-nav {
+            position: fixed; bottom: 0; left: 0; width: 100%; height: 70px;
+            background-color: white; border-top: 1px solid #eee;
+            display: flex; justify-content: space-around; align-items: center;
+            z-index: 1000; box-shadow: 0 -5px 15px rgba(0,0,0,0.03);
+        }
+        .nav-item {
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            color: #95a5a6; font-size: 10px; cursor: pointer; width: 20%; height: 100%; transition: 0.2s;
+        }
+        .nav-item i { font-size: 22px; margin-bottom: 5px; }
+        .nav-item.active { color: #2c3e50; font-weight: bold; }
+        .nav-item.active i { transform: translateY(-2px); color: #27ae60; }
 
-        /* --- CARDS DASHBOARD --- */
-        .resumo-cards { display: flex; gap: 25px; flex-wrap: wrap; }
-        .card { background: white; padding: 30px; border-radius: 12px; flex: 1; min-width: 250px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); text-align: center; }
-        .card h3 { color: #777; font-size: 16px; margin-bottom: 15px; text-transform: uppercase; }
-        .card p { font-size: 32px; font-weight: bold; }
+        /* --- BARRA DE MESES --- */
+        .meses-container {
+            display: flex; overflow-x: auto; gap: 8px; padding: 10px 0; margin-bottom: 20px;
+            scrollbar-width: none; background: #f0f2f5; position: sticky; top: 0; z-index: 90;
+        }
+        .meses-container::-webkit-scrollbar { display: none; }
+        .mes-pill {
+            background-color: white; color: #555; padding: 8px 18px; border-radius: 20px;
+            white-space: nowrap; cursor: pointer; border: 1px solid #ddd; font-weight: 600; font-size: 13px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.02);
+        }
+        .mes-pill.mes-ativo { background-color: #2c3e50; color: white; border-color: #2c3e50; transform: scale(1.05); }
+
+        /* --- CARDS & UI --- */
+        .tela { display: none; animation: fadeIn 0.3s; } .tela-ativa { display: block; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
+        
+        h1, h3 { color: #2c3e50; margin-bottom: 15px; }
+        
+        .resumo-cards { display: flex; gap: 15px; flex-wrap: wrap; margin-bottom: 25px; }
+        .card { background: white; padding: 20px; border-radius: 16px; flex: 1; min-width: 140px; box-shadow: 0 4px 15px rgba(0,0,0,0.03); text-align: center; }
+        .card h3 { color: #95a5a6; font-size: 11px; margin-bottom: 8px; text-transform: uppercase; letter-spacing: 1px; }
+        .card p { font-size: 24px; font-weight: 800; }
         .ganho p { color: #27ae60; } .despesa p { color: #c0392b; } 
-        .saldo-positivo p { color: #2980b9; } 
-        .saldo-negativo p { color: #e74c3c; } 
+        .saldo-positivo p { color: #2980b9; } .saldo-negativo p { color: #e74c3c; }
 
-        /* --- FORMULÁRIOS --- */
-        .form-container { background: white; padding: 30px; border-radius: 15px; max-width: 650px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); margin-bottom: 40px; }
-        .input-group { margin-bottom: 20px; }
-        .input-group label { display: block; margin-bottom: 8px; color: #555; font-weight: 500; }
-        .input-group input { width: 100%; padding: 12px; border: 1px solid #ccc; border-radius: 8px; outline: none; }
+        /* Gráfico */
+        .chart-container { background: white; padding: 15px; border-radius: 16px; box-shadow: 0 4px 15px rgba(0,0,0,0.03); margin-bottom: 25px; height: 220px; }
+
+        /* Formulários */
+        .form-container { background: white; padding: 20px; border-radius: 16px; box-shadow: 0 4px 15px rgba(0,0,0,0.03); margin-bottom: 25px; }
+        .input-group { margin-bottom: 15px; }
+        .input-group label { display: block; margin-bottom: 6px; color: #7f8c8d; font-size: 12px; font-weight: 600; text-transform: uppercase; }
+        .input-group input { width: 100%; padding: 12px; border: 1px solid #e0e0e0; border-radius: 10px; outline: none; font-size: 16px; transition: 0.3s; }
+        .input-group input:focus { border-color: #3498db; }
         
-        button.btn-sucesso { background-color: #27ae60; color: white; border: none; padding: 12px 25px; border-radius: 8px; cursor: pointer; width: 100%; font-size: 16px; font-weight: bold; }
-        button.btn-editar { background-color: #f39c12; } /* Cor Laranja para Edição */
-        button.btn-editar:hover { background-color: #d35400; }
-
-        /* --- LISTAS E DROPDOWN --- */
-        .lista-contas { list-style: none; max-width: 650px; padding-bottom: 100px; } 
-        .item-conta { background: white; padding: 20px; border-radius: 10px; margin-bottom: 15px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 2px 5px rgba(0,0,0,0.05); position: relative; }
+        /* Botões */
+        button.btn-sucesso { background-color: #27ae60; color: white; border: none; padding: 14px; border-radius: 10px; cursor: pointer; width: 100%; font-size: 16px; font-weight: bold; box-shadow: 0 4px 10px rgba(39, 174, 96, 0.2); }
+        button.btn-sucesso:active { transform: scale(0.98); }
         
-        .conta-info strong { display: block; font-size: 18px; margin-bottom: 5px; } 
-        .conta-info small { color: #888; font-size: 14px; }
+        button.btn-editar { background-color: #f39c12; box-shadow: 0 4px 10px rgba(243, 156, 18, 0.2); }
         
-        .border-green { border-left: 6px solid #27ae60; } .border-red { border-left: 6px solid #c0392b; } .border-orange { border-left: 6px solid #e67e22; } .border-blue { border-left: 6px solid #2980b9; }
+        button.btn-importar { background-color: #34495e; color: white; border: none; padding: 12px; border-radius: 10px; width: 100%; margin-bottom: 15px; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; font-size: 14px; }
 
-        .riscado { text-decoration: line-through; opacity: 0.6; background-color: #f9f9f9; }
-        .riscado .border-red { border-left-color: #ccc; } 
+        /* Input Salário Especial */
+        .input-row { display: flex; gap: 10px; align-items: center; }
+        .btn-check { background-color: #bdc3c7; color: white; border: none; width: 50px; height: 46px; border-radius: 10px; cursor: pointer; font-size: 18px; transition: 0.3s; }
+        .btn-check.saved { background-color: #27ae60; }
 
-        /* MENU TRÊS PONTINHOS */
-        .btn-more { background: none; border: none; font-size: 20px; color: #555; cursor: pointer; padding: 10px; }
-        .dropdown-menu {
-            display: none; position: absolute; right: 10px; top: 50px;
-            background-color: white; min-width: 160px;
-            box-shadow: 0 8px 16px rgba(0,0,0,0.2); z-index: 10; border-radius: 8px; overflow: hidden;
-        }
+        /* Listas */
+        .lista-contas { list-style: none; } 
+        .item-conta { background: white; padding: 15px; border-radius: 12px; margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center; border: 1px solid #f0f0f0; }
+        .conta-info strong { display: block; font-size: 15px; color: #2c3e50; margin-bottom: 3px; } .conta-info small { color: #95a5a6; font-size: 12px; }
+        .border-green { border-left: 4px solid #27ae60; } .border-red { border-left: 4px solid #c0392b; } .border-orange { border-left: 4px solid #e67e22; } .border-blue { border-left: 4px solid #2980b9; }
+        .riscado { opacity: 0.5; text-decoration: line-through; background-color: #fafafa; } .riscado .border-red { border-left-color: #ddd; } 
+
+        .btn-more { background: none; border: none; font-size: 18px; color: #95a5a6; cursor: pointer; padding: 5px 10px; }
+        .dropdown-menu { display: none; position: absolute; right: 40px; background-color: white; min-width: 140px; box-shadow: 0 10px 30px rgba(0,0,0,0.15); z-index: 50; border-radius: 10px; overflow: hidden; }
         .dropdown-menu.show { display: block; }
-        .dropdown-menu button { width: 100%; padding: 12px 16px; text-align: left; background: none; border: none; cursor: pointer; font-size: 14px; color: #333; }
-        .dropdown-menu button:hover { background-color: #f1f1f1; }
-        .dropdown-menu button i { margin-right: 10px; width: 20px; text-align: center; }
+        .dropdown-menu button { width: 100%; padding: 12px 15px; text-align: left; background: none; border: none; cursor: pointer; border-bottom: 1px solid #f9f9f9; font-size: 14px; color: #34495e; }
+        .opt-check { color: #27ae60 !important; } .opt-del { color: #e74c3c !important; }
 
-        .opt-check { color: #27ae60 !important; }
-        .opt-edit { color: #f39c12 !important; }
-        .opt-del { color: #e74c3c !important; }
+        /* Metas */
+        .meta-card { background: white; padding: 20px; border-radius: 16px; margin-bottom: 15px; border: 1px solid #eee; position: relative; }
+        .barra-fundo { width: 100%; height: 8px; background-color: #ecf0f1; border-radius: 4px; margin: 12px 0; overflow: hidden; }
+        .barra-progresso { height: 100%; background-color: #3498db; width: 0%; transition: width 1s; border-radius: 4px; }
+        .barra-completa { background-color: #27ae60 !important; }
+        .btn-depositar { margin-top: 5px; background-color: #e3f2fd; color: #2980b9; border: none; padding: 10px; width: 100%; border-radius: 8px; font-weight: bold; cursor: pointer; }
+        .btn-excluir-meta { position: absolute; top: 15px; right: 15px; background: none; border: none; color: #e74c3c; cursor: pointer; }
 
-        /* --- MODAL DE AJUDA / INSTALAÇÃO --- */
-        .modal {
-            display: none; position: fixed; z-index: 200; left: 0; top: 0; width: 100%; height: 100%;
-            background-color: rgba(0,0,0,0.6); align-items: center; justify-content: center;
-        }
-        .modal-content {
-            background-color: white; padding: 30px; border-radius: 15px; width: 90%; max-width: 400px;
-            position: relative; text-align: center; max-height: 90vh; overflow-y: auto;
-        }
-        .close-modal { position: absolute; top: 10px; right: 15px; font-size: 24px; cursor: pointer; color: #aaa; }
+        /* MODAL MENU (Overlay) */
+        .modal { display: none; position: fixed; z-index: 2000; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.5); align-items: flex-end; justify-content: center; backdrop-filter: blur(2px); }
+        .modal-content { background-color: white; padding: 25px 20px; border-radius: 25px 25px 0 0; width: 100%; max-width: 600px; animation: slideUp 0.3s; max-height: 85vh; overflow-y: auto; }
+        @keyframes slideUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
         
-        .install-box { background-color: #f0f2f5; padding: 15px; border-radius: 10px; margin: 15px 0; text-align: left; }
-        .install-box h4 { margin-bottom: 10px; font-size: 16px; }
-        .ios-icon { vertical-align: middle; font-size: 18px; margin: 0 5px; color: #3498db; }
+        .menu-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 15px; }
+        .menu-option { background-color: #f8f9fa; padding: 20px; border-radius: 15px; text-align: center; cursor: pointer; border: 1px solid #eee; transition: 0.2s; }
+        .menu-option:active { background-color: #e9ecef; transform: scale(0.98); }
+        .menu-option i { font-size: 26px; margin-bottom: 8px; display: block; color: #34495e; }
+        
+        .menu-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #eee; padding-bottom: 15px; margin-bottom: 10px; }
+        .close-modal { font-size: 24px; cursor: pointer; color: #bdc3c7; }
+
+        .config-section { margin-top: 25px; border-top: 1px solid #eee; padding-top: 20px; }
+        .btn-config { background-color: #fff; border: 1px solid #ddd; color: #333; width: 100%; padding: 12px; border-radius: 10px; margin-bottom: 10px; text-align: left; display: flex; align-items: center; gap: 12px; font-size: 14px; }
+        
+        /* MODAL APP INSTALL */
+        .install-options { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 20px; }
+        .btn-install-choice { padding: 20px; border-radius: 15px; border: none; cursor: pointer; font-weight: bold; color: white; display: flex; flex-direction: column; align-items: center; gap: 10px; font-size: 14px; }
+        .choice-android { background-color: #27ae60; box-shadow: 0 4px 10px rgba(39, 174, 96, 0.3); }
+        .choice-ios { background-color: #3498db; box-shadow: 0 4px 10px rgba(52, 152, 219, 0.3); }
+        
+        .ios-help-box { background-color: #e3f2fd; padding: 15px; border-radius: 10px; margin-top: 20px; text-align: left; display: none; }
+        .ios-icon { font-size: 18px; margin: 0 5px; color: #2980b9; vertical-align: middle; }
 
     </style>
 </head>
 <body>
 
-    <button id="btn-menu" class="btn-escuro"><i class="fa-solid fa-bars" id="icone-btn"></i></button>
-
-    <ul id="menu-lateral" class="menu-fechado">
-        <li onclick="navegar('dashboard')" class="ativo" id="link-dashboard"><i class="fa-solid fa-chart-line"></i> Dashboard</li>
-        <li onclick="navegar('receitas')" id="link-receitas"><i class="fa-solid fa-sack-dollar"></i> Meus Ganhos</li>
-        <li onclick="navegar('contas')" id="link-contas"><i class="fa-solid fa-file-invoice-dollar"></i> Contas Fixas</li>
-        <li onclick="navegar('gastos')" id="link-gastos"><i class="fa-solid fa-money-bill-wave"></i> Gastos Diários</li>
-        <li onclick="navegar('emprestados')" id="link-emprestados"><i class="fa-solid fa-hand-holding-dollar"></i> Emprestado</li>
-        
-        <li id="help-btn" onclick="abrirModalAjuda()">
-            <i class="fa-solid fa-circle-info"></i> Instalar App
-        </li>
-    </ul> 
-
     <main>
+        <div class="meses-container" id="barra-meses"></div>
+
         <section id="tela-dashboard" class="tela tela-ativa">
-            <h1>Visão Geral</h1>
             <div class="resumo-cards">
-                <div class="card ganho"><h3>Receita Total</h3><p id="dash-receita">R$ 0,00</p><small style="color:#aaa; font-size:11px;">(Salário + Extras + Empréstimos Recebidos)</small></div>
-                <div class="card despesa"><h3>A Pagar / Gastos</h3><p id="dash-gastos">R$ 0,00</p><small style="color:#aaa; font-size:11px;">(Apenas contas pendentes)</small></div>
-                <div class="card saldo-positivo" id="card-saldo">
-                    <h3 id="titulo-saldo">Sobrou no Mês</h3>
-                    <p id="dash-saldo">R$ 0,00</p>
-                </div>
+                <div class="card ganho"><h3>Entradas</h3><p id="dash-receita">R$ 0,00</p></div>
+                <div class="card despesa"><h3>Saídas</h3><p id="dash-gastos">R$ 0,00</p></div>
+                <div class="card saldo-positivo" id="card-saldo"><h3>Saldo</h3><p id="dash-saldo">R$ 0,00</p></div>
             </div>
+            <div class="chart-container"><canvas id="financeChart"></canvas></div>
         </section>
 
         <section id="tela-receitas" class="tela">
-            <h1>Minhas Receitas</h1>
-            <div class="form-container" style="border-left: 6px solid #27ae60;">
-                <h3>Salário Fixo</h3>
-                <div class="input-group"><input type="number" id="input-salario" placeholder="Digite salário" onchange="definirSalario()"></div>
-                <p>Atual: <strong id="txt-salario-atual" style="color:#27ae60;">R$ 0,00</strong></p>
+            <h1>Receitas</h1>
+            
+            <div class="form-container" style="border-left: 5px solid #27ae60;">
+                <div class="input-group">
+                    <label>Salário Mensal (Fixo)</label>
+                    <div class="input-row">
+                        <input type="number" id="input-salario" placeholder="Digite valor...">
+                        <button id="btn-salario-ok" class="btn-check" onclick="definirSalario()"><i class="fa-solid fa-check"></i></button>
+                    </div>
+                </div>
             </div>
-            <h3>Adicionar Extra</h3>
+
             <div class="form-container">
+                <h4>Ganho Extra</h4>
                 <div class="input-group"><label>Descrição</label><input type="text" id="extra-desc"></div>
                 <div class="input-group"><label>Valor</label><input type="number" id="extra-valor"></div>
-                <div class="input-group"><label>Data</label><input type="date" id="extra-data"></div>
-                <button class="btn-sucesso" onclick="adicionarGanhoExtra()">Salvar</button>
+                <button class="btn-sucesso" onclick="adicionarGanhoExtra()">Adicionar</button>
             </div>
             <ul id="lista-visual-extras" class="lista-contas"></ul>
         </section>
 
         <section id="tela-contas" class="tela">
             <h1>Contas Fixas</h1>
-            <p style="color:#666; margin-bottom:10px;">Contas marcadas como pagas param de somar nos gastos.</p>
+            <button id="btn-importar" class="btn-importar" onclick="importarContasMesAnterior()" style="display:none;">
+                <i class="fa-solid fa-copy"></i> Copiar contas do mês passado
+            </button>
+
             <div class="form-container">
-                <div class="input-group"><label>Nome</label><input type="text" id="nome-conta"></div>
+                <div class="input-group"><label>Nome da Conta</label><input type="text" id="nome-conta"></div>
                 <div class="input-group"><label>Valor</label><input type="number" id="valor-conta"></div>
+                <div class="input-group"><label>Vencimento</label><input type="date" id="vencimento-conta"></div>
                 
                 <button id="btn-salvar-conta" class="btn-sucesso" onclick="adicionarConta()">Salvar Conta</button>
-                <button id="btn-cancelar-conta" onclick="cancelarEdicaoConta()" style="display:none; margin-top:10px; width:100%; padding:5px; cursor:pointer;">Cancelar Edição</button>
+                <button id="btn-cancelar-conta" onclick="cancelarEdicaoConta()" style="display:none; margin-top:10px; width:100%; padding:8px; background:#e74c3c;">Cancelar</button>
             </div>
             <ul id="lista-visual-contas" class="lista-contas"></ul>
         </section>
@@ -177,7 +185,7 @@
         <section id="tela-gastos" class="tela">
             <h1>Gastos Diários</h1>
             <div class="form-container">
-                <div class="input-group"><label>Descrição</label><input type="text" id="gasto-nome"></div>
+                <div class="input-group"><label>Descrição (Ex: Uber, Mercado)</label><input type="text" id="gasto-nome"></div>
                 <div class="input-group"><label>Valor</label><input type="number" id="gasto-valor"></div>
                 <div class="input-group"><label>Data</label><input type="date" id="gasto-data"></div>
                 <button class="btn-sucesso" onclick="adicionarGastoDiario()">Salvar</button>
@@ -185,254 +193,267 @@
             <ul id="lista-visual-gastos" class="lista-contas"></ul>
         </section>
 
+        <section id="tela-metas" class="tela">
+            <h1>Metas Financeiras</h1>
+            <div class="form-container" style="border-left: 5px solid #3498db;">
+                <div class="input-group"><label>Nome do Objetivo</label><input type="text" id="meta-nome"></div>
+                <div class="input-group"><label>Valor Total</label><input type="number" id="meta-valor"></div>
+                <button class="btn-sucesso" onclick="adicionarMeta()">Criar Meta</button>
+            </div>
+            <div id="lista-visual-metas"></div>
+        </section>
+
         <section id="tela-emprestados" class="tela">
-            <h1>Valores Emprestados</h1>
-            <p style="color:#666; margin-bottom:10px;">Ao marcar como "Recebido", o valor entra como Receita.</p>
+            <h1>Empréstimos</h1>
             <div class="form-container">
                 <div class="input-group"><label>Quem?</label><input type="text" id="emp-nome"></div>
                 <div class="input-group"><label>Valor</label><input type="number" id="emp-valor"></div>
-                <div class="input-group"><label>Data</label><input type="date" id="emp-data"></div>
+                <div class="input-group"><label>Data Combinada</label><input type="date" id="emp-data"></div>
                 <button id="btn-salvar-emprestimo" class="btn-sucesso" onclick="salvarEmprestimo()">Salvar</button>
-                <button id="btn-cancelar-edicao" onclick="cancelarEdicao()" style="display:none; margin-top:10px; width:100%; padding:5px; cursor:pointer;">Cancelar</button>
+                <button id="btn-cancelar-edicao" onclick="cancelarEdicao()" style="display:none; margin-top:10px; width:100%; padding:8px; background:#e74c3c;">Cancelar</button>
             </div>
             <ul id="lista-visual-emprestimos" class="lista-contas"></ul>
         </section>
     </main>
 
-    <div id="modal-ajuda" class="modal">
+    <nav class="bottom-nav">
+        <div class="nav-item active" onclick="navegar('dashboard', this)"><i class="fa-solid fa-chart-pie"></i>Dash</div>
+        <div class="nav-item" onclick="navegar('receitas', this)"><i class="fa-solid fa-sack-dollar"></i>Receita</div>
+        <div class="nav-item" onclick="navegar('contas', this)"><i class="fa-solid fa-file-invoice-dollar"></i>Contas</div>
+        <div class="nav-item" onclick="navegar('gastos', this)"><i class="fa-solid fa-money-bill-wave"></i>Gastos</div>
+        <div class="nav-item" onclick="abrirMenuMais()"><i class="fa-solid fa-bars"></i>Menu</div>
+    </nav>
+
+    <div id="modal-mais" class="modal">
         <div class="modal-content">
-            <span class="close-modal" onclick="fecharModalAjuda()">&times;</span>
-            <h2 style="margin-bottom:15px; color:#2c3e50;">Baixar Aplicativo</h2>
+            <div class="menu-header"><h3>Menu</h3><span class="close-modal" onclick="fecharMenuMais()">&times;</span></div>
             
-            <div class="install-box" style="border-left: 4px solid #27ae60;">
-                <h4 style="color: #27ae60;"><i class="fa-brands fa-android"></i> Android / Computador</h4>
-                
-                <button class="btn-sucesso" onclick="instalarAppAndroid()" id="btn-instalar-android" style="display:none; margin-bottom: 10px;">
-                    <i class="fa-solid fa-download"></i> Instalar Agora
-                </button>
-                
-                <p id="msg-android-manual" style="font-size:14px; color:#555;">
-                    Se o botão acima não apareceu: toque nos <strong>3 pontinhos</strong> do navegador e escolha <strong>"Instalar aplicativo"</strong> ou "Adicionar à tela inicial".
-                </p>
+            <div class="menu-grid">
+                <div class="menu-option" onclick="navegar('metas'); fecharMenuMais()">
+                    <i class="fa-solid fa-bullseye"></i> Metas
+                </div>
+                <div class="menu-option" onclick="navegar('emprestados'); fecharMenuMais()">
+                    <i class="fa-solid fa-hand-holding-dollar"></i> Empréstimos
+                </div>
             </div>
 
-            <div class="install-box" style="border-left: 4px solid #3498db;">
-                <h4 style="color: #3498db;"><i class="fa-brands fa-apple"></i> iPhone (iOS)</h4>
-                <p style="font-size:14px; color:#444;">1. Abra no <strong>Safari</strong>.</p>
-                <p style="font-size:14px; color:#444;">2. Toque em <strong>Compartilhar</strong> <i class="fa-solid fa-arrow-up-from-bracket ios-icon"></i>.</p>
-                <p style="font-size:14px; color:#444;">3. Escolha <strong>"Adicionar à Tela de Início"</strong> <i class="fa-regular fa-square-plus ios-icon"></i>.</p>
+            <div class="config-section">
+                <button class="btn-config" onclick="baixarBackup()"><i class="fa-solid fa-download"></i> Salvar Backup (Dados)</button>
+                <button class="btn-config" onclick="document.getElementById('input-restore').click()"><i class="fa-solid fa-upload"></i> Restaurar Backup</button>
+                <input type="file" id="input-restore" style="display:none;" onchange="restaurarBackup(this)">
+                <button class="btn-config" onclick="abrirModalInstall()"><i class="fa-solid fa-mobile-screen"></i> Baixar Aplicativo</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="modal-install" class="modal">
+        <div class="modal-content">
+            <div class="menu-header"><h3>Baixar App</h3><span class="close-modal" onclick="fecharModalInstall()">&times;</span></div>
+            
+            <p style="text-align:center; color:#666;">Escolha seu sistema:</p>
+            <div class="install-options">
+                <button class="btn-install-choice choice-android" onclick="tentarInstallAndroid()">
+                    <i class="fa-brands fa-android" style="font-size:30px;"></i> Android
+                </button>
+                <button class="btn-install-choice choice-ios" onclick="mostrarHelpIOS()">
+                    <i class="fa-brands fa-apple" style="font-size:30px;"></i> iPhone
+                </button>
+            </div>
+
+            <div id="ios-help" class="ios-help-box">
+                <p>1. Abra no <strong>Safari</strong>.</p>
+                <p>2. Toque em <strong>Compartilhar</strong> <i class="fa-solid fa-arrow-up-from-bracket ios-icon"></i>.</p>
+                <p>3. Escolha <strong>"Adicionar à Tela de Início"</strong> <i class="fa-regular fa-square-plus ios-icon"></i>.</p>
+            </div>
+            
+            <div id="android-help" class="ios-help-box" style="background-color: #e8f5e9; border: 1px solid #c8e6c9;">
+                <p><i class="fa-solid fa-circle-exclamation"></i> Se o download não iniciou:</p>
+                <p>Toque nos <strong>3 pontinhos</strong> do navegador e escolha <strong>"Instalar aplicativo"</strong>.</p>
             </div>
         </div>
     </div>
 
     <script>
-        // --- DADOS ---
-        let salarioAtual = parseFloat(localStorage.getItem('meuSalario')) || 0;
-        let listaGanhosExtras = JSON.parse(localStorage.getItem('meusGanhosExtras')) || [];
-        let listaContas = JSON.parse(localStorage.getItem('minhasContas')) || [];
-        let listaGastosDiarios = JSON.parse(localStorage.getItem('meusGastosDiarios')) || [];
-        let listaEmprestimos = JSON.parse(localStorage.getItem('meusEmprestimos')) || [];
-        
-        // Controles de Edição
-        let idEmprestimoEdicao = null; 
-        let idContaEdicao = null; // NOVO: Para editar contas fixas
+        // --- GERENCIAMENTO DE MESES ---
+        const mesesNomes = ["Jan", "Fev", "Mar", "Abr", "Mai", "Jun", "Jul", "Ago", "Set", "Out", "Nov", "Dez"];
+        const anoFixo = 2026;
+        let mesSelecionado = `${anoFixo}-01`;
 
-        atualizarInterfaceGeral(); 
-        renderizarListasIndividuais();
+        function gerarBarraMeses() {
+            const container = document.getElementById('barra-meses'); container.innerHTML = "";
+            for (let i = 0; i < 12; i++) {
+                let mesNum = String(i + 1).padStart(2, '0'); let chave = `${anoFixo}-${mesNum}`;
+                let div = document.createElement('div');
+                div.className = `mes-pill ${chave === mesSelecionado ? 'mes-ativo' : ''}`;
+                div.innerText = mesesNomes[i];
+                div.onclick = () => selecionarMes(chave);
+                container.appendChild(div);
+            }
+            setTimeout(() => { const ativo = document.querySelector('.mes-ativo'); if(ativo) ativo.scrollIntoView({ behavior: 'smooth', inline: 'center' }); }, 100);
+        }
+        function selecionarMes(chave) {
+            mesSelecionado = chave; gerarBarraMeses(); atualizarInterfaceGeral(); renderizarListasIndividuais();
+            const inputsData = document.querySelectorAll('input[type="date"]');
+            inputsData.forEach(input => { input.value = `${chave}-01`; });
+            verificarBotaoImportar();
+        }
+
+        // --- DADOS ---
+        let dadosGlobais = JSON.parse(localStorage.getItem('financas_db_v5')) || { salarios: {}, extras: [], contas: [], gastos: [], emprestimos: [], metas: [] };
+        function salvarDB() { localStorage.setItem('financas_db_v5', JSON.stringify(dadosGlobais)); atualizarGrafico(); }
 
         // --- NAVEGAÇÃO ---
-        function navegar(tela) {
+        function navegar(tela, elItem) {
             document.querySelectorAll('.tela').forEach(t => t.classList.remove('tela-ativa'));
-            document.querySelectorAll('#menu-lateral li').forEach(l => l.classList.remove('ativo'));
             document.getElementById(`tela-${tela}`).classList.add('tela-ativa');
-            document.getElementById(`link-${tela}`).classList.add('ativo');
-            if(window.innerWidth < 768) fecharMenu();
+            if(elItem) { document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active')); elItem.classList.add('active'); }
         }
-        const menu = document.getElementById('menu-lateral');
-        const botao = document.getElementById('btn-menu');
-        const icone = document.getElementById('icone-btn');
-        botao.addEventListener('click', function() {
-            menu.classList.toggle('menu-fechado');
-            if (menu.classList.contains('menu-fechado')) {
-                botao.classList.remove('btn-claro'); botao.classList.add('btn-escuro');
-                icone.classList.remove('fa-xmark'); icone.classList.add('fa-bars');
-            } else {
-                botao.classList.remove('btn-escuro'); botao.classList.add('btn-claro');
-                icone.classList.remove('fa-bars'); icone.classList.add('fa-xmark');
-            }
-        });
-        function fecharMenu() {
-            menu.classList.add('menu-fechado'); botao.classList.add('btn-escuro'); botao.classList.remove('btn-claro');
-            icone.classList.remove('fa-xmark'); icone.classList.add('fa-bars');
+        function abrirMenuMais() { document.getElementById('modal-mais').style.display = 'flex'; }
+        function fecharMenuMais() { document.getElementById('modal-mais').style.display = 'none'; }
+        
+        function abrirModalInstall() { fecharMenuMais(); document.getElementById('modal-install').style.display = 'flex'; }
+        function fecharModalInstall() { document.getElementById('modal-install').style.display = 'none'; }
+
+        // --- BACKUP / IMPORTAR ---
+        function baixarBackup() {
+            const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(dadosGlobais));
+            const dl = document.createElement('a'); dl.setAttribute("href", dataStr); dl.setAttribute("download", "backup_financas.json");
+            document.body.appendChild(dl); dl.click(); dl.remove();
+        }
+        function restaurarBackup(input) {
+            const file = input.files[0]; if (!file) return;
+            const reader = new FileReader();
+            reader.onload = function(e) { try { dadosGlobais = JSON.parse(e.target.result); salvarDB(); alert("Restaurado!"); location.reload(); } catch(err) { alert("Erro arquivo"); } };
+            reader.readAsText(file);
+        }
+        function verificarBotaoImportar() {
+            const btn = document.getElementById('btn-importar'); const contasMes = dadosGlobais.contas.filter(c => c.mesRef === mesSelecionado);
+            if (contasMes.length === 0 && mesSelecionado !== `${anoFixo}-01`) btn.style.display = 'flex'; else btn.style.display = 'none';
+        }
+        function importarContasMesAnterior() {
+            let partes = mesSelecionado.split('-'); let mesAnt = parseInt(partes[1]) - 1;
+            let chaveAnt = `${anoFixo}-${String(mesAnt).padStart(2, '0')}`;
+            const contasAnt = dadosGlobais.contas.filter(c => c.mesRef === chaveAnt);
+            if (contasAnt.length === 0) { alert("Nada no mês anterior."); return; }
+            contasAnt.forEach(c => { dadosGlobais.contas.push({ id: Date.now() + Math.random(), nome: c.nome, valor: c.valor, pago: false, mesRef: mesSelecionado, vencimento: "" }); });
+            salvarDB(); renderizarListasIndividuais(); verificarBotaoImportar();
         }
 
-        // --- FUNÇÕES FINANCEIRAS ---
+        // --- FINANCEIRO ---
         function definirSalario() {
-            const valor = document.getElementById('input-salario').value;
-            if(valor) { salarioAtual = parseFloat(valor); localStorage.setItem('meuSalario', salarioAtual); atualizarInterfaceGeral(); }
+            const input = document.getElementById('input-salario'); const btn = document.getElementById('btn-salario-ok');
+            const valor = parseFloat(input.value);
+            if(!isNaN(valor)) {
+                dadosGlobais.salarios[mesSelecionado] = valor; salvarDB(); atualizarInterfaceGeral();
+                // Feedback Visual
+                btn.classList.add('saved'); btn.innerHTML = '<i class="fa-solid fa-check-double"></i>';
+                setTimeout(() => { btn.classList.remove('saved'); btn.innerHTML = '<i class="fa-solid fa-check"></i>'; }, 2000);
+            }
         }
-        function adicionarGanhoExtra() {
-            const desc = document.getElementById('extra-desc').value; const valor = parseFloat(document.getElementById('extra-valor').value); const data = document.getElementById('extra-data').value;
-            if (!desc || !valor || !data) { alert("Preencha tudo!"); return; }
-            listaGanhosExtras.unshift({ id: Date.now(), desc, valor, data });
-            localStorage.setItem('meusGanhosExtras', JSON.stringify(listaGanhosExtras));
-            document.getElementById('extra-desc').value = ""; document.getElementById('extra-valor').value = ""; document.getElementById('extra-data').value = "";
-            atualizarInterfaceGeral(); renderizarListasIndividuais();
+        function adicionarConta() {
+            const nome = document.getElementById('nome-conta').value; const valor = parseFloat(document.getElementById('valor-conta').value); const venc = document.getElementById('vencimento-conta').value;
+            if (!nome || !valor) return;
+            if (idContaEdicao) { const item = dadosGlobais.contas.find(c => c.id === idContaEdicao); if(item) { item.nome = nome; item.valor = valor; item.vencimento = venc; } cancelarEdicaoConta(); } 
+            else { dadosGlobais.contas.push({ id: Date.now(), nome, valor, pago: false, mesRef: mesSelecionado, vencimento: venc }); }
+            salvarDB(); limparCampos(['nome-conta', 'valor-conta', 'vencimento-conta']); atualizarInterfaceGeral(); renderizarListasIndividuais(); verificarBotaoImportar();
         }
         function adicionarGastoDiario() {
-            const nome = document.getElementById('gasto-nome').value; const valor = parseFloat(document.getElementById('gasto-valor').value); const data = document.getElementById('gasto-data').value;
-            if (!nome || !valor || !data) return;
-            listaGastosDiarios.unshift({ id: Date.now(), nome, valor, data }); localStorage.setItem('meusGastosDiarios', JSON.stringify(listaGastosDiarios));
-            document.getElementById('gasto-nome').value = ""; document.getElementById('gasto-valor').value = ""; document.getElementById('gasto-data').value = ""; atualizarInterfaceGeral(); renderizarListasIndividuais();
+            const nome = document.getElementById('gasto-nome').value; const valor = parseFloat(document.getElementById('gasto-valor').value); 
+            const dataInput = document.getElementById('gasto-data').value || new Date().toISOString(); if (!nome || !valor) return;
+            dadosGlobais.gastos.unshift({ id: Date.now(), nome, valor, data: dataInput, mesRef: dataInput.substr(0, 7) });
+            salvarDB(); limparCampos(['gasto-nome', 'gasto-valor', 'gasto-data']); atualizarInterfaceGeral(); renderizarListasIndividuais();
         }
-
-        // --- LÓGICA DE CONTAS FIXAS (AGORA COM EDIÇÃO) ---
-        function adicionarConta() {
-            const nome = document.getElementById('nome-conta').value; 
-            const valor = parseFloat(document.getElementById('valor-conta').value);
-            if (!nome || !valor) return;
-            
-            if (idContaEdicao) {
-                // MODO EDIÇÃO
-                const index = listaContas.findIndex(c => c.id === idContaEdicao);
-                const statusPago = listaContas[index].pago || false; // Mantém se estava pago
-                if(index !== -1) listaContas[index] = { id: idContaEdicao, nome, valor, pago: statusPago };
-                cancelarEdicaoConta();
-            } else {
-                // MODO CRIAÇÃO
-                listaContas.push({ id: Date.now(), nome, valor, pago: false }); 
-            }
-
-            localStorage.setItem('minhasContas', JSON.stringify(listaContas));
-            document.getElementById('nome-conta').value = ""; document.getElementById('valor-conta').value = ""; 
-            atualizarInterfaceGeral(); renderizarListasIndividuais();
+        function adicionarGanhoExtra() {
+            const desc = document.getElementById('extra-desc').value; const valor = parseFloat(document.getElementById('extra-valor').value); if (!desc || !valor) return;
+            dadosGlobais.extras.unshift({ id: Date.now(), desc, valor, data: new Date().toISOString(), mesRef: mesSelecionado });
+            salvarDB(); limparCampos(['extra-desc', 'extra-valor']); atualizarInterfaceGeral(); renderizarListasIndividuais();
         }
-
-        function prepararEdicaoConta(id) {
-            const item = listaContas.find(c => c.id === id);
-            document.getElementById('nome-conta').value = item.nome;
-            document.getElementById('valor-conta').value = item.valor;
-            idContaEdicao = id;
-            
-            // Muda o botão para laranja
-            const btn = document.getElementById('btn-salvar-conta');
-            btn.innerText = "Atualizar Conta";
-            btn.classList.add('btn-editar');
-            document.getElementById('btn-cancelar-conta').style.display = 'block';
-        }
-
-        function cancelarEdicaoConta() {
-            idContaEdicao = null;
-            document.getElementById('nome-conta').value = "";
-            document.getElementById('valor-conta').value = "";
-            
-            const btn = document.getElementById('btn-salvar-conta');
-            btn.innerText = "Salvar Conta";
-            btn.classList.remove('btn-editar');
-            document.getElementById('btn-cancelar-conta').style.display = 'none';
-        }
-
-        // --- LÓGICA DE EMPRÉSTIMOS (MANTEVE IGUAL) ---
         function salvarEmprestimo() {
-            const nome = document.getElementById('emp-nome').value; const valor = parseFloat(document.getElementById('emp-valor').value); const data = document.getElementById('emp-data').value;
-            if(!nome || !valor || !data) return;
-            if (idEmprestimoEdicao) { 
-                const index = listaEmprestimos.findIndex(item => item.id === idEmprestimoEdicao); 
-                const statusRecebido = listaEmprestimos[index].recebido || false;
-                if(index !== -1) listaEmprestimos[index] = { id: idEmprestimoEdicao, nome, valor, data, recebido: statusRecebido }; 
-                cancelarEdicao(); 
-            } 
-            else { listaEmprestimos.push({ id: Date.now(), nome, valor, data, recebido: false }); }
-            localStorage.setItem('meusEmprestimos', JSON.stringify(listaEmprestimos));
-            document.getElementById('emp-nome').value = ""; document.getElementById('emp-valor').value = ""; document.getElementById('emp-data').value = ""; renderizarListasIndividuais(); atualizarInterfaceGeral();
+             const nome = document.getElementById('emp-nome').value; const valor = parseFloat(document.getElementById('emp-valor').value); const data = document.getElementById('emp-data').value;
+            if(!nome || !valor) return;
+            if(idEmprestimoEdicao) { const item = dadosGlobais.emprestimos.find(e => e.id === idEmprestimoEdicao); if(item) { item.nome = nome; item.valor = valor; item.data = data; } cancelarEdicao(); } 
+            else { dadosGlobais.emprestimos.push({ id: Date.now(), nome, valor, data, recebido: false }); }
+            salvarDB(); limparCampos(['emp-nome', 'emp-valor', 'emp-data']); renderizarListasIndividuais(); atualizarInterfaceGeral();
         }
-        function prepararEdicao(id) {
-            const item = listaEmprestimos.find(e => e.id === id); 
-            document.getElementById('emp-nome').value = item.nome; document.getElementById('emp-valor').value = item.valor; document.getElementById('emp-data').value = item.data; idEmprestimoEdicao = id;
-            document.getElementById('btn-salvar-emprestimo').innerText = "Atualizar"; document.getElementById('btn-salvar-emprestimo').classList.add('btn-editar'); document.getElementById('btn-cancelar-edicao').style.display = 'block';
-        }
-        function cancelarEdicao() {
-            idEmprestimoEdicao = null; document.getElementById('emp-nome').value = ""; document.getElementById('emp-valor').value = ""; document.getElementById('emp-data').value = "";
-            document.getElementById('btn-salvar-emprestimo').innerText = "Salvar"; document.getElementById('btn-salvar-emprestimo').classList.remove('btn-editar'); document.getElementById('btn-cancelar-edicao').style.display = 'none';
+        function adicionarMeta() {
+            const nome = document.getElementById('meta-nome').value; const valor = parseFloat(document.getElementById('meta-valor').value); if(!nome || !valor) return;
+            dadosGlobais.metas.push({ id: Date.now(), nome, total: valor, guardado: 0 }); salvarDB(); limparCampos(['meta-nome', 'meta-valor']); renderizarMetas();
         }
 
-        // --- AÇÕES GERAIS ---
+        // --- HELPERS ---
+        function limparCampos(ids) { ids.forEach(id => document.getElementById(id).value = ""); }
+        let idContaEdicao = null; let idEmprestimoEdicao = null;
+        function prepararEdicaoConta(id) {
+            const item = dadosGlobais.contas.find(c => c.id === id); document.getElementById('nome-conta').value = item.nome; document.getElementById('valor-conta').value = item.valor; document.getElementById('vencimento-conta').value = item.vencimento || "";
+            idContaEdicao = id; document.getElementById('btn-salvar-conta').innerText = "Atualizar"; document.getElementById('btn-cancelar-conta').style.display = 'block';
+        }
+        function cancelarEdicaoConta() { idContaEdicao = null; limparCampos(['nome-conta', 'valor-conta', 'vencimento-conta']); document.getElementById('btn-salvar-conta').innerText = "Salvar Conta"; document.getElementById('btn-cancelar-conta').style.display = 'none'; }
+        function prepararEdicao(id) { const item = dadosGlobais.emprestimos.find(e => e.id === id); document.getElementById('emp-nome').value = item.nome; document.getElementById('emp-valor').value = item.valor; document.getElementById('emp-data').value = item.data; idEmprestimoEdicao = id; document.getElementById('btn-salvar-emprestimo').innerText = "Atualizar"; document.getElementById('btn-cancelar-edicao').style.display = 'block'; }
+        function cancelarEdicao() { idEmprestimoEdicao = null; limparCampos(['emp-nome', 'emp-valor', 'emp-data']); document.getElementById('btn-salvar-emprestimo').innerText = "Salvar"; document.getElementById('btn-cancelar-edicao').style.display = 'none'; }
+        
         function removerItem(tipo, id) {
-            if(confirm("Deseja excluir?")) {
-                if(tipo === 'extra') listaGanhosExtras = listaGanhosExtras.filter(i => i.id !== id);
-                if(tipo === 'conta') {
-                    listaContas = listaContas.filter(i => i.id !== id);
-                    if(id === idContaEdicao) cancelarEdicaoConta();
-                }
-                if(tipo === 'gasto') listaGastosDiarios = listaGastosDiarios.filter(i => i.id !== id);
-                if(tipo === 'emp') {
-                    listaEmprestimos = listaEmprestimos.filter(i => i.id !== id);
-                    if(id === idEmprestimoEdicao) cancelarEdicao();
-                }
-                salvarTudo(); atualizarInterfaceGeral(); renderizarListasIndividuais();
+            if(confirm("Excluir?")) {
+                if(tipo==='conta') dadosGlobais.contas = dadosGlobais.contas.filter(i=>i.id!==id);
+                if(tipo==='gasto') dadosGlobais.gastos = dadosGlobais.gastos.filter(i=>i.id!==id);
+                if(tipo==='extra') dadosGlobais.extras = dadosGlobais.extras.filter(i=>i.id!==id);
+                if(tipo==='meta') dadosGlobais.metas = dadosGlobais.metas.filter(i=>i.id!==id);
+                if(tipo==='emp') dadosGlobais.emprestimos = dadosGlobais.emprestimos.filter(i=>i.id!==id);
+                salvarDB(); atualizarInterfaceGeral(); renderizarListasIndividuais(); renderizarMetas(); verificarBotaoImportar();
             }
         }
         function toggleStatus(tipo, id) {
-            if(tipo === 'conta') { const item = listaContas.find(i => i.id === id); if(item) item.pago = !item.pago; }
-            if(tipo === 'emp') { const item = listaEmprestimos.find(i => i.id === id); if(item) item.recebido = !item.recebido; }
-            salvarTudo(); atualizarInterfaceGeral(); renderizarListasIndividuais();
+            if(tipo==='conta') { const item = dadosGlobais.contas.find(i=>i.id===id); if(item) item.pago = !item.pago; }
+            if(tipo==='emp') { const item = dadosGlobais.emprestimos.find(i=>i.id===id); if(item) item.recebido = !item.recebido; }
+            salvarDB(); atualizarInterfaceGeral(); renderizarListasIndividuais();
         }
-        function salvarTudo() {
-            localStorage.setItem('meusGanhosExtras', JSON.stringify(listaGanhosExtras)); localStorage.setItem('minhasContas', JSON.stringify(listaContas));
-            localStorage.setItem('meusGastosDiarios', JSON.stringify(listaGastosDiarios)); localStorage.setItem('meusEmprestimos', JSON.stringify(listaEmprestimos));
-        }
+        function depositarMeta(id) { const v = parseFloat(prompt("Valor:").replace(',','.')); if(v>0){ const m = dadosGlobais.metas.find(i=>i.id===id); m.guardado+=v; salvarDB(); renderizarMetas(); }}
 
+        // --- RENDER ---
         function atualizarInterfaceGeral() {
             const fmt = { style: 'currency', currency: 'BRL' };
-            const totalExtras = listaGanhosExtras.reduce((acc, g) => acc + g.valor, 0); 
-            const totalEmprestimosRecebidos = listaEmprestimos.filter(e => e.recebido).reduce((acc, e) => acc + e.valor, 0);
-            const totalReceita = salarioAtual + totalExtras + totalEmprestimosRecebidos;
+            const salarioMes = dadosGlobais.salarios[mesSelecionado] || 0;
+            const extrasMes = dadosGlobais.extras.filter(i => i.mesRef === mesSelecionado);
+            const contasMes = dadosGlobais.contas.filter(i => i.mesRef === mesSelecionado);
+            const gastosMes = dadosGlobais.gastos.filter(i => i.mesRef === mesSelecionado);
+            const empRecebidos = dadosGlobais.emprestimos.filter(e => e.recebido);
 
-            const totalContasPendentes = listaContas.filter(c => !c.pago).reduce((acc, c) => acc + c.valor, 0);
-            const totalDiarios = listaGastosDiarios.reduce((acc, g) => acc + g.valor, 0); 
-            const totalSaida = totalContasPendentes + totalDiarios;
+            const receitaTotal = salarioMes + extrasMes.reduce((a,b)=>a+b.valor,0) + empRecebidos.reduce((a,b)=>a+b.valor,0);
+            const totalSaida = contasMes.filter(c => !c.pago).reduce((a,b)=>a+b.valor,0) + gastosMes.reduce((a,b)=>a+b.valor,0);
+            const saldo = receitaTotal - totalSaida;
 
-            const sobra = totalReceita - totalSaida;
-
-            document.getElementById('dash-receita').innerText = totalReceita.toLocaleString('pt-BR', fmt);
+            document.getElementById('dash-receita').innerText = receitaTotal.toLocaleString('pt-BR', fmt);
             document.getElementById('dash-gastos').innerText = totalSaida.toLocaleString('pt-BR', fmt);
-            document.getElementById('dash-saldo').innerText = sobra.toLocaleString('pt-BR', fmt);
+            document.getElementById('dash-saldo').innerText = saldo.toLocaleString('pt-BR', fmt);
             
-            const cardSaldo = document.getElementById('card-saldo');
-            const tituloSaldo = document.getElementById('titulo-saldo');
-            if (sobra < 0) { cardSaldo.classList.remove('saldo-positivo'); cardSaldo.classList.add('saldo-negativo'); tituloSaldo.innerText = "Faltou no Mês"; } 
-            else { cardSaldo.classList.remove('saldo-negativo'); cardSaldo.classList.add('saldo-positivo'); tituloSaldo.innerText = "Sobrou no Mês"; }
-
-            document.getElementById('input-salario').value = salarioAtual > 0 ? salarioAtual : "";
-            document.getElementById('txt-salario-atual').innerText = salarioAtual.toLocaleString('pt-BR', fmt);
+            const card = document.getElementById('card-saldo');
+            if(saldo < 0) { card.className = "card saldo-negativo"; } else { card.className = "card saldo-positivo"; }
+            document.getElementById('input-salario').value = salarioMes || "";
         }
 
         function renderizarListasIndividuais() {
             const fmt = { style: 'currency', currency: 'BRL' };
-            const render = (lista, elId, tipo, classeBorda, corTexto) => {
+            const render = (lista, elId, tipo, border, color) => {
                 const el = document.getElementById(elId); el.innerHTML = "";
+                if(lista.length === 0) el.innerHTML = "<p style='text-align:center; color:#ccc; font-size:12px; margin-top:10px;'>Vazio</p>";
                 lista.forEach(item => {
-                    const dataShow = item.data ? new Date(item.data).toLocaleDateString('pt-BR',{timeZone:'UTC'}) : '';
-                    const desc = item.nome || item.desc;
-                    let classeExtra = ""; let iconStatus = "fa-check"; let textoStatus = "Concluir";
-                    if (item.pago) { classeExtra = "riscado"; textoStatus = "Desmarcar"; }
-
-                    // Menu dropdown incluindo EDITAR na conta
-                    let botaoEditar = "";
-                    if(tipo === 'conta') {
-                        botaoEditar = `<button onclick="prepararEdicaoConta(${item.id})" class="opt-edit"><i class="fa-solid fa-pen"></i> Editar</button>`;
-                    }
+                    let st = ""; let txtBtn = "Concluir"; let icon = "fa-check";
+                    if(item.pago) { st = "riscado"; txtBtn = "Reabrir"; }
+                    if(item.recebido) { border = "border-green"; txtBtn = "Desmarcar"; }
+                    
+                    let dataShow = formatData(item.data);
+                    if(tipo === 'conta' && item.vencimento) dataShow = `Vence: ${formatData(item.vencimento)}`;
+                    let editBtn = (tipo === 'conta' || tipo === 'emp') ? `<button onclick="prepararEdicao${tipo==='conta'?'Conta':''}(${item.id})">Editar</button>` : '';
 
                     el.innerHTML += `
-                    <li class="item-conta ${classeBorda} ${classeExtra}">
-                        <div class="conta-info"><strong>${desc}</strong><small>${dataShow}</small></div>
+                    <li class="item-conta ${border} ${st}">
+                        <div class="conta-info"><strong>${item.nome || item.desc}</strong><small>${dataShow}</small></div>
                         <div style="display:flex; align-items:center;">
-                            <strong style="margin-right:15px; color:${corTexto};">${item.valor.toLocaleString('pt-BR', fmt)}</strong>
+                            <strong style="margin-right:10px; color:${color}">${item.valor.toLocaleString('pt-BR', fmt)}</strong>
                             <div style="position:relative;">
                                 <button class="btn-more" onclick="abrirDropdown('${tipo}', ${item.id})"><i class="fa-solid fa-ellipsis-vertical"></i></button>
                                 <div id="drop-${tipo}-${item.id}" class="dropdown-menu">
-                                    ${tipo === 'conta' ? `<button onclick="toggleStatus('${tipo}', ${item.id})" class="opt-check"><i class="fa-solid ${iconStatus}"></i> ${textoStatus}</button>` : ''}
-                                    ${botaoEditar}
+                                    ${(tipo === 'conta' || tipo === 'emp') ? `<button onclick="toggleStatus('${tipo}', ${item.id})" class="opt-check"><i class="fa-solid ${icon}"></i> ${txtBtn}</button>` : ''}
+                                    ${editBtn}
                                     <button onclick="removerItem('${tipo}', ${item.id})" class="opt-del"><i class="fa-solid fa-trash"></i> Excluir</button>
                                 </div>
                             </div>
@@ -440,69 +461,59 @@
                     </li>`;
                 });
             };
-            
-            // Render Empréstimos (Separado)
-            const elEmp = document.getElementById('lista-visual-emprestimos'); elEmp.innerHTML = "";
-            listaEmprestimos.forEach(item => {
-                const dataShow = new Date(item.data).toLocaleDateString('pt-BR',{timeZone:'UTC'});
-                let classeExtra = item.recebido ? "border-green" : "border-blue";
-                let textoStatus = item.recebido ? "Desmarcar" : "Marcar Recebido";
-                elEmp.innerHTML += `
-                <li class="item-conta ${classeExtra}">
-                    <div class="conta-info"><strong>${item.nome} ${item.recebido ? '(Recebido)' : ''}</strong><small>${dataShow}</small></div>
-                    <div style="display:flex; align-items:center;">
-                        <strong style="margin-right:15px; color:#2980b9;">${item.valor.toLocaleString('pt-BR', fmt)}</strong>
-                         <div style="position:relative;">
-                            <button class="btn-more" onclick="abrirDropdown('emp', ${item.id})"><i class="fa-solid fa-ellipsis-vertical"></i></button>
-                            <div id="drop-emp-${item.id}" class="dropdown-menu">
-                                <button onclick="toggleStatus('emp', ${item.id})" class="opt-check"><i class="fa-solid fa-hand-holding-dollar"></i> ${textoStatus}</button>
-                                <button onclick="prepararEdicao(${item.id})" class="opt-edit"><i class="fa-solid fa-pen"></i> Editar</button>
-                                <button onclick="removerItem('emp', ${item.id})" class="opt-del"><i class="fa-solid fa-trash"></i> Excluir</button>
-                            </div>
-                        </div>
-                    </div>
-                </li>`;
+            render(dadosGlobais.extras.filter(i => i.mesRef === mesSelecionado), 'lista-visual-extras', 'extra', 'border-green', '#27ae60');
+            render(dadosGlobais.contas.filter(i => i.mesRef === mesSelecionado), 'lista-visual-contas', 'conta', 'border-red', '#c0392b');
+            render(dadosGlobais.gastos.filter(i => i.mesRef === mesSelecionado), 'lista-visual-gastos', 'gasto', 'border-orange', '#e67e22');
+            render(dadosGlobais.emprestimos, 'lista-visual-emprestimos', 'emp', 'border-blue', '#2980b9');
+        }
+
+        function renderizarMetas() {
+            const el = document.getElementById('lista-visual-metas'); el.innerHTML = "";
+            dadosGlobais.metas.forEach(m => {
+                let pct = (m.guardado / m.total) * 100; if(pct > 100) pct = 100;
+                el.innerHTML += `
+                <div class="meta-card">
+                    <button class="btn-excluir-meta" onclick="removerItem('meta', ${m.id})"><i class="fa-solid fa-trash"></i></button>
+                    <h3>${m.nome}</h3>
+                    <div style="display:flex; justify-content:space-between; font-size:13px; margin-bottom:5px;"><span>Guardado: R$ ${m.guardado}</span><span>Meta: R$ ${m.total}</span></div>
+                    <div class="barra-fundo"><div class="barra-progresso ${pct >= 100 ? 'barra-completa' : ''}" style="width:${pct}%"></div></div>
+                    <button class="btn-depositar" onclick="depositarMeta(${m.id})">Guardar (+)</button>
+                </div>`;
             });
-            render(listaGanhosExtras, 'lista-visual-extras', 'extra', 'border-green', '#27ae60');
-            render(listaContas, 'lista-visual-contas', 'conta', 'border-red', '#c0392b');
-            render(listaGastosDiarios, 'lista-visual-gastos', 'gasto', 'border-orange', '#e67e22');
         }
+        function formatData(iso) { if(!iso) return ""; return new Date(iso).toLocaleDateString('pt-BR', {timeZone:'UTC'}); }
+        function abrirDropdown(t, i) { document.querySelectorAll('.dropdown-menu').forEach(d => d.classList.remove('show')); document.getElementById(`drop-${t}-${i}`).classList.toggle('show'); }
+        window.onclick = function(e) { if(!e.target.matches('.btn-more') && !e.target.matches('.fa-ellipsis-vertical')) document.querySelectorAll('.dropdown-menu').forEach(d => d.classList.remove('show')); }
 
-        // --- DROPDOWNS ---
-        function abrirDropdown(tipo, id) {
-            document.querySelectorAll('.dropdown-menu').forEach(el => el.classList.remove('show'));
-            document.getElementById(`drop-${tipo}-${id}`).classList.toggle('show');
-        }
-        window.onclick = function(event) {
-            if (!event.target.matches('.btn-more') && !event.target.matches('.fa-ellipsis-vertical')) {
-                document.querySelectorAll('.dropdown-menu').forEach(el => el.classList.remove('show'));
+        // --- GRÁFICO ---
+        let financeChart;
+        function atualizarGrafico() {
+            const ctx = document.getElementById('financeChart').getContext('2d');
+            const labels = []; const dEnt = []; const dSai = [];
+            for (let i = 0; i < 12; i++) {
+                let chave = `${anoFixo}-${String(i + 1).padStart(2, '0')}`;
+                let sal = dadosGlobais.salarios[chave] || 0;
+                let ext = dadosGlobais.extras.filter(e => e.mesRef === chave).reduce((a,b)=>a+b.valor,0);
+                let con = dadosGlobais.contas.filter(c => c.mesRef === chave).reduce((a,b)=>a+b.valor,0);
+                let gas = dadosGlobais.gastos.filter(g => g.mesRef === chave).reduce((a,b)=>a+b.valor,0);
+                dEnt.push(sal + ext); dSai.push(con + gas); labels.push(mesesNomes[i]);
             }
+            if(financeChart) financeChart.destroy();
+            financeChart = new Chart(ctx, { type: 'bar', data: { labels: labels, datasets: [{ label: 'Entrada', data: dEnt, backgroundColor: '#27ae60' }, { label: 'Saída', data: dSai, backgroundColor: '#c0392b' }] }, options: { responsive: true, maintainAspectRatio: false } });
         }
 
-        // --- MODAL DE INSTALAÇÃO ---
-        const modal = document.getElementById('modal-ajuda');
+        // --- INSTALL LOGIC ---
         let deferredPrompt;
-        function abrirModalAjuda() { modal.style.display = "flex"; }
-        function fecharModalAjuda() { modal.style.display = "none"; }
-
-        // Evento que detecta se pode instalar no Android/Chrome
-        window.addEventListener('beforeinstallprompt', (e) => {
-            e.preventDefault();
-            deferredPrompt = e;
-            // Se o evento disparar, mostramos o botão e escondemos a msg de manual
-            document.getElementById('btn-instalar-android').style.display = 'block';
-            document.getElementById('msg-android-manual').style.display = 'none';
-        });
-
-        async function instalarAppAndroid() {
-            if (deferredPrompt) {
-                deferredPrompt.prompt();
-                const { outcome } = await deferredPrompt.userChoice;
-                if (outcome === 'accepted') deferredPrompt = null;
-            }
+        window.addEventListener('beforeinstallprompt', (e) => { e.preventDefault(); deferredPrompt = e; });
+        async function tentarInstallAndroid() {
+            if(deferredPrompt) { deferredPrompt.prompt(); deferredPrompt = null; } 
+            else { document.getElementById('android-help').style.display = 'block'; }
         }
+        function mostrarHelpIOS() { document.getElementById('ios-help').style.display = 'block'; }
 
-        if ('serviceWorker' in navigator) navigator.serviceWorker.register('sw.js').catch(err => console.log(err));
+        // START
+        gerarBarraMeses(); atualizarInterfaceGeral(); renderizarListasIndividuais(); renderizarMetas(); atualizarGrafico();
+        if ('serviceWorker' in navigator) navigator.serviceWorker.register('sw.js');
     </script>
 </body>
 </html>
