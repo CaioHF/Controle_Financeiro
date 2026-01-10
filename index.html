@@ -37,37 +37,35 @@
         
         body { 
             background-color: var(--background); color: var(--text-primary); 
-            min-height: 100vh; padding-bottom: 90px; padding-top: 110px; /* Aumentado para caber Header + Meses */
+            min-height: 100vh; padding-bottom: 90px; padding-top: 110px; 
             transition: 0.3s; 
         }
 
         main { padding: 20px; max-width: 1200px; margin: 0 auto; width: 100%; }
 
-        /* HEADER MOBILE (Integrado com Meses) */
+        /* HEADER MOBILE (Integrado) */
         header.mobile-header { 
             position: fixed; top: 0; left: 0; width: 100%; height: 50px; 
             background-color: var(--nav-bg); 
-            /* Sem borda ou sombra aqui para unir com a barra de meses */
             display: flex; justify-content: center; align-items: center; z-index: 1000; gap: 10px;
         }
         header.mobile-header img { width: 24px; }
         header.mobile-header h2 { font-size: 16px; margin: 0; color: var(--primary); text-transform: uppercase; letter-spacing: 1px; }
 
-        /* BARRA DE MESES (Agora com fundo do header) */
+        /* BARRA DE MESES */
         .meses-container { 
             display: flex; overflow-x: auto; gap: 8px; padding: 10px 15px 15px 15px; 
             scrollbar-width: none; 
-            background: var(--nav-bg); /* Fundo igual ao header */
+            background: var(--nav-bg); 
             position: fixed; top: 50px; left: 0; width: 100%; z-index: 999; 
             border-bottom: 1px solid var(--border); box-shadow: var(--shadow);
         }
         .meses-container::-webkit-scrollbar { display: none; }
         
         .mes-pill { 
-            background-color: var(--background); /* Leve contraste */
-            color: var(--text-secondary); padding: 6px 16px; border-radius: 20px; 
-            white-space: nowrap; cursor: pointer; border: 1px solid var(--border); 
-            font-weight: 600; font-size: 13px; transition: 0.3s; 
+            background-color: var(--background); color: var(--text-secondary); 
+            padding: 6px 16px; border-radius: 20px; white-space: nowrap; cursor: pointer; 
+            border: 1px solid var(--border); font-weight: 600; font-size: 13px; transition: 0.3s; 
         }
         .mes-pill.mes-ativo { 
             background-color: var(--primary); color: #fff; 
@@ -75,7 +73,7 @@
             box-shadow: 0 2px 5px rgba(0,0,0,0.2);
         }
 
-        /* SIDEBAR DESKTOP (Invisível no Mobile) */
+        /* SIDEBAR DESKTOP */
         .desktop-sidebar { display: none; }
 
         /* CARDS & DASHBOARD */
@@ -99,9 +97,8 @@
         .input-group input, .input-group select { width: 100%; padding: 12px; border: 1px solid var(--border); border-radius: 10px; outline: none; font-size: 16px; background-color: var(--background); color: var(--text-primary); transition: 0.3s; }
         .input-group input:focus, .input-group select:focus { border-color: var(--primary); }
         
-        /* CORREÇÃO DO INPUT DE SALÁRIO (Para caber na linha) */
         .input-row { display: flex; gap: 8px; align-items: center; width: 100%; }
-        .input-row input { flex: 1; width: 100%; min-width: 0; } /* Ocupa espaço mas permite encolher */
+        .input-row input { flex: 1; width: 100%; min-width: 0; }
         .btn-check { 
             background-color: var(--secondary); color: #fff; border: none; 
             width: 48px; height: 45px; border-radius: 10px; font-size: 18px; 
@@ -120,7 +117,7 @@
         .border-green { border-left: 4px solid var(--success); } .border-red { border-left: 4px solid var(--danger); }
         .riscado { opacity: 0.5; text-decoration: line-through; background-color: var(--background); }
 
-        /* Dropdown e Modal */
+        /* UI ELEMENTS */
         .btn-more { background: none; border: none; font-size: 18px; color: var(--text-secondary); padding: 5px 10px; }
         .dropdown-menu { display: none; position: absolute; right: 40px; bottom: 100%; background-color: var(--card); min-width: 140px; box-shadow: 0 10px 30px rgba(0,0,0,0.2); z-index: 99; border-radius: 10px; border: 1px solid var(--border); margin-bottom: 5px; }
         .dropdown-menu.show { display: block; }
@@ -131,10 +128,14 @@
         .modal-content { background-color: var(--card); padding: 25px; border-radius: 25px 25px 0 0; width: 100%; max-width: 600px; animation: slideUp 0.3s; max-height: 85vh; overflow-y: auto; color: var(--text-primary); }
         @keyframes slideUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
         
-        /* MENU GRID (Mobile Only) */
-        .menu-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 20px; margin-bottom: 30px; /* ESPAÇAMENTO ADICIONADO */ }
-        .menu-option { background-color: var(--background); padding: 20px; border-radius: 15px; text-align: center; cursor: pointer; border: 1px solid var(--border); }
-        .menu-option i { font-size: 26px; margin-bottom: 8px; display: block; color: var(--primary); }
+        /* Menu Grid Mobile (AJUSTADO) */
+        .menu-grid { 
+            display: grid; grid-template-columns: 1fr 1fr; gap: 15px; 
+            margin-top: 20px; 
+            margin-bottom: 25px; /* Espaço entre os quadrados e a lista */
+        }
+        .menu-option { background-color: var(--background); padding: 20px; border-radius: 15px; text-align: center; cursor: pointer; border: 1px solid var(--border); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 10px; font-weight: 500; }
+        .menu-option i { font-size: 26px; color: var(--primary); }
         
         .config-section button { margin-bottom: 10px; width: 100%; padding: 12px; border-radius: 10px; border: 1px solid var(--border); background: var(--background); color: var(--text-primary); text-align: left; display: flex; gap: 10px; align-items: center; }
 
@@ -147,11 +148,10 @@
         .btn-eq { background-color: var(--success) !important; color: white !important; border: none !important; }
         .btn-clr { background-color: var(--danger) !important; color: white !important; border: none !important; }
 
-        /* BOTTOM NAV (CORRIGIDO E FIXO) */
+        /* BOTTOM NAV */
         .bottom-nav {
             position: fixed; bottom: 0; left: 0; width: 100%; height: 70px;
-            background-color: var(--nav-bg); /* Garante fundo */
-            border-top: 1px solid var(--border);
+            background-color: var(--nav-bg); border-top: 1px solid var(--border);
             display: flex; justify-content: space-around; align-items: center;
             z-index: 1000; box-shadow: 0 -4px 20px rgba(0,0,0,0.05);
         }
@@ -167,7 +167,6 @@
             body { padding: 0; padding-left: var(--sidebar-width); padding-top: 0; }
             .bottom-nav, header.mobile-header, .menu-grid { display: none !important; }
 
-            /* SIDEBAR DESKTOP */
             .desktop-sidebar {
                 display: flex; flex-direction: column; width: var(--sidebar-width); height: 100vh;
                 position: fixed; left: 0; top: 0; background-color: var(--nav-bg);
@@ -182,9 +181,8 @@
             .sidebar-item:hover { background-color: var(--background); color: var(--primary); }
             .sidebar-item.active { background-color: var(--primary); color: #fff; font-weight: 600; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
             
-            /* LAYOUT PRINCIPAL */
             main { padding: 40px; max-width: 1200px; }
-            .meses-container { position: sticky; top: 0; padding: 20px 0; background-color: var(--background); z-index: 90; box-shadow: none; border: none; }
+            .meses-container { position: sticky; top: 0; padding: 20px 0; background-color: var(--background); z-index: 90; box-shadow: none; border: none; width: auto; left: auto; }
             .resumo-cards { flex-direction: row; }
             .card:hover { transform: translateY(-5px); }
             .form-container { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; align-items: end; }
@@ -209,6 +207,7 @@
 <body>
 
     <header class="mobile-header">
+        <img src="https://cdn-icons-png.flaticon.com/512/2488/2488749.png" alt="Logo">
         <h2>Minhas Finanças</h2>
     </header>
 
@@ -271,7 +270,6 @@
                 <div class="input-group"><label>Nome</label><input type="text" id="nome-conta"></div>
                 <div class="input-group"><label>Valor</label><input type="number" id="valor-conta"></div>
                 <div class="input-group"><label>Vencimento</label><input type="date" id="vencimento-conta"></div>
-                
                 <button class="btn-sucesso form-full-width" onclick="adicionarConta()">Salvar Conta</button>
                 <button id="btn-cancelar-conta" class="form-full-width" onclick="cancelarEdicaoConta()" style="display:none; margin-top:10px; width:100%; padding:10px; border:none; border-radius:8px; background:var(--danger); color:white; font-weight:bold;">Cancelar</button>
             </div>
@@ -323,12 +321,13 @@
     <div id="modal-mais" class="modal">
         <div class="modal-content">
             <div class="menu-header"><h3>Menu</h3><span class="close-modal" onclick="fecharMenuMais()">&times;</span></div>
-            <div class="menu-grid" style="display: grid;"> 
+            <div class="menu-grid"> 
                 <div class="menu-option" onclick="navegar('metas'); fecharMenuMais()"><i class="fa-solid fa-bullseye"></i> Metas</div>
                 <div class="menu-option" onclick="navegar('emprestados'); fecharMenuMais()"><i class="fa-solid fa-hand-holding-dollar"></i> Empréstimos</div>
+                <div class="menu-option" onclick="abrirCalculadora()"><i class="fa-solid fa-calculator"></i> Calculadora</div>
+                <div class="menu-option" onclick="abrirRelatorioDRE()"><i class="fa-solid fa-file-invoice"></i> Relatórios</div>
             </div>
             <div class="config-section">
-                <button class="btn-config" onclick="abrirCalculadora()"><i class="fa-solid fa-calculator"></i> Calculadora</button>
                 <button class="btn-config" onclick="toggleDarkMode()"><i id="icon-theme" class="fa-solid fa-moon"></i> Alternar Tema</button>
                 <button class="btn-config" onclick="baixarBackup()"><i class="fa-solid fa-download"></i> Salvar Backup</button>
                 <button class="btn-config" onclick="document.getElementById('input-restore').click()"><i class="fa-solid fa-upload"></i> Restaurar Backup</button>
@@ -374,11 +373,17 @@
         </div>
     </div>
 
-    <div id="modal-relatorio" class="modal">
+    <div id="modal-lista" class="modal" onclick="fecharModal(event, 'modal-lista')">
         <div class="modal-content">
-            <div class="menu-header"><h3 id="titulo-relatorio">Detalhes</h3><span class="close-modal" onclick="document.getElementById('modal-relatorio').style.display='none'">&times;</span></div>
-            <ul id="lista-relatorio" class="relatorio-lista"></ul>
-            <div id="total-relatorio" style="text-align:right; font-size:18px; font-weight:bold; margin-top:15px; color:var(--text-primary);"></div>
+            <div class="menu-header"><h3 id="titulo-lista">Detalhes</h3><span class="close-modal" onclick="document.getElementById('modal-lista').style.display='none'">&times;</span></div>
+            <ul id="conteudo-lista" style="list-style:none; margin-top:15px;"></ul>
+        </div>
+    </div>
+
+    <div id="modal-dre" class="modal" onclick="fecharModal(event, 'modal-dre')">
+        <div class="modal-content">
+            <div class="menu-header"><h3>Relatório DRE</h3><span class="close-modal" onclick="document.getElementById('modal-dre').style.display='none'">&times;</span></div>
+            <div id="conteudo-dre" style="margin-top:20px; font-size:14px; line-height:1.6;"></div>
         </div>
     </div>
 
@@ -404,6 +409,22 @@
             mesSelecionado = chave; gerarBarraMeses(); atualizarInterfaceGeral(); renderizarListasIndividuais();
             document.querySelectorAll('input[type="date"]').forEach(input => { input.value = `${chave}-01`; });
             verificarBotaoImportar();
+        }
+
+        // --- CALCULADORA (FUNÇÕES NO TOPO) ---
+        function abrirCalculadora() {
+            document.getElementById('modal-mais').style.display = 'none'; // Fecha Menu
+            document.getElementById('modal-calculadora').style.display = 'flex'; // Abre Calculadora
+        }
+        function addCalc(v) {
+            const d = document.getElementById('calc-display');
+            if(d.innerText === '0' && !['/','*','-','+'].includes(v)) d.innerText = v;
+            else d.innerText += v;
+        }
+        function clearCalc() { document.getElementById('calc-display').innerText = '0'; }
+        function resultCalc() {
+            try { document.getElementById('calc-display').innerText = eval(document.getElementById('calc-display').innerText); }
+            catch { document.getElementById('calc-display').innerText = 'Erro'; }
         }
 
         // --- DARK MODE ---
@@ -473,44 +494,51 @@
 
         // --- RELATÓRIO ---
         function abrirRelatorio(tipo) {
-            const modal = document.getElementById('modal-relatorio');
-            const lista = document.getElementById('lista-relatorio');
-            const totalEl = document.getElementById('total-relatorio');
-            const titulo = document.getElementById('titulo-relatorio');
+            const modal = document.getElementById('modal-lista');
+            const lista = document.getElementById('conteudo-lista');
+            const titulo = document.getElementById('titulo-lista');
             const fmt = { style: 'currency', currency: 'BRL' };
             lista.innerHTML = ""; let total = 0; let itens = [];
 
             if (tipo === 'entrada') {
                 titulo.innerText = "Entradas"; titulo.style.color = "var(--success)";
-                const sal = dadosGlobais.salarios[mesSelecionado] || 0; if(sal > 0) itens.push({nome: "Salário", valor: sal});
-                dadosGlobais.extras.filter(i => i.mesRef === mesSelecionado).forEach(e => itens.push({nome: e.desc, valor: e.valor}));
-                dadosGlobais.emprestimos.filter(e => e.recebido).forEach(e => itens.push({nome: `Recebido: ${e.nome}`, valor: e.valor}));
+                const sal = dadosGlobais.salarios[mesSelecionado] || 0; if(sal > 0) itens.push({n: "Salário", v: sal});
+                dadosGlobais.extras.filter(i => i.mesRef === mesSelecionado).forEach(e => itens.push({n: e.desc, v: e.valor}));
+                dadosGlobais.emprestimos.filter(e => e.recebido).forEach(e => itens.push({n: `Recebido: ${e.nome}`, v: e.valor}));
             } else {
                 titulo.innerText = "Saídas"; titulo.style.color = "var(--danger)";
-                dadosGlobais.contas.filter(c => c.mesRef === mesSelecionado && !c.pago).forEach(c => itens.push({nome: c.nome, valor: c.valor}));
-                dadosGlobais.gastos.filter(g => g.mesRef === mesSelecionado).forEach(g => itens.push({nome: g.nome, valor: g.valor}));
+                dadosGlobais.contas.filter(c => c.mesRef === mesSelecionado && !c.pago).forEach(c => itens.push({n: c.nome, v: c.valor}));
+                dadosGlobais.gastos.filter(g => g.mesRef === mesSelecionado).forEach(g => itens.push({n: g.nome, v: g.valor}));
             }
 
             if(itens.length === 0) lista.innerHTML = "<li style='text-align:center; padding:10px;'>Sem registros.</li>";
-            else itens.forEach(i => { total += i.valor; lista.innerHTML += `<li class="relatorio-item"><span>${i.nome}</span><span>${i.valor.toLocaleString('pt-BR', fmt)}</span></li>`; });
-            totalEl.innerText = `Total: ${total.toLocaleString('pt-BR', fmt)}`;
+            else itens.forEach(i => { total += i.v; lista.innerHTML += `<li class="relatorio-item"><span>${i.n}</span><span>${i.v.toLocaleString('pt-BR', fmt)}</span></li>`; });
+            
             modal.style.display = 'flex';
         }
 
-        // --- CALCULADORA ---
-        function abrirCalculadora() {
-            document.getElementById('modal-menu').style.display='none';
-            document.getElementById('modal-calculadora').style.display='flex';
-        }
-        function addCalc(v) {
-            const d = document.getElementById('calc-display');
-            if(d.innerText === '0' && !['/','*','-','+'].includes(v)) d.innerText = v;
-            else d.innerText += v;
-        }
-        function clearCalc() { document.getElementById('calc-display').innerText = '0'; }
-        function resultCalc() {
-            try { document.getElementById('calc-display').innerText = eval(document.getElementById('calc-display').innerText); }
-            catch { document.getElementById('calc-display').innerText = 'Erro'; }
+        function abrirRelatorioDRE() {
+            fecharMenuMais();
+            const el = document.getElementById('conteudo-dre');
+            const sal = dadosGlobais.salarios[mesSelecionado] || 0;
+            const extras = dadosGlobais.extras.filter(x => x.mesRef === mesSelecionado).reduce((a,b)=>a+b.valor,0);
+            
+            const contas = dadosGlobais.contas.filter(c => c.mesRef === mesSelecionado).reduce((a,b)=>a+b.valor,0);
+            const gastos = dadosGlobais.gastos.filter(g => g.mesRef === mesSelecionado).reduce((a,b)=>a+b.valor,0);
+            
+            const totalRec = sal + extras;
+            const totalDesp = contas + gastos;
+            const lucro = totalRec - totalDesp;
+
+            el.innerHTML = `
+                <p style="display:flex; justify-content:space-between; font-weight:bold;"><span>(+) Receita Bruta</span> <span>R$ ${totalRec.toFixed(2)}</span></p>
+                <hr style="margin:10px 0; border-color:var(--border);">
+                <p style="display:flex; justify-content:space-between;"><span>(-) Contas Fixas</span> <span style="color:var(--danger)">R$ ${contas.toFixed(2)}</span></p>
+                <p style="display:flex; justify-content:space-between;"><span>(-) Gastos Variáveis</span> <span style="color:var(--danger)">R$ ${gastos.toFixed(2)}</span></p>
+                <hr style="margin:10px 0; border-color:var(--border);">
+                <p style="font-size:18px; display:flex; justify-content:space-between;"><strong>(=) Resultado</strong> <span style="color:${lucro>=0?'var(--success)':'var(--danger)'}">R$ ${lucro.toFixed(2)}</span></p>
+            `;
+            document.getElementById('modal-dre').style.display='flex';
         }
 
         // --- FINANCEIRO ---
