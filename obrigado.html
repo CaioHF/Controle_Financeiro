@@ -1,121 +1,133 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Acesso Liberado | Controle Financeiro Simples</title>
-  <link rel="icon" type="image/png" href="https://cdn-icons-png.flaticon.com/512/2488/2488749.png">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Compra Confirmada! - Minhas Finanças</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <link rel="icon" type="image/png" href="https://cdn-icons-png.flaticon.com/512/2488/2488749.png">
 
-  <style>
-    body {
-      margin: 0;
-      font-family: Arial, Helvetica, sans-serif;
-      background: #f8fafc;
-      color: #0f172a;
-    }
+    <style>
+        :root {
+            --primary: #1E3A8A;
+            --whatsapp: #25D366;
+            --bg: #F8FAFC;
+            --text: #0F172A;
+        }
 
-    .container {
-      max-width: 600px;
-      margin: 40px auto;
-      background: #ffffff;
-      padding: 40px 30px;
-      border-radius: 12px;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-      text-align: center;
-    }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', sans-serif; }
+        
+        body { 
+            background-color: var(--bg); 
+            color: var(--text); 
+            min-height: 100vh; 
+            display: flex; 
+            justify-content: center; 
+            align-items: center; 
+            text-align: center;
+            padding: 20px;
+        }
 
-    h1 {
-      color: #1e3a8a;
-      margin-bottom: 15px;
-    }
+        .container {
+            background: white;
+            padding: 40px 30px;
+            border-radius: 25px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+            max-width: 500px;
+            width: 100%;
+            border-top: 6px solid var(--whatsapp);
+        }
 
-    p {
-      font-size: 1rem;
-      line-height: 1.6;
-      margin-bottom: 20px;
-      color: #334155;
-    }
+        .icon-success {
+            color: var(--whatsapp);
+            font-size: 80px;
+            margin-bottom: 20px;
+            animation: popUp 0.5s ease-out;
+        }
 
-    .btn {
-      display: inline-block;
-      background: #16a34a;
-      color: white;
-      padding: 16px 28px;
-      font-size: 1.1rem;
-      font-weight: bold;
-      border-radius: 8px;
-      text-decoration: none;
-      margin-top: 20px;
-      transition: 0.3s;
-    }
+        h1 {
+            color: var(--primary);
+            margin-bottom: 15px;
+            font-size: 1.8rem;
+        }
 
-    .btn:hover {
-      background: #15803d;
-      transform: translateY(-2px);
-    }
+        p {
+            color: #64748B;
+            font-size: 1.1rem;
+            margin-bottom: 30px;
+            line-height: 1.5;
+        }
 
-    .box {
-      background: #f1f5f9;
-      border-radius: 8px;
-      padding: 20px;
-      margin-top: 30px;
-      text-align: left;
-      font-size: 0.95rem;
-    }
+        .step-box {
+            background-color: #f0fdf4;
+            border: 1px dashed var(--whatsapp);
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+            font-size: 0.95rem;
+            color: #166534;
+        }
 
-    .alert {
-      background: #fff7ed;
-      border: 1px solid #fed7aa;
-      color: #9a3412;
-      padding: 15px;
-      border-radius: 8px;
-      margin-top: 20px;
-      font-size: 0.9rem;
-    }
+        .btn-whatsapp {
+            background-color: var(--whatsapp);
+            color: white;
+            text-decoration: none;
+            padding: 18px 25px;
+            border-radius: 50px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            transition: 0.3s;
+            box-shadow: 0 4px 15px rgba(37, 211, 102, 0.4);
+            width: 100%;
+        }
 
-    footer {
-      margin-top: 30px;
-      font-size: 0.8rem;
-      color: #64748b;
-    }
-  </style>
+        .btn-whatsapp:hover {
+            transform: translateY(-3px);
+            background-color: #1ebc57;
+        }
+
+        @keyframes popUp {
+            0% { transform: scale(0); opacity: 0; }
+            80% { transform: scale(1.1); opacity: 1; }
+            100% { transform: scale(1); }
+        }
+
+        .footer-text {
+            margin-top: 25px;
+            font-size: 0.8rem;
+            color: #94A3B8;
+        }
+    </style>
 </head>
 <body>
 
-  <div class="container">
-    <h1>🎉 Compra confirmada!</h1>
+    <div class="container">
+        <div class="icon-success">
+            <i class="fa-regular fa-circle-check"></i>
+        </div>
 
-    <p>
-      Obrigado pela sua compra.<br>
-      Seu acesso ao <strong>Controle Financeiro Simples</strong> já está liberado.
-    </p>
+        <h1>Pagamento Confirmado! 🎉</h1>
+        
+        <p>Obrigado pela sua compra. Seu acesso ao <strong>Minhas Finanças</strong> já está reservado.</p>
 
-    <a href="https://caiohf.github.io/Controle_Financeiro/" class="btn" target="_blank">
-      👉 Acessar o sistema agora
-    </a>
+        <div class="step-box">
+            <strong>👇 Passo Final Obrigatório:</strong><br>
+            Clique no botão abaixo e me mande uma mensagem no WhatsApp para eu te enviar o link exclusivo de acesso agora mesmo.
+        </div>
 
-    <div class="box">
-      <strong>📌 Dicas importantes:</strong>
-      <ul>
-        <li>Você pode adicionar esse site à tela inicial do seu celular e usar como um aplicativo.</li>
-        <li>O sistema funciona offline após o primeiro acesso.</li>
-        <li>Seus dados ficam salvos apenas no seu dispositivo.</li>
-      </ul>
+        <a href="https://wa.me/5545999063115?text=Ol%C3%A1!%20Acabei%20de%20comprar%20o%20Minhas%20Finan%C3%A7as.%20Poderia%20me%20enviar%20o%20link%20de%20acesso?" class="btn-whatsapp">
+            <i class="fa-brands fa-whatsapp"></i> Receber Acesso Agora
+        </a>
+
+        <div class="footer-text">
+            Ou adicione: (45) 99906-3115
+        </div>
     </div>
-
-    <div class="alert">
-      ⚠️ <strong>Atenção:</strong><br>
-      Se você limpar o cache do navegador ou trocar de celular sem fazer backup,
-      seus dados podem ser perdidos.  
-      Use sempre a opção <strong>Salvar Backup</strong> dentro do sistema.
-    </div>
-
-    <footer>
-      <p>Qualquer dúvida, entre em contato:</p>
-      <p><strong>suporte@seusite.com</strong></p>
-      <p>&copy; 2026 - Controle Financeiro Simples</p>
-    </footer>
-  </div>
 
 </body>
 </html>
