@@ -37,43 +37,46 @@
         
         body { 
             background-color: var(--background); color: var(--text-primary); 
-            min-height: 100vh; padding-bottom: 90px; padding-top: 110px; 
+            min-height: 100vh; padding-bottom: 90px; padding-top: 70px; /* Ajuste para o header */
             transition: 0.3s; 
         }
 
         main { padding: 20px; max-width: 1200px; margin: 0 auto; width: 100%; }
 
-        /* HEADER MOBILE (Integrado) */
+        /* HEADER MOBILE (NOVO LAYOUT) */
         header.mobile-header { 
-            position: fixed; top: 0; left: 0; width: 100%; height: 50px; 
+            position: fixed; top: 0; left: 0; width: 100%; height: 60px; 
             background-color: var(--nav-bg); 
-            display: flex; justify-content: center; align-items: center; z-index: 1000; gap: 10px;
+            display: flex; justify-content: space-between; align-items: center; 
+            padding: 0 15px; /* Espaçamento lateral */
+            z-index: 1000; box-shadow: var(--shadow);
         }
-        header.mobile-header img { width: 24px; }
-        header.mobile-header h2 { font-size: 16px; margin: 0; color: var(--primary); text-transform: uppercase; letter-spacing: 1px; }
-
-        /* BARRA DE MESES */
-        .meses-container { 
-            display: flex; overflow-x: auto; gap: 8px; padding: 10px 15px 15px 15px; 
-            scrollbar-width: none; 
-            background: var(--nav-bg); 
-            position: fixed; top: 50px; left: 0; width: 100%; z-index: 999; 
-            border-bottom: 1px solid var(--border); box-shadow: var(--shadow);
-        }
-        .meses-container::-webkit-scrollbar { display: none; }
         
-        .mes-pill { 
-            background-color: var(--background); color: var(--text-secondary); 
-            padding: 6px 16px; border-radius: 20px; white-space: nowrap; cursor: pointer; 
-            border: 1px solid var(--border); font-weight: 600; font-size: 13px; transition: 0.3s; 
-        }
-        .mes-pill.mes-ativo { 
-            background-color: var(--primary); color: #fff; 
-            border-color: var(--primary); transform: scale(1.05); 
-            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        .header-left { display: flex; align-items: center; gap: 8px; }
+        .header-left img { width: 24px; }
+        .header-left h2 { font-size: 14px; margin: 0; color: var(--primary); text-transform: uppercase; letter-spacing: 0.5px; font-weight: 800; }
+
+        /* Select Compacto no Header */
+        .header-month-select {
+            background-color: var(--background); color: var(--text-primary);
+            border: 1px solid var(--border); border-radius: 8px;
+            padding: 5px 25px 5px 10px; /* Espaço para a seta */
+            font-size: 12px; font-weight: 600;
+            outline: none; max-width: 110px;
+            appearance: none; /* Remove estilo padrão */
+            background-image: url("data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%23007CB2%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E");
+            background-repeat: no-repeat; background-position: right 8px center; background-size: 10px;
         }
 
-        /* SIDEBAR DESKTOP */
+        .btn-gear { font-size: 20px; color: var(--text-secondary); cursor: pointer; padding: 5px; }
+
+        /* BARRA DE MESES (Desktop Only) */
+        .meses-container { display: flex; overflow-x: auto; gap: 8px; padding: 10px 15px 15px 15px; scrollbar-width: none; background: var(--nav-bg); position: sticky; top: 50px; z-index: 90; }
+        .meses-container::-webkit-scrollbar { display: none; }
+        .mes-pill { background-color: var(--background); color: var(--text-secondary); padding: 6px 16px; border-radius: 20px; white-space: nowrap; cursor: pointer; border: 1px solid var(--border); font-weight: 600; font-size: 13px; transition: 0.3s; }
+        .mes-pill.mes-ativo { background-color: var(--primary); color: #fff; border-color: var(--primary); transform: scale(1.05); box-shadow: 0 2px 5px rgba(0,0,0,0.2); }
+
+        /* SIDEBAR DESKTOP (Invisível no Mobile) */
         .desktop-sidebar { display: none; }
 
         /* CARDS & DASHBOARD */
@@ -98,7 +101,7 @@
         .input-group input:focus, .input-group select:focus { border-color: var(--primary); }
         
         .input-row { display: flex; gap: 8px; align-items: center; width: 100%; }
-        .input-row input { flex: 1; width: 100%; min-width: 0; }
+        .input-row input { flex: 1; width: 100%; min-width: 0; } /* Ocupa espaço mas permite encolher */
         .btn-check { 
             background-color: var(--secondary); color: #fff; border: none; 
             width: 48px; height: 45px; border-radius: 10px; font-size: 18px; 
@@ -110,6 +113,14 @@
         button.btn-sucesso { background-color: var(--primary); color: #fff; border: none; padding: 14px; border-radius: 10px; width: 100%; font-size: 16px; font-weight: bold; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
         button.btn-sucesso:active { transform: scale(0.98); }
         
+        /* BOTÃO IMPORTAR */
+        button.btn-importar {
+            background-color: transparent; color: var(--primary); border: 2px dashed var(--primary);
+            padding: 12px; border-radius: 10px; width: 100%; margin-bottom: 20px; font-size: 14px;
+            font-weight: 600; display: flex; align-items: center; justify-content: center; gap: 8px; transition: 0.3s;
+        }
+        button.btn-importar:hover { background-color: var(--background); opacity: 0.8; }
+
         /* LISTAS */
         .lista-contas { list-style: none; } 
         .item-conta { background: var(--card); padding: 15px; border-radius: 12px; margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center; border: 1px solid var(--border); box-shadow: 0 1px 2px rgba(0,0,0,0.05); }
@@ -128,12 +139,7 @@
         .modal-content { background-color: var(--card); padding: 25px; border-radius: 25px 25px 0 0; width: 100%; max-width: 600px; animation: slideUp 0.3s; max-height: 85vh; overflow-y: auto; color: var(--text-primary); }
         @keyframes slideUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
         
-        /* Menu Grid Mobile (AJUSTADO) */
-        .menu-grid { 
-            display: grid; grid-template-columns: 1fr 1fr; gap: 15px; 
-            margin-top: 20px; 
-            margin-bottom: 25px; /* Espaço entre os quadrados e a lista */
-        }
+        .menu-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 20px; margin-bottom: 30px; }
         .menu-option { background-color: var(--background); padding: 20px; border-radius: 15px; text-align: center; cursor: pointer; border: 1px solid var(--border); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 10px; font-weight: 500; }
         .menu-option i { font-size: 26px; color: var(--primary); }
         
@@ -163,6 +169,11 @@
         /* =========================================
            3. DESKTOP / TABLET (MEDIA QUERY)
            ========================================= */
+        @media (max-width: 1023px) {
+            .desktop-sidebar { display: none; }
+            .meses-container { display: none; } /* Esconde barra desktop */
+        }
+
         @media (min-width: 1024px) {
             body { padding: 0; padding-left: var(--sidebar-width); padding-top: 0; }
             .bottom-nav, header.mobile-header, .menu-grid { display: none !important; }
@@ -182,7 +193,7 @@
             .sidebar-item.active { background-color: var(--primary); color: #fff; font-weight: 600; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
             
             main { padding: 40px; max-width: 1200px; }
-            .meses-container { position: sticky; top: 0; padding: 20px 0; background-color: var(--background); z-index: 90; box-shadow: none; border: none; width: auto; left: auto; }
+            .meses-container { position: sticky; top: 0; padding: 20px 0; background-color: var(--background); z-index: 90; box-shadow: none; border: none; width: auto; left: auto; display: flex; }
             .resumo-cards { flex-direction: row; }
             .card:hover { transform: translateY(-5px); }
             .form-container { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; align-items: end; }
@@ -207,8 +218,14 @@
 <body>
 
     <header class="mobile-header">
-        <img src="https://cdn-icons-png.flaticon.com/512/2488/2488749.png" alt="Logo">
-        <h2>Minhas Finanças</h2>
+        <div class="header-left">
+            <h2>Minhas Finanças</h2>
+        </div>
+        
+        <div style="display: flex; align-items: center; gap: 10px;">
+            <select id="select-meses" class="header-month-select" onchange="selecionarMes(this.value)"></select>
+            <i class="fa-solid fa-gear btn-gear" onclick="abrirConfiguracoes()"></i>
+        </div>
     </header>
 
     <aside class="desktop-sidebar">
@@ -222,7 +239,7 @@
             <li class="sidebar-item" onclick="navegar('emprestados', this)"><i class="fa-solid fa-hand-holding-dollar"></i> Empréstimos</li>
         </ul>
         <div style="margin-top: auto;">
-            <li class="sidebar-item" onclick="abrirMenuMais()"><i class="fa-solid fa-gear"></i> Configurações</li>
+            <li class="sidebar-item" onclick="abrirConfiguracoes()"><i class="fa-solid fa-gear"></i> Configurações</li>
         </div>
     </aside>
 
@@ -315,24 +332,30 @@
         <div class="nav-item" onclick="navegar('receitas', this)"><i class="fa-solid fa-sack-dollar"></i>Receitas</div>
         <div class="nav-item" onclick="navegar('contas', this)"><i class="fa-solid fa-file-invoice-dollar"></i>Contas</div>
         <div class="nav-item" onclick="navegar('gastos', this)"><i class="fa-solid fa-cart-shopping"></i>Gastos</div>
-        <div class="nav-item" onclick="abrirMenuMais()"><i class="fa-solid fa-bars"></i>Menu</div>
+        <div class="nav-item" onclick="abrirMenuFunc()"><i class="fa-solid fa-bars"></i>Menu</div>
     </nav>
 
-    <div id="modal-mais" class="modal">
+    <div id="modal-func" class="modal">
         <div class="modal-content">
-            <div class="menu-header"><h3>Menu</h3><span class="close-modal" onclick="fecharMenuMais()">&times;</span></div>
+            <div class="menu-header"><h3>Menu</h3><span class="close-modal" onclick="fecharModalId('modal-func')">&times;</span></div>
             <div class="menu-grid"> 
-                <div class="menu-option" onclick="navegar('metas'); fecharMenuMais()"><i class="fa-solid fa-bullseye"></i> Metas</div>
-                <div class="menu-option" onclick="navegar('emprestados'); fecharMenuMais()"><i class="fa-solid fa-hand-holding-dollar"></i> Empréstimos</div>
+                <div class="menu-option" onclick="navegar('metas'); fecharModalId('modal-func')"><i class="fa-solid fa-bullseye"></i> Metas</div>
+                <div class="menu-option" onclick="navegar('emprestados'); fecharModalId('modal-func')"><i class="fa-solid fa-hand-holding-dollar"></i> Empréstimos</div>
                 <div class="menu-option" onclick="abrirCalculadora()"><i class="fa-solid fa-calculator"></i> Calculadora</div>
                 <div class="menu-option" onclick="abrirRelatorioDRE()"><i class="fa-solid fa-file-invoice"></i> Relatórios</div>
             </div>
+        </div>
+    </div>
+
+    <div id="modal-config" class="modal">
+        <div class="modal-content">
+            <div class="menu-header"><h3>Configurações</h3><span class="close-modal" onclick="fecharModalId('modal-config')">&times;</span></div>
             <div class="config-section">
                 <button class="btn-config" onclick="toggleDarkMode()"><i id="icon-theme" class="fa-solid fa-moon"></i> Alternar Tema</button>
                 <button class="btn-config" onclick="baixarBackup()"><i class="fa-solid fa-download"></i> Salvar Backup</button>
                 <button class="btn-config" onclick="document.getElementById('input-restore').click()"><i class="fa-solid fa-upload"></i> Restaurar Backup</button>
                 <input type="file" id="input-restore" style="display:none;" onchange="restaurarBackup(this)">
-                <button class="btn-config" onclick="abrirModalInstall()"><i class="fa-solid fa-mobile-screen"></i> Baixar Aplicativo</button>
+                <button class="btn-config" onclick="abrirModalId('modal-install')"><i class="fa-solid fa-mobile-screen"></i> Baixar Aplicativo</button>
             </div>
         </div>
     </div>
@@ -357,7 +380,7 @@
 
     <div id="modal-install" class="modal">
         <div class="modal-content">
-            <div class="menu-header"><h3>Baixar App</h3><span class="close-modal" onclick="fecharModalInstall()">&times;</span></div>
+            <div class="menu-header"><h3>Baixar App</h3><span class="close-modal" onclick="fecharModalId('modal-install')">&times;</span></div>
             <div class="install-options">
                 <button class="btn-install" style="background:var(--success)" onclick="tentarInstallAndroid()"><i class="fa-brands fa-android" style="font-size:30px"></i>Android</button>
                 <button class="btn-install" style="background:var(--primary)" onclick="mostrarHelpIOS()"><i class="fa-brands fa-apple" style="font-size:30px"></i>iPhone</button>
@@ -388,33 +411,62 @@
     </div>
 
     <script>
-        // --- MESES ---
+        // --- MESES (COM PERSISTÊNCIA) ---
         const mesesNomes = ["Jan", "Fev", "Mar", "Abr", "Mai", "Jun", "Jul", "Ago", "Set", "Out", "Nov", "Dez"];
         const anoFixo = 2026;
-        let mesSelecionado = `${anoFixo}-01`;
+        let mesSelecionado = localStorage.getItem('financas_ultimo_mes') || `${anoFixo}-01`;
 
         function gerarBarraMeses() {
+            // DESKTOP PILLS
             const container = document.getElementById('barra-meses'); container.innerHTML = "";
+            
+            // HEADER SELECT (MOBILE)
+            const selectHeader = document.getElementById('select-meses'); selectHeader.innerHTML = "";
+
             for (let i = 0; i < 12; i++) {
-                let mesNum = String(i + 1).padStart(2, '0'); let chave = `${anoFixo}-${mesNum}`;
+                let mesNum = String(i + 1).padStart(2, '0'); 
+                let chave = `${anoFixo}-${mesNum}`;
+                let nomeExibicao = mesesNomes[i];
+
+                // PILL DESKTOP
                 let div = document.createElement('div');
                 div.className = `mes-pill ${chave === mesSelecionado ? 'mes-ativo' : ''}`;
-                div.innerText = mesesNomes[i];
+                div.innerText = nomeExibicao;
                 div.onclick = () => selecionarMes(chave);
                 container.appendChild(div);
+
+                // OPTION HEADER
+                let option = document.createElement('option');
+                option.value = chave;
+                option.innerText = nomeExibicao + "/" + String(anoFixo).slice(2);
+                if(chave === mesSelecionado) option.selected = true;
+                selectHeader.appendChild(option);
             }
             setTimeout(() => { const ativo = document.querySelector('.mes-ativo'); if(ativo) ativo.scrollIntoView({ behavior: 'smooth', inline: 'center' }); }, 100);
         }
+
         function selecionarMes(chave) {
-            mesSelecionado = chave; gerarBarraMeses(); atualizarInterfaceGeral(); renderizarListasIndividuais();
+            mesSelecionado = chave;
+            localStorage.setItem('financas_ultimo_mes', chave);
+            gerarBarraMeses(); atualizarInterfaceGeral(); renderizarListasIndividuais();
             document.querySelectorAll('input[type="date"]').forEach(input => { input.value = `${chave}-01`; });
             verificarBotaoImportar();
         }
 
-        // --- CALCULADORA (FUNÇÕES NO TOPO) ---
+        // --- FUNÇÕES DE MODAL ---
+        function abrirMenuFunc() { document.getElementById('modal-func').style.display = 'flex'; }
+        function abrirConfiguracoes() { document.getElementById('modal-config').style.display = 'flex'; }
+        
+        function abrirModalId(id) { 
+            document.querySelectorAll('.modal').forEach(m => m.style.display = 'none'); // Fecha outros
+            document.getElementById(id).style.display = 'flex'; 
+        }
+        function fecharModalId(id) { document.getElementById(id).style.display = 'none'; }
+
+        // --- CALCULADORA ---
         function abrirCalculadora() {
-            document.getElementById('modal-mais').style.display = 'none'; // Fecha Menu
-            document.getElementById('modal-calculadora').style.display = 'flex'; // Abre Calculadora
+            fecharModalId('modal-func');
+            document.getElementById('modal-calculadora').style.display='flex';
         }
         function addCalc(v) {
             const d = document.getElementById('calc-display');
@@ -449,23 +501,15 @@
         function navegar(tela, elItem) {
             document.querySelectorAll('.tela').forEach(t => t.classList.remove('tela-ativa'));
             document.getElementById(`tela-${tela}`).classList.add('tela-ativa');
-            
-            // Atualiza barra inferior (Mobile)
             if(elItem && elItem.classList.contains('nav-item')) {
                 document.querySelectorAll('.bottom-nav .nav-item').forEach(n => n.classList.remove('active'));
                 elItem.classList.add('active');
             }
-            // Atualiza Sidebar (Desktop)
             if(elItem && elItem.classList.contains('sidebar-item')) {
                 document.querySelectorAll('.sidebar-item').forEach(n => n.classList.remove('active'));
                 elItem.classList.add('active');
             }
         }
-        
-        function abrirMenuMais() { document.getElementById('modal-mais').style.display = 'flex'; }
-        function fecharMenuMais() { document.getElementById('modal-mais').style.display = 'none'; }
-        function abrirModalInstall() { fecharMenuMais(); document.getElementById('modal-install').style.display = 'flex'; }
-        function fecharModalInstall() { document.getElementById('modal-install').style.display = 'none'; }
 
         // --- BACKUP ---
         function baixarBackup() {
@@ -511,6 +555,9 @@
                 dadosGlobais.gastos.filter(g => g.mesRef === mesSelecionado).forEach(g => itens.push({n: g.nome, v: g.valor}));
             }
 
+            // Ordenação do Maior para o Menor
+            itens.sort((a,b) => b.v - a.v);
+
             if(itens.length === 0) lista.innerHTML = "<li style='text-align:center; padding:10px;'>Sem registros.</li>";
             else itens.forEach(i => { total += i.v; lista.innerHTML += `<li class="relatorio-item"><span>${i.n}</span><span>${i.v.toLocaleString('pt-BR', fmt)}</span></li>`; });
             
@@ -518,17 +565,14 @@
         }
 
         function abrirRelatorioDRE() {
-            fecharMenuMais();
+            fecharModalId('modal-func');
             const el = document.getElementById('conteudo-dre');
             const sal = dadosGlobais.salarios[mesSelecionado] || 0;
             const extras = dadosGlobais.extras.filter(x => x.mesRef === mesSelecionado).reduce((a,b)=>a+b.valor,0);
-            
             const contas = dadosGlobais.contas.filter(c => c.mesRef === mesSelecionado).reduce((a,b)=>a+b.valor,0);
             const gastos = dadosGlobais.gastos.filter(g => g.mesRef === mesSelecionado).reduce((a,b)=>a+b.valor,0);
-            
             const totalRec = sal + extras;
-            const totalDesp = contas + gastos;
-            const lucro = totalRec - totalDesp;
+            const lucro = totalRec - (contas + gastos);
 
             el.innerHTML = `
                 <p style="display:flex; justify-content:space-between; font-weight:bold;"><span>(+) Receita Bruta</span> <span>R$ ${totalRec.toFixed(2)}</span></p>
@@ -550,7 +594,11 @@
         function adicionarConta() {
             const nome = document.getElementById('nome-conta').value; const valor = parseFloat(document.getElementById('valor-conta').value); const venc = document.getElementById('vencimento-conta').value;
             if (!nome || !valor) return;
-            if (idContaEdicao) { const item = dadosGlobais.contas.find(c => c.id === idContaEdicao); if(item) { item.nome = nome; item.valor = valor; item.vencimento = venc; } cancelarEdicaoConta(); } 
+            if (idContaEdicao) { 
+                const item = dadosGlobais.contas.find(c => c.id === idContaEdicao); 
+                if(item) { item.nome = nome; item.valor = valor; item.vencimento = venc; } 
+                cancelarEdicaoConta(); 
+            } 
             else { dadosGlobais.contas.push({ id: Date.now(), nome, valor, pago: false, mesRef: mesSelecionado, vencimento: venc }); }
             salvarDB(); limparCampos(['nome-conta', 'valor-conta', 'vencimento-conta']); atualizarInterfaceGeral(); renderizarListasIndividuais(); verificarBotaoImportar();
         }
@@ -580,9 +628,13 @@
         // --- HELPERS ---
         function limparCampos(ids) { ids.forEach(id => document.getElementById(id).value = ""); }
         let idContaEdicao = null; let idEmprestimoEdicao = null;
+        
         function prepararEdicaoConta(id) {
             const item = dadosGlobais.contas.find(c => c.id === id); document.getElementById('nome-conta').value = item.nome; document.getElementById('valor-conta').value = item.valor; document.getElementById('vencimento-conta').value = item.vencimento || "";
-            idContaEdicao = id; document.getElementById('btn-salvar-conta').innerText = "Atualizar"; document.getElementById('btn-cancelar-conta').style.display = 'block';
+            idContaEdicao = id; 
+            document.getElementById('btn-salvar-conta').innerText = "Atualizar"; 
+            document.getElementById('btn-cancelar-conta').style.display = 'block';
+            document.querySelector('.form-container').scrollIntoView({behavior: 'smooth'});
         }
         function cancelarEdicaoConta() { idContaEdicao = null; limparCampos(['nome-conta', 'valor-conta', 'vencimento-conta']); document.getElementById('btn-salvar-conta').innerText = "Salvar Conta"; document.getElementById('btn-cancelar-conta').style.display = 'none'; }
         function prepararEdicao(id) { const item = dadosGlobais.emprestimos.find(e => e.id === id); document.getElementById('emp-nome').value = item.nome; document.getElementById('emp-valor').value = item.valor; document.getElementById('emp-data').value = item.data; idEmprestimoEdicao = id; document.getElementById('btn-salvar-emprestimo').innerText = "Atualizar"; document.getElementById('btn-cancelar-edicao').style.display = 'block'; }
@@ -631,12 +683,17 @@
             const fmt = { style: 'currency', currency: 'BRL' };
             const render = (lista, elId, tipo, border, color) => {
                 const el = document.getElementById(elId); el.innerHTML = "";
-                if(lista.length === 0) el.innerHTML = "<p style='text-align:center; color:var(--text-secondary); font-size:12px; margin-top:10px;'>Vazio</p>";
-                lista.forEach(item => {
+                
+                // ORDENAÇÃO
+                const listaOrdenada = lista.sort((a, b) => b.valor - a.valor);
+
+                if(listaOrdenada.length === 0) el.innerHTML = "<p style='text-align:center; color:var(--text-secondary); font-size:12px; margin-top:10px;'>Vazio</p>";
+                
+                listaOrdenada.forEach(item => {
                     let st = ""; let txtBtn = "Concluir"; let icon = "fa-check";
                     
                     if(item.pago) { st = "riscado"; txtBtn = "Reabrir"; }
-                    if(item.recebido) { border = "border-green"; txtBtn = "Desmarcar"; st = "riscado"; } // EMPRESTIMO RISCADO
+                    if(item.recebido) { border = "border-green"; txtBtn = "Desmarcar"; st = "riscado"; }
                     
                     let dataShow = formatData(item.data);
                     if(tipo === 'conta' && item.vencimento) dataShow = `Vence: ${formatData(item.vencimento)}`;
@@ -682,7 +739,6 @@
         function formatData(iso) { if(!iso) return ""; return new Date(iso).toLocaleDateString('pt-BR', {timeZone:'UTC'}); }
         function abrirDropdown(t, i) { document.querySelectorAll('.dropdown-menu').forEach(d => d.classList.remove('show')); document.getElementById(`drop-${t}-${i}`).classList.toggle('show'); }
         
-        // --- FECHAR MODAL/DROPDOWN AO CLICAR FORA ---
         window.onclick = function(e) { 
             if(!e.target.matches('.btn-more') && !e.target.matches('.fa-ellipsis-vertical')) {
                 document.querySelectorAll('.dropdown-menu').forEach(d => d.classList.remove('show'));
@@ -699,7 +755,7 @@
         function mostrarHelpIOS() { document.getElementById('ios-help').style.display = 'block'; }
 
         // START
-        gerarBarraMeses(); atualizarInterfaceGeral(); renderizarListasIndividuais(); renderizarMetas(); 
+        gerarBarraMeses(); selecionarMes(mesSelecionado); 
         if ('serviceWorker' in navigator) navigator.serviceWorker.register('sw.js');
     </script>
 </body>
