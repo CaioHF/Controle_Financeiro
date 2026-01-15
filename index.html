@@ -37,18 +37,18 @@
         
         body { 
             background-color: var(--background); color: var(--text-primary); 
-            min-height: 100vh; padding-bottom: 90px; padding-top: 70px; /* Ajuste para o header */
+            min-height: 100vh; padding-bottom: 90px; padding-top: 70px; 
             transition: 0.3s; 
         }
 
         main { padding: 20px; max-width: 1200px; margin: 0 auto; width: 100%; }
 
-        /* HEADER MOBILE (NOVO LAYOUT) */
+        /* HEADER MOBILE */
         header.mobile-header { 
             position: fixed; top: 0; left: 0; width: 100%; height: 60px; 
             background-color: var(--nav-bg); 
             display: flex; justify-content: space-between; align-items: center; 
-            padding: 0 15px; /* Espaçamento lateral */
+            padding: 0 15px; 
             z-index: 1000; box-shadow: var(--shadow);
         }
         
@@ -56,14 +56,13 @@
         .header-left img { width: 24px; }
         .header-left h2 { font-size: 14px; margin: 0; color: var(--primary); text-transform: uppercase; letter-spacing: 0.5px; font-weight: 800; }
 
-        /* Select Compacto no Header */
         .header-month-select {
             background-color: var(--background); color: var(--text-primary);
             border: 1px solid var(--border); border-radius: 8px;
-            padding: 5px 25px 5px 10px; /* Espaço para a seta */
+            padding: 5px 25px 5px 10px;
             font-size: 12px; font-weight: 600;
             outline: none; max-width: 110px;
-            appearance: none; /* Remove estilo padrão */
+            appearance: none; 
             background-image: url("data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%23007CB2%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E");
             background-repeat: no-repeat; background-position: right 8px center; background-size: 10px;
         }
@@ -101,7 +100,7 @@
         .input-group input:focus, .input-group select:focus { border-color: var(--primary); }
         
         .input-row { display: flex; gap: 8px; align-items: center; width: 100%; }
-        .input-row input { flex: 1; width: 100%; min-width: 0; } /* Ocupa espaço mas permite encolher */
+        .input-row input { flex: 1; width: 100%; min-width: 0; }
         .btn-check { 
             background-color: var(--secondary); color: #fff; border: none; 
             width: 48px; height: 45px; border-radius: 10px; font-size: 18px; 
@@ -113,7 +112,6 @@
         button.btn-sucesso { background-color: var(--primary); color: #fff; border: none; padding: 14px; border-radius: 10px; width: 100%; font-size: 16px; font-weight: bold; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
         button.btn-sucesso:active { transform: scale(0.98); }
         
-        /* BOTÃO IMPORTAR */
         button.btn-importar {
             background-color: transparent; color: var(--primary); border: 2px dashed var(--primary);
             padding: 12px; border-radius: 10px; width: 100%; margin-bottom: 20px; font-size: 14px;
@@ -127,6 +125,50 @@
         .conta-info strong { display: block; font-size: 15px; color: var(--text-primary); } .conta-info small { font-size: 12px; color: var(--text-secondary); }
         .border-green { border-left: 4px solid var(--success); } .border-red { border-left: 4px solid var(--danger); }
         .riscado { opacity: 0.5; text-decoration: line-through; background-color: var(--background); }
+
+        /* METAS ESTILIZADAS (CORRIGIDO ESPAÇAMENTO) */
+        .meta-card { 
+            background: var(--card); padding: 20px; border-radius: 16px; 
+            margin-bottom: 15px; border: 1px solid var(--border); 
+            position: relative; box-shadow: var(--shadow); 
+        }
+        .meta-header { 
+            display: flex; justify-content: space-between; align-items: center; 
+            margin-bottom: 20px; /* Mais espaço para o botão excluir não colar */
+        }
+        .meta-header h3 { margin: 0; font-size: 16px; color: var(--text-primary); }
+        
+        .meta-info-row {
+            display: flex; justify-content: space-between; align-items: flex-end;
+            margin-bottom: 5px;
+        }
+        .meta-percent { font-size: 14px; font-weight: bold; color: var(--primary); }
+        
+        .barra-container {
+            height: 12px; background-color: var(--background);
+            border-radius: 6px; overflow: hidden; border: 1px solid var(--border);
+            margin-bottom: 8px;
+        }
+        .barra-fill {
+            height: 100%; background-color: var(--primary); border-radius: 6px;
+            transition: width 0.5s;
+        }
+        .barra-completa { background-color: var(--success); }
+        
+        .meta-values {
+            display: flex; justify-content: space-between;
+            font-size: 12px; color: var(--text-secondary);
+        }
+        
+        .btn-depositar { 
+            background-color: transparent; color: var(--primary);
+            border: 2px solid var(--primary); padding: 10px; width: 100%;
+            border-radius: 10px; font-weight: 700; cursor: pointer;
+            margin-top: 15px; transition: 0.2s;
+            display: flex; align-items: center; justify-content: center; gap: 8px;
+        }
+        .btn-depositar:hover { background-color: var(--primary); color: #fff; }
+        .btn-excluir-meta { color: var(--danger); background: none; border: none; font-size: 18px; cursor: pointer; padding: 5px; }
 
         /* UI ELEMENTS */
         .btn-more { background: none; border: none; font-size: 18px; color: var(--text-secondary); padding: 5px 10px; }
@@ -167,11 +209,11 @@
         .nav-item.active i { transform: translateY(-2px); }
 
         /* =========================================
-           3. DESKTOP / TABLET (MEDIA QUERY)
+           3. MEDIA QUERIES
            ========================================= */
         @media (max-width: 1023px) {
             .desktop-sidebar { display: none; }
-            .meses-container { display: none; } /* Esconde barra desktop */
+            .meses-container { display: none; } 
         }
 
         @media (min-width: 1024px) {
@@ -219,6 +261,7 @@
 
     <header class="mobile-header">
         <div class="header-left">
+            <img src="https://cdn-icons-png.flaticon.com/512/2488/2488749.png" alt="Logo">
             <h2>Minhas Finanças</h2>
         </div>
         
@@ -287,7 +330,7 @@
                 <div class="input-group"><label>Nome</label><input type="text" id="nome-conta"></div>
                 <div class="input-group"><label>Valor</label><input type="number" id="valor-conta"></div>
                 <div class="input-group"><label>Vencimento</label><input type="date" id="vencimento-conta"></div>
-                <button class="btn-sucesso form-full-width" onclick="adicionarConta()">Salvar Conta</button>
+                <button id="btn-salvar-conta" class="btn-sucesso form-full-width" onclick="adicionarConta()">Salvar Conta</button>
                 <button id="btn-cancelar-conta" class="form-full-width" onclick="cancelarEdicaoConta()" style="display:none; margin-top:10px; width:100%; padding:10px; border:none; border-radius:8px; background:var(--danger); color:white; font-weight:bold;">Cancelar</button>
             </div>
             <ul id="lista-visual-contas" class="lista-contas"></ul>
@@ -458,7 +501,7 @@
         function abrirConfiguracoes() { document.getElementById('modal-config').style.display = 'flex'; }
         
         function abrirModalId(id) { 
-            document.querySelectorAll('.modal').forEach(m => m.style.display = 'none'); // Fecha outros
+            document.querySelectorAll('.modal').forEach(m => m.style.display = 'none'); 
             document.getElementById(id).style.display = 'flex'; 
         }
         function fecharModalId(id) { document.getElementById(id).style.display = 'none'; }
@@ -555,7 +598,7 @@
                 dadosGlobais.gastos.filter(g => g.mesRef === mesSelecionado).forEach(g => itens.push({n: g.nome, v: g.valor}));
             }
 
-            // Ordenação do Maior para o Menor
+            // Ordenação
             itens.sort((a,b) => b.v - a.v);
 
             if(itens.length === 0) lista.innerHTML = "<li style='text-align:center; padding:10px;'>Sem registros.</li>";
@@ -569,10 +612,13 @@
             const el = document.getElementById('conteudo-dre');
             const sal = dadosGlobais.salarios[mesSelecionado] || 0;
             const extras = dadosGlobais.extras.filter(x => x.mesRef === mesSelecionado).reduce((a,b)=>a+b.valor,0);
+            
             const contas = dadosGlobais.contas.filter(c => c.mesRef === mesSelecionado).reduce((a,b)=>a+b.valor,0);
             const gastos = dadosGlobais.gastos.filter(g => g.mesRef === mesSelecionado).reduce((a,b)=>a+b.valor,0);
+            
             const totalRec = sal + extras;
-            const lucro = totalRec - (contas + gastos);
+            const totalDesp = contas + gastos;
+            const lucro = totalRec - totalDesp;
 
             el.innerHTML = `
                 <p style="display:flex; justify-content:space-between; font-weight:bold;"><span>(+) Receita Bruta</span> <span>R$ ${totalRec.toFixed(2)}</span></p>
@@ -646,7 +692,7 @@
                 if(tipo==='gasto') dadosGlobais.gastos = dadosGlobais.gastos.filter(i=>i.id!==id);
                 if(tipo==='extra') dadosGlobais.extras = dadosGlobais.extras.filter(i=>i.id!==id);
                 if(tipo==='meta') dadosGlobais.metas = dadosGlobais.metas.filter(i=>i.id!==id);
-                if(tipo==='emprestimos') dadosGlobais.emprestimos = dadosGlobais.emprestimos.filter(i=>i.id!==id);
+                if(tipo==='emp') dadosGlobais.emprestimos = dadosGlobais.emprestimos.filter(i=>i.id!==id);
                 salvarDB(); atualizarInterfaceGeral(); renderizarListasIndividuais(); renderizarMetas(); verificarBotaoImportar();
             }
         }
@@ -693,11 +739,11 @@
                     let st = ""; let txtBtn = "Concluir"; let icon = "fa-check";
                     
                     if(item.pago) { st = "riscado"; txtBtn = "Reabrir"; }
-                    if(item.recebido) { border = "border-green"; txtBtn = "Desmarcar"; st = "riscado"; }
+                    if(item.recebido) { border = "border-green"; txtBtn = "Desmarcar"; st = "riscado"; } // EMPRESTIMO RISCADO
                     
                     let dataShow = formatData(item.data);
                     if(tipo === 'conta' && item.vencimento) dataShow = `Vence: ${formatData(item.vencimento)}`;
-                    let editBtn = (tipo === 'conta' || tipo === 'emprestimos') ? `<button onclick="prepararEdicao${tipo==='conta'?'Conta':''}(${item.id})">Editar</button>` : '';
+                    let editBtn = (tipo === 'conta' || tipo === 'emp') ? `<button onclick="prepararEdicao${tipo==='conta'?'Conta':''}(${item.id})">Editar</button>` : '';
 
                     el.innerHTML += `
                     <li class="item-conta ${border} ${st}">
@@ -728,17 +774,35 @@
                 let pct = (m.guardado / m.total) * 100; if(pct > 100) pct = 100;
                 el.innerHTML += `
                 <div class="meta-card">
-                    <button class="btn-excluir-meta" onclick="removerItem('meta', ${m.id})"><i class="fa-solid fa-trash"></i></button>
-                    <h3>${m.nome}</h3>
-                    <div style="display:flex; justify-content:space-between; font-size:13px; margin-bottom:5px;"><span>Guardado: R$ ${m.guardado}</span><span>Meta: R$ ${m.total}</span></div>
-                    <div class="barra-fundo"><div class="barra-progresso ${pct >= 100 ? 'barra-completa' : ''}" style="width:${pct}%"></div></div>
-                    <button class="btn-depositar" onclick="depositarMeta(${m.id})">Guardar (+)</button>
+                    <div class="meta-header">
+                        <h3>${m.nome}</h3>
+                        <button class="btn-excluir-meta" onclick="removerItem('meta', ${m.id})"><i class="fa-solid fa-trash"></i></button>
+                    </div>
+                    
+                    <div class="meta-info-row">
+                        <span style="font-size:12px; color:var(--text-secondary)">Progresso</span>
+                        <div class="meta-percent">${Math.round(pct)}%</div>
+                    </div>
+                    
+                    <div class="barra-container">
+                        <div class="barra-fill ${pct >= 100 ? 'barra-completa' : ''}" style="width:${pct}%"></div>
+                    </div>
+                    
+                    <div class="meta-values">
+                        <span>Guardado: R$ ${m.guardado}</span>
+                        <span>Meta: R$ ${m.total}</span>
+                    </div>
+                    
+                    <button class="btn-depositar" onclick="depositarMeta(${m.id})">
+                        <i class="fa-solid fa-plus"></i> Guardar
+                    </button>
                 </div>`;
             });
         }
         function formatData(iso) { if(!iso) return ""; return new Date(iso).toLocaleDateString('pt-BR', {timeZone:'UTC'}); }
         function abrirDropdown(t, i) { document.querySelectorAll('.dropdown-menu').forEach(d => d.classList.remove('show')); document.getElementById(`drop-${t}-${i}`).classList.toggle('show'); }
         
+        // --- FECHAR MODAL/DROPDOWN AO CLICAR FORA ---
         window.onclick = function(e) { 
             if(!e.target.matches('.btn-more') && !e.target.matches('.fa-ellipsis-vertical')) {
                 document.querySelectorAll('.dropdown-menu').forEach(d => d.classList.remove('show'));
