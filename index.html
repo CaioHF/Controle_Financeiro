@@ -11,9 +11,7 @@
     <meta name="theme-color" content="#1E3A8A">
 
     <style>
-        /* =========================================
-           1. VARIÁVEIS (CORES)
-           ========================================= */
+        /* ==================== ESTILOS GERAIS ==================== */
         :root {
             --primary: #1E3A8A; --success: #16A34A; --danger: #DC2626; --warning: #F59E0B;
             --background: #F8FAFC; --card: #FFFFFF; --nav-bg: #FFFFFF;
@@ -30,164 +28,111 @@
             --shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.5);
         }
 
-        /* =========================================
-           2. ESTILOS GERAIS (MOBILE FIRST)
-           ========================================= */
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; -webkit-tap-highlight-color: transparent; }
-        
-        body { 
-            background-color: var(--background); color: var(--text-primary); 
-            min-height: 100vh; padding-bottom: 90px; padding-top: 70px; 
-            transition: 0.3s; 
-        }
-
+        body { background-color: var(--background); color: var(--text-primary); min-height: 100vh; padding-bottom: 90px; padding-top: 70px; transition: 0.3s; }
         main { padding: 20px; max-width: 1200px; margin: 0 auto; width: 100%; }
 
-        /* HEADER MOBILE */
-        header.mobile-header { 
-            position: fixed; top: 0; left: 0; width: 100%; height: 60px; 
-            background-color: var(--nav-bg); 
-            display: flex; justify-content: space-between; align-items: center; 
-            padding: 0 15px; 
-            z-index: 1000; box-shadow: var(--shadow);
-        }
-        
+        /* HEADER */
+        header.mobile-header { position: fixed; top: 0; left: 0; width: 100%; height: 60px; background-color: var(--nav-bg); display: flex; justify-content: space-between; align-items: center; padding: 0 15px; z-index: 1000; box-shadow: var(--shadow); }
         .header-left { display: flex; align-items: center; gap: 8px; }
         .header-left img { width: 24px; }
         .header-left h2 { font-size: 14px; margin: 0; color: var(--primary); text-transform: uppercase; letter-spacing: 0.5px; font-weight: 800; }
-
-        .header-month-select {
-            background-color: var(--background); color: var(--text-primary);
-            border: 1px solid var(--border); border-radius: 8px;
-            padding: 5px 25px 5px 10px;
-            font-size: 12px; font-weight: 600;
-            outline: none; max-width: 110px;
-            appearance: none; 
-            background-image: url("data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%23007CB2%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E");
-            background-repeat: no-repeat; background-position: right 8px center; background-size: 10px;
-        }
-
+        .header-month-select { background-color: var(--background); color: var(--text-primary); border: 1px solid var(--border); border-radius: 8px; padding: 8px 30px 8px 15px; font-size: 15px; font-weight: 700; outline: none; max-width: 150px; appearance: none; background-image: url("data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%23007CB2%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E"); background-repeat: no-repeat; background-position: right 10px center; background-size: 10px; }
         .btn-gear { font-size: 20px; color: var(--text-secondary); cursor: pointer; padding: 5px; }
 
-        /* BARRA DE MESES (Desktop Only) */
-        .meses-container { display: flex; overflow-x: auto; gap: 8px; padding: 10px 15px 15px 15px; scrollbar-width: none; background: var(--nav-bg); position: sticky; top: 50px; z-index: 90; }
-        .meses-container::-webkit-scrollbar { display: none; }
-        .mes-pill { background-color: var(--background); color: var(--text-secondary); padding: 6px 16px; border-radius: 20px; white-space: nowrap; cursor: pointer; border: 1px solid var(--border); font-weight: 600; font-size: 13px; transition: 0.3s; }
-        .mes-pill.mes-ativo { background-color: var(--primary); color: #fff; border-color: var(--primary); transform: scale(1.05); box-shadow: 0 2px 5px rgba(0,0,0,0.2); }
-
-        /* SIDEBAR DESKTOP (Invisível no Mobile) */
+        /* GERAIS */
+        .meses-container { display: none; }
         .desktop-sidebar { display: none; }
-
-        /* CARDS & DASHBOARD */
-        .tela { display: none; animation: fadeIn 0.3s; } .tela-ativa { display: block; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
-        
         .resumo-cards { display: flex; flex-direction: column; gap: 15px; margin-bottom: 25px; }
         .card { background: var(--card); padding: 25px; border-radius: 16px; width: 100%; box-shadow: var(--shadow); text-align: center; border: 1px solid var(--border); cursor: pointer; position: relative; overflow: hidden; transition: transform 0.2s; }
         .card:active { transform: scale(0.98); }
         .card::before { content: ''; position: absolute; top: 0; left: 0; width: 5px; height: 100%; }
         .ganho::before { background: var(--success); } .despesa::before { background: var(--danger); } .saldo-positivo::before { background: var(--primary); } .saldo-negativo::before { background: var(--danger); }
-        
         .card h3 { color: var(--text-secondary); font-size: 12px; margin-bottom: 5px; text-transform: uppercase; }
         .card p { font-size: 28px; font-weight: 800; color: var(--text-primary); }
         .ganho p { color: var(--success); } .despesa p { color: var(--danger); } .saldo-positivo p { color: var(--primary); } .saldo-negativo p { color: var(--danger); }
 
-        /* FORMULÁRIOS */
         .form-container { background: var(--card); padding: 20px; border-radius: 16px; box-shadow: var(--shadow); margin-bottom: 25px; border: 1px solid var(--border); }
         .input-group { margin-bottom: 15px; }
         .input-group label { display: block; margin-bottom: 6px; color: var(--text-secondary); font-size: 12px; font-weight: 600; text-transform: uppercase; }
         .input-group input, .input-group select { width: 100%; padding: 12px; border: 1px solid var(--border); border-radius: 10px; outline: none; font-size: 16px; background-color: var(--background); color: var(--text-primary); transition: 0.3s; }
-        .input-group input:focus, .input-group select:focus { border-color: var(--primary); }
-        
+        .input-group input:focus { border-color: var(--primary); }
         .input-row { display: flex; gap: 8px; align-items: center; width: 100%; }
         .input-row input { flex: 1; width: 100%; min-width: 0; }
-        .btn-check { 
-            background-color: var(--secondary); color: #fff; border: none; 
-            width: 48px; height: 45px; border-radius: 10px; font-size: 18px; 
-            flex-shrink: 0; cursor: pointer;
-        }
+        .btn-check { background-color: var(--secondary); color: #fff; border: none; width: 48px; height: 45px; border-radius: 10px; font-size: 18px; flex-shrink: 0; cursor: pointer; }
         .btn-check.saved { background-color: var(--success); }
-
-        button { cursor: pointer; transition: 0.2s; }
-        button.btn-sucesso { background-color: var(--primary); color: #fff; border: none; padding: 14px; border-radius: 10px; width: 100%; font-size: 16px; font-weight: bold; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
+        button.btn-sucesso { background-color: var(--primary); color: #fff; border: none; padding: 14px; border-radius: 10px; width: 100%; font-size: 16px; font-weight: bold; box-shadow: 0 4px 10px rgba(0,0,0,0.1); cursor: pointer; }
         button.btn-sucesso:active { transform: scale(0.98); }
         
-        button.btn-importar {
-            background-color: transparent; color: var(--primary); border: 2px dashed var(--primary);
-            padding: 12px; border-radius: 10px; width: 100%; margin-bottom: 20px; font-size: 14px;
-            font-weight: 600; display: flex; align-items: center; justify-content: center; gap: 8px; transition: 0.3s;
-        }
+        button.btn-importar { background-color: transparent; color: var(--primary); border: 2px dashed var(--primary); padding: 12px; border-radius: 10px; width: 100%; margin-bottom: 20px; font-size: 14px; font-weight: 600; display: flex; align-items: center; justify-content: center; gap: 8px; transition: 0.3s; cursor: pointer; }
         button.btn-importar:hover { background-color: var(--background); opacity: 0.8; }
-
-        /* LISTAS */
+        .filter-container { display: flex; gap: 10px; margin-bottom: 15px; overflow-x: auto; padding-bottom: 5px; }
+        .filter-btn { background-color: var(--background); color: var(--text-secondary); border: 1px solid var(--border); padding: 6px 16px; border-radius: 20px; font-size: 12px; font-weight: 600; cursor: pointer; white-space: nowrap; }
+        .filter-btn.active { background-color: var(--primary); color: white; border-color: var(--primary); }
+        
         .lista-contas { list-style: none; } 
         .item-conta { background: var(--card); padding: 15px; border-radius: 12px; margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center; border: 1px solid var(--border); box-shadow: 0 1px 2px rgba(0,0,0,0.05); }
-        .conta-info strong { display: block; font-size: 15px; color: var(--text-primary); } .conta-info small { font-size: 12px; color: var(--text-secondary); }
-        .border-green { border-left: 4px solid var(--success); } .border-red { border-left: 4px solid var(--danger); }
+        .conta-info strong { display: block; font-size: 15px; color: var(--text-primary); } 
+        .conta-info small { font-size: 12px; color: var(--text-secondary); }
+        
+        /* DETALHE DO EMPRÉSTIMO (EFEITO SANFONA) */
+        .detalhe-motivo { 
+            display: none; margin-top: 8px; padding-top: 8px; border-top: 1px dashed var(--border);
+            font-size: 13px; color: var(--text-secondary); font-style: italic; animation: fadeIn 0.3s;
+        }
+        .detalhe-visivel { display: block; }
+
+        /* PARCELAMENTO ESTILO (BARRA AZUL) */
+        .emp-parcelas { display: flex; align-items: center; gap: 8px; margin-top: 8px; font-size: 12px; color: var(--text-secondary); width: 100%; }
+        .emp-barra-bg { flex: 1; height: 8px; background: var(--border); border-radius: 4px; overflow: hidden; }
+        .emp-barra-fill { height: 100%; background: var(--primary); width: 0%; transition: width 0.5s ease-in-out; }
+        
+        .btn-receber-parc { 
+            background: var(--background); border: 1px solid var(--success); color: var(--success); 
+            border-radius: 6px; padding: 6px 12px; font-size: 12px; font-weight: bold; cursor: pointer; 
+            margin-right: 5px; min-width: 80px; text-align: center; transition: 0.2s;
+        }
+        .btn-receber-parc:active { background: var(--success); color: #fff; transform: scale(0.95); }
+
+        .badge-venc { display: inline-block; padding: 2px 6px; border-radius: 4px; font-size: 10px; font-weight: bold; margin-left: 5px; }
+        .badge-red { background-color: #fee2e2; color: var(--danger); border: 1px solid #fecaca; }
+        .badge-yellow { background-color: #fef3c7; color: #d97706; border: 1px solid #fde68a; }
+        .badge-green { background-color: #dcfce7; color: var(--success); border: 1px solid #bbf7d0; }
+        .border-green { border-left: 4px solid var(--success); } .border-red { border-left: 4px solid var(--danger); } .border-orange { border-left: 4px solid var(--warning); } .border-blue { border-left: 4px solid var(--primary); }
         .riscado { opacity: 0.5; text-decoration: line-through; background-color: var(--background); }
-
-        /* METAS ESTILIZADAS (CORRIGIDO ESPAÇAMENTO) */
-        .meta-card { 
-            background: var(--card); padding: 20px; border-radius: 16px; 
-            margin-bottom: 15px; border: 1px solid var(--border); 
-            position: relative; box-shadow: var(--shadow); 
-        }
-        .meta-header { 
-            display: flex; justify-content: space-between; align-items: center; 
-            margin-bottom: 20px; /* Mais espaço para o botão excluir não colar */
-        }
-        .meta-header h3 { margin: 0; font-size: 16px; color: var(--text-primary); }
+        .btn-more { background: none; border: none; font-size: 18px; color: var(--text-secondary); padding: 5px 10px; cursor: pointer; }
         
-        .meta-info-row {
-            display: flex; justify-content: space-between; align-items: flex-end;
-            margin-bottom: 5px;
-        }
-        .meta-percent { font-size: 14px; font-weight: bold; color: var(--primary); }
-        
-        .barra-container {
-            height: 12px; background-color: var(--background);
-            border-radius: 6px; overflow: hidden; border: 1px solid var(--border);
-            margin-bottom: 8px;
-        }
-        .barra-fill {
-            height: 100%; background-color: var(--primary); border-radius: 6px;
-            transition: width 0.5s;
-        }
-        .barra-completa { background-color: var(--success); }
-        
-        .meta-values {
-            display: flex; justify-content: space-between;
-            font-size: 12px; color: var(--text-secondary);
-        }
-        
-        .btn-depositar { 
-            background-color: transparent; color: var(--primary);
-            border: 2px solid var(--primary); padding: 10px; width: 100%;
-            border-radius: 10px; font-weight: 700; cursor: pointer;
-            margin-top: 15px; transition: 0.2s;
-            display: flex; align-items: center; justify-content: center; gap: 8px;
-        }
-        .btn-depositar:hover { background-color: var(--primary); color: #fff; }
-        .btn-excluir-meta { color: var(--danger); background: none; border: none; font-size: 18px; cursor: pointer; padding: 5px; }
-
-        /* UI ELEMENTS */
-        .btn-more { background: none; border: none; font-size: 18px; color: var(--text-secondary); padding: 5px 10px; }
         .dropdown-menu { display: none; position: absolute; right: 40px; bottom: 100%; background-color: var(--card); min-width: 140px; box-shadow: 0 10px 30px rgba(0,0,0,0.2); z-index: 99; border-radius: 10px; border: 1px solid var(--border); margin-bottom: 5px; }
         .dropdown-menu.show { display: block; }
-        .dropdown-menu button { width: 100%; padding: 12px; text-align: left; background: none; border: none; border-bottom: 1px solid var(--border); font-size: 14px; color: var(--text-primary); }
+        .dropdown-menu button { width: 100%; padding: 12px; text-align: left; background: none; border: none; border-bottom: 1px solid var(--border); font-size: 14px; color: var(--text-primary); transition: 0.2s; cursor: pointer; }
         .dropdown-menu button:hover { background-color: var(--background); }
-
+        .opt-del { color: var(--danger) !important; }
+        .opt-del.confirmando { background-color: transparent !important; color: var(--danger) !important; font-weight: 800; text-transform: uppercase; }
+        
+        .meta-card { background: var(--card); padding: 20px; border-radius: 16px; margin-bottom: 15px; border: 1px solid var(--border); position: relative; box-shadow: var(--shadow); }
+        .meta-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+        .meta-header h3 { margin: 0; font-size: 16px; color: var(--text-primary); }
+        .meta-percent { font-size: 14px; font-weight: bold; color: var(--primary); }
+        .barra-container { height: 12px; background-color: var(--background); border-radius: 6px; overflow: hidden; border: 1px solid var(--border); margin-bottom: 8px; }
+        .barra-fill { height: 100%; background-color: var(--primary); border-radius: 6px; transition: width 0.5s; }
+        .barra-completa { background-color: var(--success); }
+        .meta-values { display: flex; justify-content: space-between; font-size: 12px; color: var(--text-secondary); }
+        .btn-depositar { background-color: transparent; color: var(--primary); border: 2px solid var(--primary); padding: 10px; width: 100%; border-radius: 10px; font-weight: 700; cursor: pointer; margin-top: 15px; transition: 0.2s; display: flex; align-items: center; justify-content: center; gap: 8px; }
+        .btn-depositar:hover { background-color: var(--primary); color: #fff; }
+        .btn-excluir-meta { color: var(--text-secondary); background: none; border: none; font-size: 18px; cursor: pointer; padding: 5px; transition: 0.2s; }
+        .meta-delete-active { color: var(--danger) !important; transform: scale(1.1); font-weight: bold; }
+        
+        .tela { display: none; animation: fadeIn 0.3s; } .tela-ativa { display: block; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
         .modal { display: none; position: fixed; z-index: 2000; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.6); align-items: flex-end; justify-content: center; backdrop-filter: blur(3px); }
-        .modal-content { background-color: var(--card); padding: 25px; border-radius: 25px 25px 0 0; width: 100%; max-width: 600px; animation: slideUp 0.3s; max-height: 85vh; overflow-y: auto; color: var(--text-primary); }
-        @keyframes slideUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
+        .modal-content { background-color: var(--card); padding: 25px; border-radius: 25px 25px 0 0; width: 100%; max-width: 600px; animation: slideUp 0.3s; max-height: 85vh; overflow-y: auto; color: var(--text-primary); position: relative; }
+        
+        .close-modal-fixed { position: absolute; top: 15px; right: 20px; font-size: 28px; color: var(--text-secondary); cursor: pointer; z-index: 10; padding: 5px; }
         
         .menu-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 20px; margin-bottom: 30px; }
         .menu-option { background-color: var(--background); padding: 20px; border-radius: 15px; text-align: center; cursor: pointer; border: 1px solid var(--border); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 10px; font-weight: 500; }
         .menu-option i { font-size: 26px; color: var(--primary); }
-        
-        .config-section button { margin-bottom: 10px; width: 100%; padding: 12px; border-radius: 10px; border: 1px solid var(--border); background: var(--background); color: var(--text-primary); text-align: left; display: flex; gap: 10px; align-items: center; }
-
-        /* CALCULADORA */
+        .config-section button { margin-bottom: 10px; width: 100%; padding: 12px; border-radius: 10px; border: 1px solid var(--border); background: var(--background); color: var(--text-primary); text-align: left; display: flex; gap: 10px; align-items: center; cursor: pointer; }
         .calc-display { background: var(--background); padding: 20px; font-size: 28px; text-align: right; border-radius: 10px; margin-bottom: 15px; border: 1px solid var(--border); font-family: monospace; font-weight: bold; color: var(--text-primary); overflow: hidden; }
         .calc-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
         .calc-grid button { padding: 15px; border-radius: 10px; border: 1px solid var(--border); background: var(--card); font-size: 20px; cursor: pointer; color: var(--text-primary); box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
@@ -195,49 +140,31 @@
         .btn-op { background-color: var(--warning) !important; color: white !important; border: none !important; }
         .btn-eq { background-color: var(--success) !important; color: white !important; border: none !important; }
         .btn-clr { background-color: var(--danger) !important; color: white !important; border: none !important; }
-
-        /* BOTTOM NAV */
-        .bottom-nav {
-            position: fixed; bottom: 0; left: 0; width: 100%; height: 70px;
-            background-color: var(--nav-bg); border-top: 1px solid var(--border);
-            display: flex; justify-content: space-around; align-items: center;
-            z-index: 1000; box-shadow: 0 -4px 20px rgba(0,0,0,0.05);
-        }
+        
+        #toast { visibility: hidden; min-width: 250px; background-color: #1e293b; color: #fff; text-align: center; border-radius: 50px; padding: 16px; position: fixed; z-index: 3000; left: 50%; transform: translateX(-50%); bottom: 90px; font-size: 14px; box-shadow: 0 4px 15px rgba(0,0,0,0.3); opacity: 0; transition: opacity 0.3s, bottom 0.3s; }
+        #toast.show { visibility: visible; opacity: 1; bottom: 100px; }
+        
+        .bottom-nav { position: fixed; bottom: 0; left: 0; width: 100%; height: 70px; background-color: var(--nav-bg); border-top: 1px solid var(--border); display: flex; justify-content: space-around; align-items: center; z-index: 1000; box-shadow: 0 -4px 20px rgba(0,0,0,0.05); }
         .nav-item { display: flex; flex-direction: column; align-items: center; justify-content: center; color: var(--text-secondary); font-size: 10px; cursor: pointer; width: 20%; transition: 0.2s; }
         .nav-item i { font-size: 22px; margin-bottom: 5px; }
         .nav-item.active { color: var(--primary); font-weight: bold; }
         .nav-item.active i { transform: translateY(-2px); }
-
-        /* =========================================
-           3. MEDIA QUERIES
-           ========================================= */
-        @media (max-width: 1023px) {
-            .desktop-sidebar { display: none; }
-            .meses-container { display: none; } 
-        }
+        .relatorio-item { display: flex; justify-content: space-between; padding: 12px 0; border-bottom: 1px solid var(--border); font-size: 14px; }
+        .install-options { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 15px; }
+        .btn-install { padding: 15px; border-radius: 12px; border: none; cursor: pointer; color: white; display: flex; flex-direction: column; align-items: center; gap: 5px; }
 
         @media (min-width: 1024px) {
             body { padding: 0; padding-left: var(--sidebar-width); padding-top: 0; }
-            .bottom-nav, header.mobile-header, .menu-grid { display: none !important; }
-
-            .desktop-sidebar {
-                display: flex; flex-direction: column; width: var(--sidebar-width); height: 100vh;
-                position: fixed; left: 0; top: 0; background-color: var(--nav-bg);
-                border-right: 1px solid var(--border); z-index: 100; padding: 20px;
-            }
+            .bottom-nav, header.mobile-header, .menu-grid, .mobile-month-selector { display: none !important; }
+            .desktop-sidebar { display: flex; flex-direction: column; width: var(--sidebar-width); height: 100vh; position: fixed; left: 0; top: 0; background-color: var(--nav-bg); border-right: 1px solid var(--border); z-index: 100; padding: 20px; }
             .sidebar-logo { font-size: 20px; font-weight: bold; color: var(--primary); margin-bottom: 40px; text-align: center; text-transform: uppercase; letter-spacing: 1px; }
             .sidebar-menu { list-style: none; flex-grow: 1; }
-            .sidebar-item {
-                padding: 15px 20px; margin-bottom: 5px; border-radius: 10px; cursor: pointer;
-                color: var(--text-secondary); display: flex; align-items: center; gap: 15px; font-size: 15px; transition: 0.2s;
-            }
+            .sidebar-item { padding: 15px 20px; margin-bottom: 5px; border-radius: 10px; cursor: pointer; color: var(--text-secondary); display: flex; align-items: center; gap: 15px; font-size: 15px; transition: 0.2s; }
             .sidebar-item:hover { background-color: var(--background); color: var(--primary); }
             .sidebar-item.active { background-color: var(--primary); color: #fff; font-weight: 600; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
-            
             main { padding: 40px; max-width: 1200px; }
-            .meses-container { position: sticky; top: 0; padding: 20px 0; background-color: var(--background); z-index: 90; box-shadow: none; border: none; width: auto; left: auto; display: flex; }
+            .meses-container { display: flex; position: sticky; top: 0; padding: 20px 0; background-color: var(--background); z-index: 90; box-shadow: none; border: none; width: auto; left: auto; }
             .resumo-cards { flex-direction: row; }
-            .card:hover { transform: translateY(-5px); }
             .form-container { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; align-items: end; }
             .form-container .input-group { margin-bottom: 0; }
             .form-container h4 { grid-column: 1 / -1; margin-bottom: 10px; }
@@ -245,26 +172,19 @@
             .form-full-width { grid-column: 1 / -1; }
             .modal { align-items: center; }
             .modal-content { border-radius: 20px; max-width: 500px; animation: fadeIn 0.3s; }
-            .menu-grid { display: none; }
             @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
         }
-
-        /* UTILS */
-        .tela { display: none; } .tela-ativa { display: block; animation: fadeIn 0.4s; }
-        .close-modal { font-size: 24px; cursor: pointer; float: right; color: var(--text-secondary); }
-        .relatorio-item { display: flex; justify-content: space-between; padding: 12px 0; border-bottom: 1px solid var(--border); font-size: 14px; }
-        .install-options { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 15px; }
-        .btn-install { padding: 15px; border-radius: 12px; border: none; cursor: pointer; color: white; display: flex; flex-direction: column; align-items: center; gap: 5px; }
     </style>
 </head>
 <body>
+
+    <div id="toast">Salvo com sucesso!</div>
 
     <header class="mobile-header">
         <div class="header-left">
             <img src="https://cdn-icons-png.flaticon.com/512/2488/2488749.png" alt="Logo">
             <h2>Minhas Finanças</h2>
         </div>
-        
         <div style="display: flex; align-items: center; gap: 10px;">
             <select id="select-meses" class="header-month-select" onchange="selecionarMes(this.value)"></select>
             <i class="fa-solid fa-gear btn-gear" onclick="abrirConfiguracoes()"></i>
@@ -310,7 +230,7 @@
                     <label>Salário Mensal</label>
                     <div class="input-row">
                         <input type="number" id="input-salario" placeholder="Valor...">
-                        <button id="btn-salario-ok" class="btn-check" onclick="definirSalario()"><i class="fa-solid fa-check"></i></button>
+                        <button id="btn-salario-ok" class="btn-check" onclick="definirSalario(this)"><i class="fa-solid fa-check"></i></button>
                     </div>
                 </div>
             </div>
@@ -324,7 +244,14 @@
         </section>
 
         <section id="tela-contas" class="tela">
-            <h1>Contas Fixas</h1>
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+                <h1>Contas Fixas</h1>
+            </div>
+            <div class="filter-container">
+                <button class="filter-btn active" onclick="filtrarContas('todos', this)">Todos</button>
+                <button class="filter-btn" onclick="filtrarContas('pendentes', this)">Pendentes</button>
+                <button class="filter-btn" onclick="filtrarContas('pagos', this)">Pagos</button>
+            </div>
             <button id="btn-importar" class="btn-importar" onclick="importarContasMesAnterior()" style="display:none;"><i class="fa-solid fa-copy"></i> Copiar do mês passado</button>
             <div class="form-container">
                 <div class="input-group"><label>Nome</label><input type="text" id="nome-conta"></div>
@@ -360,9 +287,11 @@
         <section id="tela-emprestados" class="tela">
             <h1>Empréstimos</h1>
             <div class="form-container">
-                <div class="input-group"><label>Emprestei para quem?</label><input type="text" id="emp-nome"></div>
-                <div class="input-group"><label>Valor</label><input type="number" id="emp-valor"></div>
-                <div class="input-group"><label>Data Combinada</label><input type="date" id="emp-data"></div>
+                <div class="input-group"><label>Emprestei para:</label><input type="text" id="emp-nome"></div>
+                <div class="input-group"><label>Título:</label><input type="text" id="emp-desc" placeholder="Ex: Compra Havan"></div>
+                <div class="input-group"><label>Valor da Parcela:</label><input type="number" id="emp-valor" placeholder="R$"></div>
+                <div class="input-group"><label>Nº Parcelas:</label><input type="number" id="emp-parcelas" placeholder="Ex: 10" value="1"></div>
+                <div class="input-group"><label>Vencimento:</label><input type="date" id="emp-data"></div>
                 <button id="btn-salvar-emprestimo" class="btn-sucesso form-full-width" onclick="salvarEmprestimo()">Salvar</button>
                 <button id="btn-cancelar-edicao" class="form-full-width" onclick="cancelarEdicao()" style="display:none; margin-top:10px; width:100%; padding:10px; border:none; border-radius:8px; background:var(--danger); color:white;">Cancelar</button>
             </div>
@@ -380,7 +309,8 @@
 
     <div id="modal-func" class="modal">
         <div class="modal-content">
-            <div class="menu-header"><h3>Menu</h3><span class="close-modal" onclick="fecharModalId('modal-func')">&times;</span></div>
+            <span class="close-modal-fixed" onclick="fecharModalId('modal-func')">&times;</span>
+            <h3 style="margin-bottom:20px; text-align:center;">Menu</h3>
             <div class="menu-grid"> 
                 <div class="menu-option" onclick="navegar('metas'); fecharModalId('modal-func')"><i class="fa-solid fa-bullseye"></i> Metas</div>
                 <div class="menu-option" onclick="navegar('emprestados'); fecharModalId('modal-func')"><i class="fa-solid fa-hand-holding-dollar"></i> Empréstimos</div>
@@ -392,7 +322,8 @@
 
     <div id="modal-config" class="modal">
         <div class="modal-content">
-            <div class="menu-header"><h3>Configurações</h3><span class="close-modal" onclick="fecharModalId('modal-config')">&times;</span></div>
+            <span class="close-modal-fixed" onclick="fecharModalId('modal-config')">&times;</span>
+            <h3 style="margin-bottom:20px; text-align:center;">Configurações</h3>
             <div class="config-section">
                 <button class="btn-config" onclick="toggleDarkMode()"><i id="icon-theme" class="fa-solid fa-moon"></i> Alternar Tema</button>
                 <button class="btn-config" onclick="baixarBackup()"><i class="fa-solid fa-download"></i> Salvar Backup</button>
@@ -405,10 +336,8 @@
 
     <div id="modal-calculadora" class="modal" onclick="fecharModal(event, 'modal-calculadora')">
         <div class="modal-content" style="max-width: 350px;">
-            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:15px;">
-                <h3 style="margin:0;">Calculadora</h3>
-                <span class="close-modal" onclick="document.getElementById('modal-calculadora').style.display='none'">&times;</span>
-            </div>
+            <span class="close-modal-fixed" onclick="document.getElementById('modal-calculadora').style.display='none'">&times;</span>
+            <h3 style="margin-bottom:15px;">Calculadora</h3>
             <div class="calc-display" id="calc-display">0</div>
             <div class="calc-grid">
                 <button onclick="clearCalc()" class="btn-clr" style="grid-column: span 3;">C</button>
@@ -423,7 +352,8 @@
 
     <div id="modal-install" class="modal">
         <div class="modal-content">
-            <div class="menu-header"><h3>Baixar App</h3><span class="close-modal" onclick="fecharModalId('modal-install')">&times;</span></div>
+            <span class="close-modal-fixed" onclick="fecharModalId('modal-install')">&times;</span>
+            <h3>Baixar App</h3>
             <div class="install-options">
                 <button class="btn-install" style="background:var(--success)" onclick="tentarInstallAndroid()"><i class="fa-brands fa-android" style="font-size:30px"></i>Android</button>
                 <button class="btn-install" style="background:var(--primary)" onclick="mostrarHelpIOS()"><i class="fa-brands fa-apple" style="font-size:30px"></i>iPhone</button>
@@ -441,29 +371,29 @@
 
     <div id="modal-lista" class="modal" onclick="fecharModal(event, 'modal-lista')">
         <div class="modal-content">
-            <div class="menu-header"><h3 id="titulo-lista">Detalhes</h3><span class="close-modal" onclick="document.getElementById('modal-lista').style.display='none'">&times;</span></div>
-            <ul id="conteudo-lista" style="list-style:none; margin-top:15px;"></ul>
+            <span class="close-modal-fixed" onclick="document.getElementById('modal-lista').style.display='none'">&times;</span>
+            <h3 id="titulo-lista" style="margin-bottom:15px; text-align:center;">Detalhes</h3>
+            <ul id="conteudo-lista" style="list-style:none;"></ul>
         </div>
     </div>
 
     <div id="modal-dre" class="modal" onclick="fecharModal(event, 'modal-dre')">
         <div class="modal-content">
-            <div class="menu-header"><h3>Relatório DRE</h3><span class="close-modal" onclick="document.getElementById('modal-dre').style.display='none'">&times;</span></div>
+            <span class="close-modal-fixed" onclick="document.getElementById('modal-dre').style.display='none'">&times;</span>
+            <h3 style="text-align:center;">Relatório DRE</h3>
             <div id="conteudo-dre" style="margin-top:20px; font-size:14px; line-height:1.6;"></div>
         </div>
     </div>
 
     <script>
-        // --- MESES (COM PERSISTÊNCIA) ---
+        // --- MESES ---
         const mesesNomes = ["Jan", "Fev", "Mar", "Abr", "Mai", "Jun", "Jul", "Ago", "Set", "Out", "Nov", "Dez"];
         const anoFixo = 2026;
         let mesSelecionado = localStorage.getItem('financas_ultimo_mes') || `${anoFixo}-01`;
+        let filtroContasAtual = 'todos';
 
         function gerarBarraMeses() {
-            // DESKTOP PILLS
             const container = document.getElementById('barra-meses'); container.innerHTML = "";
-            
-            // HEADER SELECT (MOBILE)
             const selectHeader = document.getElementById('select-meses'); selectHeader.innerHTML = "";
 
             for (let i = 0; i < 12; i++) {
@@ -471,14 +401,12 @@
                 let chave = `${anoFixo}-${mesNum}`;
                 let nomeExibicao = mesesNomes[i];
 
-                // PILL DESKTOP
                 let div = document.createElement('div');
                 div.className = `mes-pill ${chave === mesSelecionado ? 'mes-ativo' : ''}`;
                 div.innerText = nomeExibicao;
                 div.onclick = () => selecionarMes(chave);
                 container.appendChild(div);
 
-                // OPTION HEADER
                 let option = document.createElement('option');
                 option.value = chave;
                 option.innerText = nomeExibicao + "/" + String(anoFixo).slice(2);
@@ -496,33 +424,20 @@
             verificarBotaoImportar();
         }
 
-        // --- FUNÇÕES DE MODAL ---
+        function showToast(msg) {
+            const toast = document.getElementById('toast'); toast.innerText = msg; toast.className = 'show';
+            setTimeout(() => { toast.className = toast.className.replace('show', ''); }, 3000);
+        }
+
         function abrirMenuFunc() { document.getElementById('modal-func').style.display = 'flex'; }
         function abrirConfiguracoes() { document.getElementById('modal-config').style.display = 'flex'; }
-        
-        function abrirModalId(id) { 
-            document.querySelectorAll('.modal').forEach(m => m.style.display = 'none'); 
-            document.getElementById(id).style.display = 'flex'; 
-        }
+        function abrirModalId(id) { document.querySelectorAll('.modal').forEach(m => m.style.display = 'none'); document.getElementById(id).style.display = 'flex'; }
         function fecharModalId(id) { document.getElementById(id).style.display = 'none'; }
-
-        // --- CALCULADORA ---
-        function abrirCalculadora() {
-            fecharModalId('modal-func');
-            document.getElementById('modal-calculadora').style.display='flex';
-        }
-        function addCalc(v) {
-            const d = document.getElementById('calc-display');
-            if(d.innerText === '0' && !['/','*','-','+'].includes(v)) d.innerText = v;
-            else d.innerText += v;
-        }
+        function abrirCalculadora() { fecharModalId('modal-func'); document.getElementById('modal-calculadora').style.display='flex'; }
+        function addCalc(v) { const d = document.getElementById('calc-display'); if(d.innerText === '0' && !['/','*','-','+'].includes(v)) d.innerText = v; else d.innerText += v; }
         function clearCalc() { document.getElementById('calc-display').innerText = '0'; }
-        function resultCalc() {
-            try { document.getElementById('calc-display').innerText = eval(document.getElementById('calc-display').innerText); }
-            catch { document.getElementById('calc-display').innerText = 'Erro'; }
-        }
+        function resultCalc() { try { document.getElementById('calc-display').innerText = eval(document.getElementById('calc-display').innerText); } catch { document.getElementById('calc-display').innerText = 'Erro'; } }
 
-        // --- DARK MODE ---
         if (localStorage.getItem('financas_tema') === 'dark' || (!localStorage.getItem('financas_tema') && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
             document.documentElement.setAttribute('data-theme', 'dark');
             document.getElementById('icon-theme').classList.replace('fa-moon', 'fa-sun');
@@ -536,25 +451,27 @@
             if(target === 'dark') { icon.classList.replace('fa-moon', 'fa-sun'); } else { icon.classList.replace('fa-sun', 'fa-moon'); }
         }
 
-        // --- DADOS ---
-        let dadosGlobais = JSON.parse(localStorage.getItem('financas_db_v5')) || { salarios: {}, extras: [], contas: [], gastos: [], emprestimos: [], metas: [] };
-        function salvarDB() { localStorage.setItem('financas_db_v5', JSON.stringify(dadosGlobais)); }
+        // --- DADOS (SAFE INIT V7) ---
+        let dadosGlobais = JSON.parse(localStorage.getItem('financas_db_v7')) || { salarios: {}, extras: [], contas: [], gastos: [], emprestimos: [], metas: [] };
+        
+        if (!dadosGlobais.salarios) dadosGlobais.salarios = {};
+        if (!dadosGlobais.extras) dadosGlobais.extras = [];
+        if (!dadosGlobais.contas) dadosGlobais.contas = [];
+        if (!dadosGlobais.gastos) dadosGlobais.gastos = [];
+        if (!dadosGlobais.emprestimos) dadosGlobais.emprestimos = [];
+        if (!dadosGlobais.metas) dadosGlobais.metas = [];
 
-        // --- NAVEGAÇÃO ---
+        function salvarDB() { localStorage.setItem('financas_db_v7', JSON.stringify(dadosGlobais)); }
+
         function navegar(tela, elItem) {
             document.querySelectorAll('.tela').forEach(t => t.classList.remove('tela-ativa'));
             document.getElementById(`tela-${tela}`).classList.add('tela-ativa');
-            if(elItem && elItem.classList.contains('nav-item')) {
-                document.querySelectorAll('.bottom-nav .nav-item').forEach(n => n.classList.remove('active'));
-                elItem.classList.add('active');
-            }
-            if(elItem && elItem.classList.contains('sidebar-item')) {
-                document.querySelectorAll('.sidebar-item').forEach(n => n.classList.remove('active'));
-                elItem.classList.add('active');
+            if(elItem) {
+                if(elItem.classList.contains('nav-item')) { document.querySelectorAll('.bottom-nav .nav-item').forEach(n => n.classList.remove('active')); elItem.classList.add('active'); }
+                if(elItem.classList.contains('sidebar-item')) { document.querySelectorAll('.sidebar-item').forEach(n => n.classList.remove('active')); elItem.classList.add('active'); }
             }
         }
 
-        // --- BACKUP ---
         function baixarBackup() {
             const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(dadosGlobais));
             const dl = document.createElement('a'); dl.setAttribute("href", dataStr); dl.setAttribute("download", "backup_financas.json");
@@ -563,7 +480,7 @@
         function restaurarBackup(input) {
             const file = input.files[0]; if (!file) return;
             const reader = new FileReader();
-            reader.onload = function(e) { try { dadosGlobais = JSON.parse(e.target.result); salvarDB(); alert("Restaurado!"); location.reload(); } catch(err) { alert("Erro arquivo"); } };
+            reader.onload = function(e) { try { dadosGlobais = JSON.parse(e.target.result); salvarDB(); showToast("Restaurado!"); location.reload(); } catch(err) { showToast("Erro no arquivo"); } };
             reader.readAsText(file);
         }
         function verificarBotaoImportar() {
@@ -574,12 +491,11 @@
             let partes = mesSelecionado.split('-'); let mesAnt = parseInt(partes[1]) - 1;
             let chaveAnt = `${anoFixo}-${String(mesAnt).padStart(2, '0')}`;
             const contasAnt = dadosGlobais.contas.filter(c => c.mesRef === chaveAnt);
-            if (contasAnt.length === 0) { alert("Nada no mês anterior."); return; }
+            if (contasAnt.length === 0) { showToast("Sem dados anteriores."); return; }
             contasAnt.forEach(c => { dadosGlobais.contas.push({ id: Date.now() + Math.random(), nome: c.nome, valor: c.valor, pago: false, mesRef: mesSelecionado, vencimento: "" }); });
             salvarDB(); renderizarListasIndividuais(); verificarBotaoImportar();
         }
 
-        // --- RELATÓRIO ---
         function abrirRelatorio(tipo) {
             const modal = document.getElementById('modal-lista');
             const lista = document.getElementById('conteudo-lista');
@@ -591,19 +507,20 @@
                 titulo.innerText = "Entradas"; titulo.style.color = "var(--success)";
                 const sal = dadosGlobais.salarios[mesSelecionado] || 0; if(sal > 0) itens.push({n: "Salário", v: sal});
                 dadosGlobais.extras.filter(i => i.mesRef === mesSelecionado).forEach(e => itens.push({n: e.desc, v: e.valor}));
-                dadosGlobais.emprestimos.filter(e => e.recebido).forEach(e => itens.push({n: `Recebido: ${e.nome}`, v: e.valor}));
+                // Soma o total recebido
+                dadosGlobais.emprestimos.forEach(e => {
+                    const recebido = (e.valor * (e.pagas || 0)); 
+                    if(recebido > 0) itens.push({n: `Emp: ${e.nome}`, v: recebido});
+                });
             } else {
                 titulo.innerText = "Saídas"; titulo.style.color = "var(--danger)";
                 dadosGlobais.contas.filter(c => c.mesRef === mesSelecionado && !c.pago).forEach(c => itens.push({n: c.nome, v: c.valor}));
                 dadosGlobais.gastos.filter(g => g.mesRef === mesSelecionado).forEach(g => itens.push({n: g.nome, v: g.valor}));
             }
 
-            // Ordenação
             itens.sort((a,b) => b.v - a.v);
-
             if(itens.length === 0) lista.innerHTML = "<li style='text-align:center; padding:10px;'>Sem registros.</li>";
             else itens.forEach(i => { total += i.v; lista.innerHTML += `<li class="relatorio-item"><span>${i.n}</span><span>${i.v.toLocaleString('pt-BR', fmt)}</span></li>`; });
-            
             modal.style.display = 'flex';
         }
 
@@ -612,13 +529,10 @@
             const el = document.getElementById('conteudo-dre');
             const sal = dadosGlobais.salarios[mesSelecionado] || 0;
             const extras = dadosGlobais.extras.filter(x => x.mesRef === mesSelecionado).reduce((a,b)=>a+b.valor,0);
-            
             const contas = dadosGlobais.contas.filter(c => c.mesRef === mesSelecionado).reduce((a,b)=>a+b.valor,0);
             const gastos = dadosGlobais.gastos.filter(g => g.mesRef === mesSelecionado).reduce((a,b)=>a+b.valor,0);
-            
-            const totalRec = sal + extras;
-            const totalDesp = contas + gastos;
-            const lucro = totalRec - totalDesp;
+            const totalRec = sal + extras; 
+            const lucro = totalRec - (contas + gastos);
 
             el.innerHTML = `
                 <p style="display:flex; justify-content:space-between; font-weight:bold;"><span>(+) Receita Bruta</span> <span>R$ ${totalRec.toFixed(2)}</span></p>
@@ -631,194 +545,201 @@
             document.getElementById('modal-dre').style.display='flex';
         }
 
-        // --- FINANCEIRO ---
-        function definirSalario() {
-            const input = document.getElementById('input-salario'); const btn = document.getElementById('btn-salario-ok');
-            const valor = parseFloat(input.value);
-            if(!isNaN(valor)) { dadosGlobais.salarios[mesSelecionado] = valor; salvarDB(); atualizarInterfaceGeral(); btn.classList.add('saved'); setTimeout(() => btn.classList.remove('saved'), 2000); }
+        function definirSalario(btn) {
+            const input = document.getElementById('input-salario'); const valor = parseFloat(input.value);
+            if(!isNaN(valor)) { 
+                dadosGlobais.salarios[mesSelecionado] = valor; 
+                salvarDB(); atualizarInterfaceGeral(); 
+                btn.classList.add('saved'); showToast("Salário salvo!"); setTimeout(() => btn.classList.remove('saved'), 2000); 
+            }
         }
         function adicionarConta() {
             const nome = document.getElementById('nome-conta').value; const valor = parseFloat(document.getElementById('valor-conta').value); const venc = document.getElementById('vencimento-conta').value;
             if (!nome || !valor) return;
-            if (idContaEdicao) { 
-                const item = dadosGlobais.contas.find(c => c.id === idContaEdicao); 
-                if(item) { item.nome = nome; item.valor = valor; item.vencimento = venc; } 
-                cancelarEdicaoConta(); 
-            } 
+            if (idContaEdicao) { const item = dadosGlobais.contas.find(c => c.id === idContaEdicao); if(item) { item.nome = nome; item.valor = valor; item.vencimento = venc; } cancelarEdicaoConta(); } 
             else { dadosGlobais.contas.push({ id: Date.now(), nome, valor, pago: false, mesRef: mesSelecionado, vencimento: venc }); }
-            salvarDB(); limparCampos(['nome-conta', 'valor-conta', 'vencimento-conta']); atualizarInterfaceGeral(); renderizarListasIndividuais(); verificarBotaoImportar();
+            salvarDB(); limparCampos(['nome-conta', 'valor-conta', 'vencimento-conta']); atualizarInterfaceGeral(); renderizarListasIndividuais(); verificarBotaoImportar(); showToast("Conta salva!");
         }
         function adicionarGastoDiario() {
             const nome = document.getElementById('gasto-nome').value; const valor = parseFloat(document.getElementById('gasto-valor').value); 
             const dataInput = document.getElementById('gasto-data').value || new Date().toISOString(); if (!nome || !valor) return;
             dadosGlobais.gastos.unshift({ id: Date.now(), nome, valor, data: dataInput, mesRef: dataInput.substr(0, 7) });
-            salvarDB(); limparCampos(['gasto-nome', 'gasto-valor', 'gasto-data']); atualizarInterfaceGeral(); renderizarListasIndividuais();
+            salvarDB(); limparCampos(['gasto-nome', 'gasto-valor', 'gasto-data']); atualizarInterfaceGeral(); renderizarListasIndividuais(); showToast("Gasto salvo!");
         }
         function adicionarGanhoExtra() {
             const desc = document.getElementById('extra-desc').value; const valor = parseFloat(document.getElementById('extra-valor').value); if (!desc || !valor) return;
             dadosGlobais.extras.unshift({ id: Date.now(), desc, valor, data: new Date().toISOString(), mesRef: mesSelecionado });
-            salvarDB(); limparCampos(['extra-desc', 'extra-valor']); atualizarInterfaceGeral(); renderizarListasIndividuais();
+            salvarDB(); limparCampos(['extra-desc', 'extra-valor']); atualizarInterfaceGeral(); renderizarListasIndividuais(); showToast("Ganho salvo!");
         }
         function salvarEmprestimo() {
-             const nome = document.getElementById('emp-nome').value; const valor = parseFloat(document.getElementById('emp-valor').value); const data = document.getElementById('emp-data').value;
+            const nome = document.getElementById('emp-nome').value; const desc = document.getElementById('emp-desc').value; const valor = parseFloat(document.getElementById('emp-valor').value); const parcelas = parseInt(document.getElementById('emp-parcelas').value) || 1; const data = document.getElementById('emp-data').value;
             if(!nome || !valor) return;
-            if(idEmprestimoEdicao) { const item = dadosGlobais.emprestimos.find(e => e.id === idEmprestimoEdicao); if(item) { item.nome = nome; item.valor = valor; item.data = data; } cancelarEdicao(); } 
-            else { dadosGlobais.emprestimos.push({ id: Date.now(), nome, valor, data, recebido: false }); }
-            salvarDB(); limparCampos(['emp-nome', 'emp-valor', 'emp-data']); renderizarListasIndividuais(); atualizarInterfaceGeral();
+            if(idEmprestimoEdicao) { const i = dadosGlobais.emprestimos.find(x=>x.id===idEmprestimoEdicao); if(i){ i.nome=nome; i.desc=desc; i.valor=valor; i.parcelas=parcelas; i.data=data; } cancelarEdicao(); } 
+            else { dadosGlobais.emprestimos.push({ id: Date.now(), nome, desc, valor, parcelas, pagas: 0, data, recebido: false }); }
+            salvarDB(); limparCampos(['emp-nome', 'emp-desc', 'emp-valor', 'emp-parcelas', 'emp-data']); renderizarListasIndividuais(); atualizarInterfaceGeral(); showToast("Empréstimo salvo!");
         }
         function adicionarMeta() {
             const nome = document.getElementById('meta-nome').value; const valor = parseFloat(document.getElementById('meta-valor').value); if(!nome || !valor) return;
-            dadosGlobais.metas.push({ id: Date.now(), nome, total: valor, guardado: 0 }); salvarDB(); limparCampos(['meta-nome', 'meta-valor']); renderizarMetas();
+            dadosGlobais.metas.push({ id: Date.now(), nome, total: valor, guardado: 0 }); salvarDB(); limparCampos(['meta-nome', 'meta-valor']); renderizarMetas(); showToast("Meta criada!");
         }
 
-        // --- HELPERS ---
         function limparCampos(ids) { ids.forEach(id => document.getElementById(id).value = ""); }
         let idContaEdicao = null; let idEmprestimoEdicao = null;
         
         function prepararEdicaoConta(id) {
             const item = dadosGlobais.contas.find(c => c.id === id); document.getElementById('nome-conta').value = item.nome; document.getElementById('valor-conta').value = item.valor; document.getElementById('vencimento-conta').value = item.vencimento || "";
-            idContaEdicao = id; 
-            document.getElementById('btn-salvar-conta').innerText = "Atualizar"; 
-            document.getElementById('btn-cancelar-conta').style.display = 'block';
-            document.querySelector('.form-container').scrollIntoView({behavior: 'smooth'});
+            idContaEdicao = id; document.getElementById('btn-salvar-conta').innerText = "Atualizar"; document.getElementById('btn-cancelar-conta').style.display = 'block'; document.querySelector('.form-container').scrollIntoView({behavior: 'smooth'});
         }
         function cancelarEdicaoConta() { idContaEdicao = null; limparCampos(['nome-conta', 'valor-conta', 'vencimento-conta']); document.getElementById('btn-salvar-conta').innerText = "Salvar Conta"; document.getElementById('btn-cancelar-conta').style.display = 'none'; }
-        function prepararEdicao(id) { const item = dadosGlobais.emprestimos.find(e => e.id === id); document.getElementById('emp-nome').value = item.nome; document.getElementById('emp-valor').value = item.valor; document.getElementById('emp-data').value = item.data; idEmprestimoEdicao = id; document.getElementById('btn-salvar-emprestimo').innerText = "Atualizar"; document.getElementById('btn-cancelar-edicao').style.display = 'block'; }
-        function cancelarEdicao() { idEmprestimoEdicao = null; limparCampos(['emp-nome', 'emp-valor', 'emp-data']); document.getElementById('btn-salvar-emprestimo').innerText = "Salvar"; document.getElementById('btn-cancelar-edicao').style.display = 'none'; }
         
-        function removerItem(tipo, id) {
-            if(confirm("Excluir?")) {
-                if(tipo==='conta') dadosGlobais.contas = dadosGlobais.contas.filter(i=>i.id!==id);
-                if(tipo==='gasto') dadosGlobais.gastos = dadosGlobais.gastos.filter(i=>i.id!==id);
-                if(tipo==='extra') dadosGlobais.extras = dadosGlobais.extras.filter(i=>i.id!==id);
-                if(tipo==='meta') dadosGlobais.metas = dadosGlobais.metas.filter(i=>i.id!==id);
-                if(tipo==='emp') dadosGlobais.emprestimos = dadosGlobais.emprestimos.filter(i=>i.id!==id);
-                salvarDB(); atualizarInterfaceGeral(); renderizarListasIndividuais(); renderizarMetas(); verificarBotaoImportar();
+        function prepararEdicao(id) { 
+            const i=dadosGlobais.emprestimos.find(x=>x.id===id); document.getElementById('emp-nome').value=i.nome; document.getElementById('emp-desc').value=i.desc||''; document.getElementById('emp-valor').value=i.valor; document.getElementById('emp-parcelas').value=i.parcelas||1; document.getElementById('emp-data').value=i.data; 
+            idEmprestimoEdicao=id; document.getElementById('btn-salvar-emprestimo').innerText="Atualizar"; document.getElementById('btn-cancelar-edicao').style.display='block'; 
+        }
+        function cancelarEdicao() { idEmprestimoEdicao=null; limparCampos(['emp-nome', 'emp-desc', 'emp-valor', 'emp-parcelas', 'emp-data']); document.getElementById('btn-salvar-emprestimo').innerText="Salvar"; document.getElementById('btn-cancelar-edicao').style.display='none'; }
+        
+        function toggleDetalhes(id) { const el = document.getElementById(`detalhe-${id}`); if(el) { el.style.display = (el.style.display === 'block') ? 'none' : 'block'; if(el.style.display === 'block') el.classList.add('detalhe-visivel'); } }
+
+        function removerItem(tipo, id, btn, event) {
+            if(event) event.stopPropagation();
+            if(btn.classList.contains('confirmando')) {
+                if(tipo==='conta') dadosGlobais.contas=dadosGlobais.contas.filter(x=>x.id!==id);
+                if(tipo==='gasto') dadosGlobais.gastos=dadosGlobais.gastos.filter(x=>x.id!==id);
+                if(tipo==='extra') dadosGlobais.extras=dadosGlobais.extras.filter(x=>x.id!==id);
+                if(tipo==='meta') dadosGlobais.metas=dadosGlobais.metas.filter(x=>x.id!==id);
+                if(tipo==='emprestimos') dadosGlobais.emprestimos=dadosGlobais.emprestimos.filter(x=>x.id!==id);
+                salvarDB(); atualizarInterfaceGeral(); renderizarListasIndividuais(); renderizarMetas(); verificarBotaoImportar(); showToast("Removido!");
+            } else {
+                btn.classList.add('confirmando');
+                const original = btn.innerHTML;
+                btn.innerHTML = 'Confirmar?';
+                setTimeout(()=>{ if(btn){btn.classList.remove('confirmando'); btn.innerHTML=original;} },3000);
             }
         }
         function toggleStatus(tipo, id) {
-            if(tipo==='conta') { const item = dadosGlobais.contas.find(i=>i.id===id); if(item) item.pago = !item.pago; }
-            if(tipo==='emp') { const item = dadosGlobais.emprestimos.find(i=>i.id===id); if(item) item.recebido = !item.recebido; }
+            if(tipo==='conta') { const i=dadosGlobais.contas.find(x=>x.id===id); if(i) i.pago=!i.pago; }
             salvarDB(); atualizarInterfaceGeral(); renderizarListasIndividuais();
         }
-        function depositarMeta(id) { const v = parseFloat(prompt("Valor:").replace(',','.')); if(v>0){ const m = dadosGlobais.metas.find(i=>i.id===id); m.guardado+=v; salvarDB(); renderizarMetas(); }}
+        function pagarParcela(id) {
+            const emp = dadosGlobais.emprestimos.find(e => e.id === id);
+            if(emp) {
+                emp.pagas = (Number(emp.pagas) || 0) + 1;
+                emp.parcelas = Number(emp.parcelas) || 1;
+                if(emp.pagas >= emp.parcelas) { emp.pagas = emp.parcelas; emp.recebido = true; }
+                salvarDB(); atualizarInterfaceGeral(); renderizarListasIndividuais(); showToast("Parcela Recebida!");
+            }
+        }
+        function depositarMeta(id) { const v=parseFloat(prompt("Valor:").replace(',','.')); if(v>0){ const m=dadosGlobais.metas.find(x=>x.id===id); m.guardado+=v; salvarDB(); renderizarMetas(); } }
+        function filtrarContas(t, b) { filtroContasAtual=t; document.querySelectorAll('.filter-btn').forEach(x=>x.classList.remove('active')); b.classList.add('active'); renderizarListasIndividuais(); }
+        function verificarBotaoImportar() { const btn=document.getElementById('btn-importar'); const c=dadosGlobais.contas.filter(x=>x.mesRef===mesSelecionado); btn.style.display=(c.length===0 && mesSelecionado!==`${anoFixo}-01`)?'flex':'none'; }
+        
+        function formatData(iso) { if(!iso)return""; return new Date(iso).toLocaleDateString('pt-BR',{timeZone:'UTC'}); }
+        function abrirDropdown(t,i) { document.querySelectorAll('.dropdown-menu').forEach(d=>d.classList.remove('show')); document.getElementById(`drop-${t}-${i}`).classList.toggle('show'); }
 
-        // --- RENDER ---
+        window.onclick = function(e) { if(!e.target.matches('.btn-more') && !e.target.matches('.fa-ellipsis-vertical')) { document.querySelectorAll('.dropdown-menu').forEach(d => d.classList.remove('show')); } if(e.target.classList.contains('modal')) { e.target.style.display = 'none'; } }
+        
         function atualizarInterfaceGeral() {
             const fmt = { style: 'currency', currency: 'BRL' };
-            const salarioMes = dadosGlobais.salarios[mesSelecionado] || 0;
-            const extrasMes = dadosGlobais.extras.filter(i => i.mesRef === mesSelecionado);
-            const contasMes = dadosGlobais.contas.filter(i => i.mesRef === mesSelecionado);
-            const gastosMes = dadosGlobais.gastos.filter(i => i.mesRef === mesSelecionado);
-            const empRecebidos = dadosGlobais.emprestimos.filter(e => e.recebido);
+            const sal = dadosGlobais.salarios[mesSelecionado] || 0;
+            const ext = dadosGlobais.extras.filter(i => i.mesRef === mesSelecionado);
+            const con = dadosGlobais.contas.filter(i => i.mesRef === mesSelecionado);
+            const gas = dadosGlobais.gastos.filter(i => i.mesRef === mesSelecionado);
+            let totalEmp = 0;
+            dadosGlobais.emprestimos.forEach(e => { totalEmp += (e.valor * (e.pagas || 0)); });
 
-            const receitaTotal = salarioMes + extrasMes.reduce((a,b)=>a+b.valor,0) + empRecebidos.reduce((a,b)=>a+b.valor,0);
-            const totalSaida = contasMes.filter(c => !c.pago).reduce((a,b)=>a+b.valor,0) + gastosMes.reduce((a,b)=>a+b.valor,0);
-            const saldo = receitaTotal - totalSaida;
+            const rec = sal + ext.reduce((a,b)=>a+b.valor,0) + totalEmp;
+            const pag = con.filter(x=>!x.pago).reduce((a,b)=>a+b.valor,0) + gas.reduce((a,b)=>a+b.valor,0);
+            const sld = rec - pag;
 
-            document.getElementById('dash-receita').innerText = receitaTotal.toLocaleString('pt-BR', fmt);
-            document.getElementById('dash-gastos').innerText = totalSaida.toLocaleString('pt-BR', fmt);
-            document.getElementById('dash-saldo').innerText = saldo.toLocaleString('pt-BR', fmt);
+            document.getElementById('dash-receita').innerText = rec.toLocaleString('pt-BR', fmt);
+            document.getElementById('dash-gastos').innerText = pag.toLocaleString('pt-BR', fmt);
+            document.getElementById('dash-saldo').innerText = sld.toLocaleString('pt-BR', fmt);
             
             const card = document.getElementById('card-saldo');
-            if(saldo < 0) { card.className = "card saldo-negativo"; } else { card.className = "card saldo-positivo"; }
-            document.getElementById('input-salario').value = salarioMes || "";
+            if(sld < 0) { card.className = "card saldo-negativo"; } else { card.className = "card saldo-positivo"; }
+            document.getElementById('input-salario').value = sal || "";
         }
 
         function renderizarListasIndividuais() {
             const fmt = { style: 'currency', currency: 'BRL' };
             const render = (lista, elId, tipo, border, color) => {
-                const el = document.getElementById(elId); el.innerHTML = "";
-                
-                // ORDENAÇÃO
-                const listaOrdenada = lista.sort((a, b) => b.valor - a.valor);
+                const el = document.getElementById(elId); if(!el) return; el.innerHTML = "";
+                let ordenado = lista.sort((a, b) => b.valor - a.valor);
+                if(tipo === 'conta' && filtroContasAtual !== 'todos') ordenado = ordenado.filter(x => filtroContasAtual === 'pendentes' ? !x.pago : x.pago);
 
-                if(listaOrdenada.length === 0) el.innerHTML = "<p style='text-align:center; color:var(--text-secondary); font-size:12px; margin-top:10px;'>Vazio</p>";
+                if(ordenado.length === 0) el.innerHTML = "<p style='text-align:center; color:var(--text-secondary); font-size:12px; margin-top:10px;'>Vazio</p>";
                 
-                listaOrdenada.forEach(item => {
-                    let st = ""; let txtBtn = "Concluir"; let icon = "fa-check";
-                    
+                ordenado.forEach(item => {
+                    let st = ""; let txtBtn = "Concluir"; let icon = "fa-check"; let aviso = "";
                     if(item.pago) { st = "riscado"; txtBtn = "Reabrir"; }
-                    if(item.recebido) { border = "border-green"; txtBtn = "Desmarcar"; st = "riscado"; } // EMPRESTIMO RISCADO
+                    if(item.recebido) { border = "border-green"; st = "riscado"; } 
                     
                     let dataShow = formatData(item.data);
                     if(tipo === 'conta' && item.vencimento) dataShow = `Vence: ${formatData(item.vencimento)}`;
-                    let editBtn = (tipo === 'conta' || tipo === 'emp') ? `<button onclick="prepararEdicao${tipo==='conta'?'Conta':''}(${item.id})">Editar</button>` : '';
 
-                    el.innerHTML += `
-                    <li class="item-conta ${border} ${st}">
-                        <div class="conta-info"><strong>${item.nome || item.desc}</strong><small>${dataShow}</small></div>
-                        <div style="display:flex; align-items:center;">
-                            <strong style="margin-right:10px; color:var(--${color === 'var(--primary)' ? 'primary' : (color === 'var(--success)' ? 'success' : (color === 'var(--danger)' ? 'danger' : 'warning'))})">${item.valor.toLocaleString('pt-BR', fmt)}</strong>
-                            <div style="position:relative;">
-                                <button class="btn-more" onclick="abrirDropdown('${tipo}', ${item.id})"><i class="fa-solid fa-ellipsis-vertical"></i></button>
-                                <div id="drop-${tipo}-${item.id}" class="dropdown-menu">
-                                    ${(tipo === 'conta' || tipo === 'emp') ? `<button onclick="toggleStatus('${tipo}', ${item.id})" class="opt-check"><i class="fa-solid ${icon}"></i> ${txtBtn}</button>` : ''}
-                                    ${editBtn}
-                                    <button onclick="removerItem('${tipo}', ${item.id})" class="opt-del"><i class="fa-solid fa-trash"></i> Excluir</button>
-                                </div>
-                            </div>
+                    // PARCELAMENTO
+                    let parcelasHTML = ''; let btnAcao = '';
+                    if(tipo === 'emprestimos') {
+                        const pags = parseInt(item.pagas || 0);
+                        const tot = parseInt(item.parcelas || 1);
+                        const pct = (pags / tot) * 100;
+                        
+                        parcelasHTML = `
+                        <div class="emp-parcelas">
+                            <div class="emp-barra-bg"><div class="emp-barra-fill" style="width:${pct}%"></div></div>
+                            <span>${pags}/${tot}</span>
+                        </div>`;
+
+                        if(!item.recebido) {
+                            btnAcao = `<button class="btn-receber-parc" onclick="pagarParcela(${item.id})">Receber</button>`;
+                        } else {
+                            btnAcao = `<span style="font-size:12px; color:var(--success); font-weight:bold;">Concluído</span>`;
+                        }
+                    } else if (tipo === 'conta') {
+                         btnAcao = `<button onclick="toggleStatus('${tipo}', ${item.id})" class="opt-check"><i class="fa-solid ${icon}"></i> ${txtBtn}</button>`;
+                    }
+
+                    if(tipo === 'conta' && !item.pago && item.vencimento) {
+                        const h=new Date(); h.setHours(0,0,0,0); const v=new Date(item.vencimento); v.setHours(0,0,0,0);
+                        const diff=Math.ceil((v-h)/(1000*60*60*24));
+                        if(diff<0) aviso='<span class="badge-venc badge-red">Vencida</span>';
+                        else if(diff===0) aviso='<span class="badge-venc badge-yellow">Hoje</span>';
+                        else if(diff<=3) aviso='<span class="badge-venc badge-yellow">Em breve</span>';
+                    }
+
+                    let funcEdit = (tipo === 'conta') ? `prepararEdicaoConta(${item.id})` : `prepararEdicao(${item.id})`;
+                    let editBtn = (tipo === 'conta' || tipo === 'emprestimos') ? `<button onclick="${funcEdit}">Editar</button>` : '';
+                    let clickAction = (tipo === 'emprestimos' && item.desc) ? `onclick="toggleDetalhes(${item.id})"` : '';
+                    let detalhesHTML = (tipo === 'emprestimos' && item.desc) ? `<div id="detalhe-${item.id}" class="detalhe-motivo">📝 ${item.desc}</div>` : '';
+                    
+                    let dropHtml = `
+                    <div style="position:relative;">
+                        <button class="btn-more" onclick="abrirDropdown('${tipo}', ${item.id})"><i class="fa-solid fa-ellipsis-vertical"></i></button>
+                        <div id="drop-${tipo}-${item.id}" class="dropdown-menu">
+                            ${(tipo==='conta')?btnAcao:''} 
+                            ${editBtn}
+                            <button onclick="removerItem('${tipo}', ${item.id}, this, event)" class="opt-del"><i class="fa-solid fa-trash"></i> Excluir</button>
                         </div>
-                    </li>`;
+                    </div>`;
+
+                    if(tipo === 'emprestimos') {
+                        el.innerHTML += `<li class="item-conta ${border} ${st}"><div class="conta-info" ${clickAction} style="cursor:${clickAction?'pointer':'default'}"><strong>${item.nome}</strong><small>${dataShow}</small>${parcelasHTML}${detalhesHTML}</div><div style="display:flex; align-items:center;">${btnAcao}<strong style="margin-right:5px; color:var(--primary)">${item.valor.toLocaleString('pt-BR', fmt)}</strong>${dropHtml}</div></li>`;
+                    } else {
+                        el.innerHTML += `<li class="item-conta ${border} ${st}"><div class="conta-info"><strong>${item.nome||item.desc} ${aviso}</strong><small>${dataShow}</small></div><div style="display:flex; align-items:center;"><strong style="margin-right:10px; color:var(--${color==='var(--primary)'?'primary':(color==='var(--success)'?'success':(color==='var(--danger)'?'danger':'warning'))})">${item.valor.toLocaleString('pt-BR', fmt)}</strong>${dropHtml}</div></li>`;
+                    }
                 });
             };
             render(dadosGlobais.extras.filter(i => i.mesRef === mesSelecionado), 'lista-visual-extras', 'extra', 'border-green', 'var(--success)');
             render(dadosGlobais.contas.filter(i => i.mesRef === mesSelecionado), 'lista-visual-contas', 'conta', 'border-red', 'var(--danger)');
             render(dadosGlobais.gastos.filter(i => i.mesRef === mesSelecionado), 'lista-visual-gastos', 'gasto', 'border-orange', 'var(--warning)');
-            render(dadosGlobais.emprestimos, 'lista-visual-emprestimos', 'emp', 'border-blue', 'var(--primary)');
+            render(dadosGlobais.emprestimos, 'lista-visual-emprestimos', 'emprestimos', 'border-blue', 'var(--primary)');
         }
 
-        function renderizarMetas() {
-            const el = document.getElementById('lista-visual-metas'); el.innerHTML = "";
-            dadosGlobais.metas.forEach(m => {
-                let pct = (m.guardado / m.total) * 100; if(pct > 100) pct = 100;
-                el.innerHTML += `
-                <div class="meta-card">
-                    <div class="meta-header">
-                        <h3>${m.nome}</h3>
-                        <button class="btn-excluir-meta" onclick="removerItem('meta', ${m.id})"><i class="fa-solid fa-trash"></i></button>
-                    </div>
-                    
-                    <div class="meta-info-row">
-                        <span style="font-size:12px; color:var(--text-secondary)">Progresso</span>
-                        <div class="meta-percent">${Math.round(pct)}%</div>
-                    </div>
-                    
-                    <div class="barra-container">
-                        <div class="barra-fill ${pct >= 100 ? 'barra-completa' : ''}" style="width:${pct}%"></div>
-                    </div>
-                    
-                    <div class="meta-values">
-                        <span>Guardado: R$ ${m.guardado}</span>
-                        <span>Meta: R$ ${m.total}</span>
-                    </div>
-                    
-                    <button class="btn-depositar" onclick="depositarMeta(${m.id})">
-                        <i class="fa-solid fa-plus"></i> Guardar
-                    </button>
-                </div>`;
-            });
-        }
-        function formatData(iso) { if(!iso) return ""; return new Date(iso).toLocaleDateString('pt-BR', {timeZone:'UTC'}); }
-        function abrirDropdown(t, i) { document.querySelectorAll('.dropdown-menu').forEach(d => d.classList.remove('show')); document.getElementById(`drop-${t}-${i}`).classList.toggle('show'); }
-        
-        // --- FECHAR MODAL/DROPDOWN AO CLICAR FORA ---
-        window.onclick = function(e) { 
-            if(!e.target.matches('.btn-more') && !e.target.matches('.fa-ellipsis-vertical')) {
-                document.querySelectorAll('.dropdown-menu').forEach(d => d.classList.remove('show'));
-            }
-            if(e.target.classList.contains('modal')) {
-                e.target.style.display = 'none';
-            }
-        }
-
-        // --- INSTALL LOGIC ---
         let deferredPrompt;
         window.addEventListener('beforeinstallprompt', (e) => { e.preventDefault(); deferredPrompt = e; });
         async function tentarInstallAndroid() { if(deferredPrompt) { deferredPrompt.prompt(); deferredPrompt = null; } else { document.getElementById('android-help').style.display = 'block'; } }
         function mostrarHelpIOS() { document.getElementById('ios-help').style.display = 'block'; }
 
-        // START
         gerarBarraMeses(); selecionarMes(mesSelecionado); 
         if ('serviceWorker' in navigator) navigator.serviceWorker.register('sw.js');
     </script>
